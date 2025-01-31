@@ -17,7 +17,7 @@ enabled = false
 # Add your bio and social links to the homepage
 [params.homeInfoParams]
 Title = "David Lisk"
-Content = "MBA Student at NYU Stern | Mechanical Engineer"
+Content = "MBA Student at NYU Stern, Mechanical Engineer \n I write about technology, product management, and corporate strategy \n techno-optimist, e/acc"
 
 [[params.socialIcons]]
 name = "email"
