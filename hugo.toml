@@ -1,0 +1,20 @@
+baseURL = "https://davidalisk.com/"
+title = "David Lisk"
+theme = "PaperMod"
+
+[params]
+defaultTheme = "auto"
+ShowBreadCrumbs = true
+
+[menu]
+[[menu.main]]
+identifier = "posts"
+name = "Posts"
+url = "/posts/"
+weight = 10
+
+[[menu.main]]
+identifier = "archive"
+name = "Archive"
+url = "/archive/"
+weight = 20
