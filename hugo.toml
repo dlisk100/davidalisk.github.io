@@ -4,7 +4,31 @@ theme = "PaperMod"
 
 [params]
 defaultTheme = "auto"
+ShowReadingTime = true
+ShowShareButtons = false
+ShowPostNavLinks = true
 ShowBreadCrumbs = true
+ShowCodeCopyButtons = true
+
+# Remove or set to false to show posts instead of profile
+[params.profileMode]
+enabled = false
+
+# Add your bio and social links to the homepage
+[params.homeInfoParams]
+Title = "David Lisk"
+Content = "MBA Student at NYU Stern | Mechanical Engineer"
+
+[[params.socialIcons]]
+name = "email"
+url = "mailto:david.lisk@stern.nyu.edu"
+
+
+[[params.socialIcons]]
+name = "linkedin"
+url = "https://www.linkedin.com/in/liskdavid/"
+
+
 
 [menu]
 [[menu.main]]
@@ -14,7 +38,13 @@ url = "/posts/"
 weight = 10
 
 [[menu.main]]
+identifier = "tags"
+name = "Tags"
+url = "/tags/"
+weight = 20
+
+[[menu.main]]
 identifier = "archive"
 name = "Archive"
 url = "/archive/"
-weight = 20
+weight = 30
