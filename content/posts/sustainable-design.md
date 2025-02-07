@@ -28,7 +28,7 @@ The company could go a step further by implementing a better reusable coffee cup
 
 This experience would be faster, more personalized, and more convenient than using a disposable cup.
 
-### The framework that unites these products:
+### The framework that unites these products
 1.	Create a better experience than the unsustainable alternative
 2.	Solve multiple user problems simultaneously
 3.	Provide immediate rewards
