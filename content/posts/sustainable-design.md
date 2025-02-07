@@ -14,8 +14,11 @@ One of the simplest, yet most impactful, sustainability products is the Elkay ez
 
 Its success isn’t rooted in environmental messaging or because the option to purchase single use bottles has been removed. Instead, it succeeds because it helps to make refilling a water bottle dramatically more convenient and lower cost than buying a disposable bottle. The station quickly fills bottles with cool filtered water, doesn’t require the user to touch any part of the machine, and provides added encouragement by counting the number of bottles saved. Using the machine is simply as better experience than hunting for a vending machine and paying for a single use bottle. 
 
+
+<div align="center">
 ![Elkay ezH2O Bottle Filling Station](/posts/images/EZH2O.jpg)
-*<p style="text-align:center;">When being sustainable becomes the path of least resistance, behavior change follows naturally</p>*
+* When being sustainable becomes the path of least resistance, behavior change follows naturally *
+</div>
 
 
 ### Why Traditional Sustainable Products Often Fail
