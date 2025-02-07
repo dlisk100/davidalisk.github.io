@@ -9,6 +9,7 @@ ShowShareButtons = false
 ShowPostNavLinks = true
 ShowBreadCrumbs = true
 ShowCodeCopyButtons = true
+custom_css = ["assets/css/custom.css"]
 
 # Remove or set to false to show posts instead of profile
 [params.profileMode]
@@ -23,12 +24,9 @@ Content = "MBA Student at NYU Stern, Mechanical Engineer \n\n I write about tech
 name = "email"
 url = "mailto:david.lisk@stern.nyu.edu"
 
-
 [[params.socialIcons]]
 name = "linkedin"
 url = "https://www.linkedin.com/in/liskdavid/"
-
-
 
 [menu]
 [[menu.main]]

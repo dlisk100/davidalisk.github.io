@@ -12,14 +12,11 @@ The most successful sustainable products don’t win because they appeal to envi
 ### The Power of Friction-Free Sustainability
 One of the simplest, yet most impactful, sustainability products is the Elkay ezH2O Bottle Filling station. Since its introduction in 2010, the filling station has become ubiquitous across America and has helped eliminate over 40 billion single use plastic bottles.
 
+![Elkay ezH2O Bottle Filling Station](/posts/images/EZH2O.jpg#center)
+
 Its success isn’t rooted in environmental messaging or because the option to purchase single use bottles has been removed. Instead, it succeeds because it helps to make refilling a water bottle dramatically more convenient and lower cost than buying a disposable bottle. The station quickly fills bottles with cool filtered water, doesn’t require the user to touch any part of the machine, and provides added encouragement by counting the number of bottles saved. Using the machine is simply as better experience than hunting for a vending machine and paying for a single use bottle. 
 
-<p align="center">
-<img src="/posts/images/EZH2O.jpg" alt="Elkay ezH2O Bottle Filling Station" style="max-width: 100%; height: auto;">
-</p>
-
-<p align="center"><em>When being sustainable becomes the path of least resistance, behavior change follows naturally</em></p>
-
+*When being sustainable becomes the path of least resistance, behavior change follows naturally*
 
 ### Why Traditional Sustainable Products Often Fail
 Sustainable solutions fail when they force users to sacrifice convenience for environmental benefit. Human behavior follows the path of least resistance. We'll choose the easy option over the "right" option most of the time. Instead of fighting this tendency, successful sustainable products harness it.
