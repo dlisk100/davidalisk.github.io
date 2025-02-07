@@ -1,5 +1,5 @@
 ---
-title: "Why the Best Sustainable Products Don't Talk About Sustainability"
+title: "The Best Sustainable Products Don't Talk About Sustainability"
 date: 2025-02-07
 draft: false
 tags: ["Design", "Sustainability", "Product Management"]
