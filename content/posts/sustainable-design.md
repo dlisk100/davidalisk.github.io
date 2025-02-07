@@ -21,7 +21,7 @@ Its success isn’t rooted in environmental messaging or because the option to p
 ### Why Traditional Sustainable Products Often Fail
 Sustainable solutions fail when they force users to sacrifice convenience for environmental benefit. Human behavior follows the path of least resistance. We'll choose the easy option over the "right" option most of the time. Instead of fighting this tendency, successful sustainable products harness it.
 
-Beyond Water Bottles: Applying Friction-Free Sustainability to Coffee
+### Beyond Water Bottles: Applying Friction-Free Sustainability to Coffee
 In the USA, Starbucks uses over 11.5 million disposable coffee cups per day (1.5% of all paper waste globally). The chain has tried to lower this impact by using cups with 30% recycled materials and implementing reusable cups for some in-store service.  
 
 The company could go a step further by implementing a better reusable coffee cup system. Imagine walking into Starbucks with a smart reusable cup that makes disposable cups feel like a hassle: As a reusable cup user, you skip to the front of the line and place your cup into a sanitization station, where it is quickly and automatically cleaned. Next, an embedded NFC or RFID chip tells the barista your desired order (that you set in app), and you’re automatically charged for the coffee. You receive a discount or additional loyalty points for making the sustainable choice. Forgot your cup? Pick up a sanitized one and drop it off at any Starbucks location later. 
