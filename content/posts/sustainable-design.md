@@ -5,7 +5,7 @@ draft: false
 tags: ["Design", "Sustainability", "Product Management"]
 
 ---
-In the race to combat climate change, we've been asking the wrong question. Instead of "How do we convince or force people to make sustainable choices?" we should ask "How do we make sustainable choices the preferrable choice?" 
+In the race to combat climate change, we've been asking the wrong question. Instead of asking "How do we convince or force people to make sustainable choices?" we should ask "How do we make sustainable choices the preferrable choice?" 
 
 The most successful sustainable products don’t win because they appeal to environmental consciousness – they win because they make sustainability the better choice. 
 
@@ -17,6 +17,8 @@ Its success isn’t rooted in environmental messaging or because the option to p
 
 <div align="center">
 ![Elkay ezH2O Bottle Filling Station](/posts/images/EZH2O.jpg)
+</div>
+<div align="center">
 * When being sustainable becomes the path of least resistance, behavior change follows naturally *
 </div>
 
