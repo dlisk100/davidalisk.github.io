@@ -1,0 +1,125 @@
+/* assets/css/map.css */
+
+/* Popup Styles */
+.leaflet-popup-content {
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.popup-content {
+    padding: 5px;
+}
+
+.popup-content h4 {
+    margin: 0 0 5px;
+    font-size: 14px;
+}
+
+/* Legend Styles */
+.legend {
+    background: white;
+    padding: 8px;
+    border-radius: 4px;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+    margin-bottom: 45px !important;  /* Add space above attribution */
+}
+
+.legend i {
+    width: 18px;
+    height: 18px;
+    float: left;
+    margin-right: 8px;
+    opacity: 0.7;
+}
+
+.legend h4 {
+    margin: 0 0 5px;
+    font-size: 14px;
+}
+
+.all-time-btn {
+    margin-left: 10px;
+    padding: 5px 10px;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.all-time-btn:hover {
+    background-color: #e9ecef;
+}
+
+.time-slider {
+    width: 100%;
+    margin: 10px 0;
+}
+
+.play-button {
+    width: 30px;
+    height: 30px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.play-button:hover {
+    background-color: #45a049;
+}
+
+.play-button.active {
+    border: 2px solid #4CAF50;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+/* Slider styling for the detent */
+input[type="range"] {
+    background: linear-gradient(to right,
+        #4CAF50 0%, #4CAF50 5%,  /* Detent section */
+        #ddd 5%, #ddd 100%       /* Rest of slider */
+    );
+    height: 8px;
+    border-radius: 4px;
+    -webkit-appearance: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    background: #fff;
+    border: 2px solid #4CAF50;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+input[type="range"]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background: #fff;
+    border: 2px solid #4CAF50;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+/* Map container adjustments */
+#map {
+    position: relative;
+    height: 700px;
+    margin-bottom: 20px;
+}
+
+/* Attribution control styling */
+.leaflet-control-attribution {
+    background-color: white !important;
+    padding: 5px 10px !important;
+    font-size: 12px !important;
+}
+
+/* Clean up any margin/padding that might interfere with controls */
+.leaflet-control {
+    clear: both;
+}

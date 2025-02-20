@@ -1,0 +1,15 @@
+# Site configuration
+baseURL = "/"
+languageCode = "en-us"
+title = "David Lisk's Website"
+
+# Enable raw HTML in markdown
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true  # This allows raw HTML in markdown files
+
+# Ignore specific warning logs
+[logger]
+  [logger.warn]
+    ignoreLogs = ['warning-goldmark-raw-html']
