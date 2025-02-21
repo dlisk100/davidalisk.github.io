@@ -22,10 +22,6 @@
   {{- partial "toc.html" . }}
   {{- end }}
   
-  {{- if eq .File.ContentBaseName "film-permits-viz" }}
-  {{ partial "viz-scripts.html" . }}
-  {{- end }}
-  
   <div class="post-content">
     {{- .Content }}
   </div>

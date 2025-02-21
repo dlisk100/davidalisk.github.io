@@ -1,8 +1,8 @@
 // config.js
 const CONFIG = {
     map: {
-        center: [40.7128, -73.9854],  // Adjusted NYC coordinates
-        zoom: 1,
+        center: [40.7128, -73.9854],  // NYC coordinates
+        zoom: 11,  // Better initial zoom level for NYC
         maxZoom: 18,
         minZoom: 10
     },
