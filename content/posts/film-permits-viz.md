@@ -1,7 +1,7 @@
 ---
 title: "NYC Film Permits Visualization"
 date: 2025-02-19
-draft: false
+draft: true
 layout: visualization
 ---
 
