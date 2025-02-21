@@ -16,6 +16,6 @@ const CONFIG = {
             '#de2d26',  // Dark red
             '#a50f15'   // Very Dark red
         ],
-        breaks: [0, 2, 4, 10, 21, 80, 1331]  // Permit count breaks for color scale
+        breaks: [0, 4, 10, 21, 80, 1300]  // Permit count breaks for color scale
     }
 };

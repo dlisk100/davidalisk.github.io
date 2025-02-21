@@ -1,0 +1,18 @@
+{{ $vizName := .Get 0 }}
+{{ $vizPath := printf "/nyc_fp_viz/%s.html" $vizName }}
+<div class="nyc-fp-viz">
+    <iframe src="{{ $vizPath }}" width="100%" height="600px" frameborder="0" scrolling="no"></iframe>
+</div>
+
+<style>
+.nyc-fp-viz {
+    width: 100%;
+    margin: 20px 0;
+    overflow: hidden;
+}
+.nyc-fp-viz iframe {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+</style>

@@ -68,10 +68,11 @@ class MapVisualization {
                 div.style.padding = '10px';
                 div.style.borderRadius = '5px';
                 div.style.boxShadow = '0 1px 5px rgba(0,0,0,0.4)';
-                div.style.width = '150px'; // Fixed width
+                div.style.width = '100px'; // Fixed width
                 div.style.minHeight = '180px'; // Fixed minimum height
                 div.style.display = 'flex';
                 div.style.flexDirection = 'column';
+                div.style.marginRight = '20px'; // Match the right margin of time controls
                 this.updateLegendContent(div);
                 return div;
             };
@@ -85,31 +86,7 @@ class MapVisualization {
     updateLegendContent(div) {
         try {
             if (!div) return;
-
-            const permitData = this.dataManager.getFilteredData();
-            const values = Object.values(permitData);
             
-            // Calculate breaks based on current data
-            const maxValue = Math.max(...values, 0);
-            const minValue = Math.min(...values, 0);
-            
-            let breaks;
-            if (this.dataManager.currentWeek === 0) {
-                // Use predefined breaks for all-time view
-                breaks = CONFIG.colors.breaks;
-            } else {
-                // Calculate breaks for weekly view
-                const range = maxValue - minValue;
-                breaks = [
-                    0,
-                    Math.ceil(range * 0.1),
-                    Math.ceil(range * 0.2),
-                    Math.ceil(range * 0.4),
-                    Math.ceil(range * 0.6),
-                    maxValue
-                ];
-            }
-
             const colors = CONFIG.colors.heatmap;
             const title = this.dataManager.currentWeek === 0 ? 'Total Permits' : 'Weekly Permits';
 
@@ -121,14 +98,47 @@ class MapVisualization {
                 <div style="flex-grow: 1;">
             `;
 
-            // Create legend items with consistent spacing
-            for (let i = 0; i < breaks.length - 1; i++) {
-                content += `
-                    <div style="margin-bottom: 8px; display: flex; align-items: center;">
-                        <i style="background: ${colors[i + 1]}; display: inline-block; width: 15px; height: 15px; margin-right: 8px;"></i>
-                        <span>${breaks[i]}-${breaks[i + 1]}</span>
-                    </div>
-                `;
+            if (this.dataManager.currentWeek === 0) {
+                // All-time view legend
+                const breaks = CONFIG.colors.breaks;
+                const ranges = [
+                    '0',
+                    '1-4',
+                    '4-10',
+                    '10-21',
+                    '21-80',
+                    '80-1300',
+                    '>1300'
+                ];
+
+                ranges.forEach((range, i) => {
+                    content += `
+                        <div style="margin-bottom: 8px; display: flex; align-items: center;">
+                            <i style="background: ${colors[i]}; display: inline-block; width: 15px; height: 15px; margin-right: 8px;"></i>
+                            <span>${range}</span>
+                        </div>
+                    `;
+                });
+            } else {
+                // Weekly view legend
+                const ranges = [
+                    '0',
+                    '1',
+                    '2-3',
+                    '4-6',
+                    '7-10',
+                    '11-15',
+                    '>15'
+                ];
+
+                ranges.forEach((range, i) => {
+                    content += `
+                        <div style="margin-bottom: 8px; display: flex; align-items: center;">
+                            <i style="background: ${colors[i]}; display: inline-block; width: 15px; height: 15px; margin-right: 8px;"></i>
+                            <span>${range}</span>
+                        </div>
+                    `;
+                });
             }
 
             content += '</div>';
@@ -191,36 +201,30 @@ class MapVisualization {
 
     getColor(count) {
         try {
-            const permitData = this.dataManager.getFilteredData();
-            const values = Object.values(permitData);
-            const maxValue = Math.max(...values, 0);
-            
-            let breaks;
-            if (this.dataManager.currentWeek === 0) {
-                breaks = CONFIG.colors.breaks;
-            } else {
-                const range = maxValue;
-                breaks = [
-                    0,
-                    Math.ceil(range * 0.1),
-                    Math.ceil(range * 0.2),
-                    Math.ceil(range * 0.4),
-                    Math.ceil(range * 0.6),
-                    maxValue
-                ];
-            }
-            
             const colors = CONFIG.colors.heatmap;
             
-            for (let i = 0; i < breaks.length - 1; i++) {
-                if (count >= breaks[i] && count <= breaks[i + 1]) {
-                    return colors[i + 1];
-                }
+            if (this.dataManager.currentWeek === 0) {
+                // All-time view breaks
+                if (count <= 0) return colors[0];
+                if (count <= 4) return colors[1];
+                if (count <= 10) return colors[2];
+                if (count <= 21) return colors[3];
+                if (count <= 80) return colors[4];
+                if (count <= 1300) return colors[5];
+                return colors[6];
+            } else {
+                // Weekly view breaks
+                if (count <= 0) return colors[0];
+                if (count === 1) return colors[1];
+                if (count <= 3) return colors[2];
+                if (count <= 6) return colors[3];
+                if (count <= 10) return colors[4];
+                if (count <= 15) return colors[5];
+                return colors[6];
             }
-            return colors[0]; // Default color for no data
         } catch (error) {
             console.error('Error getting color:', error);
-            return '#808080'; // Fallback gray color
+            return CONFIG.colors.heatmap[0];  // Return default color on error
         }
     }
 }
