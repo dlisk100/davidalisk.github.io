@@ -1,7 +1,7 @@
 ---
 title: "NYC Film Permits Visualization"
 date: 2025-02-19
-draft: true
+draft: false
 layout: visualization
 ---
 
@@ -9,9 +9,10 @@ layout: visualization
 
 ## About This Visualization
 
-This interactive visualization shows the distribution of film permits across New York City. The map displays permit density by zip code, with controls to filter by time period and permit type. I made this interactive visualization for fun and learning.
+This interactive visualization shows the distribution of film permits across New York City. The map displays permit density by zip code, with controls to filter by time period and permit type. 
 
 Permit type information:
+
 
 
 ### Data Analysis
