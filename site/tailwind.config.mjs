@@ -1,0 +1,26 @@
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: ["./src/**/*.{astro,html,md,mdx,js,ts,jsx,tsx}"],
+  theme: {
+    extend: {
+      colors: {
+        bg:     "hsl(var(--bg))",
+        fg:     "hsl(var(--fg))",
+        muted:  "hsl(var(--muted))",
+        surface:"hsl(var(--surface))",
+        border: "hsl(var(--border))",
+        accent: "hsl(var(--accent))",
+      },
+      boxShadow: {
+        card: "0 1px 2px rgba(0,0,0,.06)",
+        cardHover: "0 4px 12px rgba(0,0,0,.08)"
+      },
+      fontFamily:{
+        sans: ["Inter", "ui-sans-serif", "system-ui"],
+        serif:["Newsreader", "Source Serif 4", "ui-serif", "Georgia"],
+        mono: ["JetBrains Mono", "ui-monospace", "SFMono-Regular"]
+      }
+    },
+  },
+  plugins: [require('@tailwindcss/typography')],
+}

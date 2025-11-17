@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root{
+  --bg: 44 24% 95%;      /* paper */
+  --fg: 60 4% 11%;       /* ink */
+  --muted: 60 2% 40%;
+  --surface: 60 6% 98%;
+  --border: 60 4% 85%;
+  --accent: 17 66% 60%;  /* terracotta */
+}
+
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg: 240 8% 7%;
+    --fg: 210 10% 92%;
+    --muted: 210 5% 62%;
+    --surface: 240 8% 10%;
+    --border: 240 6% 18%;
+    --accent: 17 66% 64%;
+  }
+}
+
+html {
+  background: hsl(var(--bg));
+  color: hsl(var(--fg));
+}
+
+.prose {
+  @apply max-w-[72ch];
+}
+
+.card {
+  @apply border border-border bg-surface rounded-lg shadow-card transition-all duration-200;
+}
+
+.card:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,.08);
+  transform: translateY(-1px);
+}

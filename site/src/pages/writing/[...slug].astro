@@ -1,0 +1,46 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('writing');
+  return posts.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry }
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+const data = entry.data;
+
+// Load backlinks
+let backlinks: Record<string, string[]> = {};
+try {
+  backlinks = await import('../../generated/backlinks.json').then(m => m.default);
+} catch {
+  // Backlinks not generated yet
+}
+
+const inbound = (backlinks[`/writing/${entry.slug}`] || []);
+---
+<Layout title={`${data.title} — David Lisk`} description={data.summary}>
+  <article class="prose prose-neutral dark:prose-invert max-w-none">
+    <h1 class="!mb-2">{data.title}</h1>
+    <p class="text-sm text-muted !mt-0">
+      {data.updated ? `Updated ${data.updated}` : ''}
+      {data.tags?.length ? ` • ${data.tags.join(', ')}` : ''}
+    </p>
+    <Content />
+
+    {inbound.length > 0 && (
+      <>
+        <hr class="my-8" />
+        <h3>Linked from</h3>
+        <ul>
+          {inbound.map(i => <li><a href={i}>{i}</a></li>)}
+        </ul>
+      </>
+    )}
+  </article>
+</Layout>
