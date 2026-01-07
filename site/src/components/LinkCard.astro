@@ -1,7 +1,20 @@
 ---
-const { href, title, summary } = Astro.props;
+interface Props {
+  href: string;
+  title: string;
+  subtitle?: string;
+}
+
+const { href, title, subtitle } = Astro.props;
 ---
-<a href={href} class="card p-5 hover:border-accent no-underline block text-fg">
-  <h3 class="text-xl font-serif m-0">{title}</h3>
-  {summary && <p class="text-sm text-muted m-0 mt-1">{summary}</p>}
+
+<a href={href} class="group block p-5 h-full border border-border rounded-lg bg-surface hover:border-accent/30 hover:shadow-cardHover transition-all duration-300">
+  <h3 class="font-serif text-xl text-fg group-hover:text-accent transition-colors mb-1">
+    {title}
+  </h3>
+  {subtitle && (
+    <p class="text-sm text-muted leading-relaxed">
+      {subtitle}
+    </p>
+  )}
 </a>

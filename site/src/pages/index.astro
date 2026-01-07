@@ -1,19 +1,40 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import LinkCard from "../components/LinkCard.astro";
+import Layout from '../layouts/Layout.astro';
+import LinkCard from '../components/LinkCard.astro';
 ---
-<Layout title="David Lisk — writing, projects, experiments" description="Calm, fast, and human.">
-  <section class="not-prose">
-    <h1 class="text-4xl md:text-5xl font-serif tracking-tight m-0 mb-3">David Lisk — writing, projects, and a few living experiments.</h1>
-    <p class="mt-3 text-lg text-muted">Calm, fast, and human.</p>
 
-    <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      <LinkCard href="/writing" title="Writing" summary="Essays and longer notes." />
-      <LinkCard href="/notes" title="Notes" summary="Short, link-heavy thinking." />
-      <LinkCard href="/apps" title="Apps" summary="Urban Core & other tools." />
-      <LinkCard href="/about" title="About" summary="Who I am and what I'm doing." />
-      <LinkCard href="/now" title="Now" summary="What I'm focused on this month." />
-      <LinkCard href="/search" title="Search" summary="Find anything quickly." />
-    </div>
-  </section>
+<Layout title="David A. Lisk">
+	<section class="mb-16 sm:mb-24">
+	<p class="text-lg text-fg leading-relaxed mb-4 max-w-[60ch]">
+			MBA Candidate at NYU Stern | Mechanical Engineer
+		</p>
+		<p class="text-lg text-fg leading-relaxed mb-4 max-w-[60ch]">
+			Focused on product strategy and national infrastructure. I explore how software interacts with the physical world, and the business models that make it work.
+		</p>
+	</section>
+
+	<section>
+		<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+			<LinkCard
+				href="/writing"
+				title="Writing"
+				subtitle="Technology · Product Management · Corporate Strategy"
+			/>
+			<LinkCard
+				href="/projects"
+				title="Projects"
+				subtitle="Selected works and experiments"
+			/>
+			<LinkCard
+				href="/about"
+				title="About"
+				subtitle="Background and contact"
+			/>
+			<LinkCard
+				href="/tags"
+				title="Tags"
+				subtitle="Explore by topic"
+			/>
+		</div>
+	</section>
 </Layout>

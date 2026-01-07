@@ -10,17 +10,33 @@ const posts = (await getCollection('writing'))
     return dateB.localeCompare(dateA);
   });
 ---
-<Layout title="Writing — David Lisk">
-  <div class="prose prose-neutral dark:prose-invert max-w-none">
-    <h1>Writing</h1>
-    <ul class="space-y-4">
-      {posts.map(p => (
-        <li class="list-none">
-          <a href={`/writing/${p.slug}`} class="text-lg font-serif hover:text-accent transition-colors">{p.data.title}</a>
-          {p.data.summary && <p class="text-muted text-sm mt-1">{p.data.summary}</p>}
-          {p.data.updated && <p class="text-xs text-muted mt-1">{p.data.updated}</p>}
-        </li>
-      ))}
-    </ul>
+
+<Layout title="Writing — David A. Lisk">
+  <header class="mb-12">
+    <h1 class="font-serif text-3xl sm:text-4xl font-medium text-fg mb-4">Writing</h1>
+    <p class="text-muted max-w-[60ch]">Thoughts on technology, product management, and corporate strategy.</p>
+    <hr class="w-16 h-px bg-stone-300 dark:bg-stone-700 border-0 mt-6" />
+  </header>
+
+  <div class="space-y-10">
+    {posts.map(p => (
+      <article class="group border-b border-border pb-8">
+        <a href={`/writing/${p.slug}`} class="block">
+          <h2 class="font-serif text-xl sm:text-2xl font-medium text-fg group-hover:text-accent transition-colors mb-2">
+            {p.data.title}
+          </h2>
+          {p.data.summary && (
+            <p class="text-muted leading-relaxed max-w-[65ch] mb-2">
+              {p.data.summary}
+            </p>
+          )}
+          {p.data.updated && (
+            <time class="text-sm text-muted/60 font-mono">
+              {p.data.updated}
+            </time>
+          )}
+        </a>
+      </article>
+    ))}
   </div>
 </Layout>

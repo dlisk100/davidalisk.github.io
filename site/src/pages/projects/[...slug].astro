@@ -3,8 +3,8 @@ import Layout from "../../layouts/Layout.astro";
 import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('writing');
-  return posts.map((entry) => ({
+  const projects = await getCollection('projects');
+  return projects.map((entry) => ({
     params: { slug: entry.slug },
     props: { entry }
   }));
@@ -18,7 +18,7 @@ const data = entry.data;
 const wordCount = entry.body.split(/\s+/g).length;
 const readingTime = Math.ceil(wordCount / 200);
 
-// Load backlinks
+// Load backlinks (reusing same logic, though projects might have fewer backlinks)
 let backlinks: Record<string, string[]> = {};
 try {
   backlinks = await import('../../generated/backlinks.json').then(m => m.default);
@@ -26,7 +26,7 @@ try {
   // Backlinks not generated yet
 }
 
-const inbound = (backlinks[`/writing/${entry.slug}`] || []);
+const inbound = (backlinks[`/projects/${entry.slug}`] || []);
 ---
 
 <Layout title={`${data.title} — David A. Lisk`} description={data.summary}>

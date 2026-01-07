@@ -1,0 +1,35 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getCollection } from 'astro:content';
+
+const writing = await getCollection('writing');
+const projects = await getCollection('projects');
+const allContent = [...writing, ...projects].filter(p => !p.data.draft);
+
+const tags = allContent.flatMap(post => post.data.tags || []);
+const tagCounts = tags.reduce((acc, tag) => {
+  acc[tag] = (acc[tag] || 0) + 1;
+  return acc;
+}, {} as Record<string, number>);
+
+const sortedTags = Object.entries(tagCounts).sort((a, b) => b[1] - a[1]);
+---
+
+<Layout title="Tags — David A. Lisk">
+  <header class="mb-12">
+    <h1 class="font-serif text-3xl sm:text-4xl font-medium text-fg mb-4">Tags</h1>
+    <p class="text-muted max-w-[60ch]">Explore content by topic.</p>
+  </header>
+
+  <div class="flex flex-wrap gap-4">
+    {sortedTags.map(([tag, count]) => (
+      <a
+        href={`/tags/${tag}`}
+        class="px-4 py-2 bg-surface border border-border rounded-md text-fg hover:border-accent hover:text-accent transition-colors"
+      >
+        <span class="font-medium">#{tag}</span>
+        <span class="ml-2 text-muted text-sm">{count}</span>
+      </a>
+    ))}
+  </div>
+</Layout>

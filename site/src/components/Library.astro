@@ -1,0 +1,137 @@
+---
+const books = [
+  {
+    title: "Tlön, Uqbar, Orbis Tertius",
+    author: "Jorge Luis Borges",
+    coverImage: "/images/library/borges.jpg",
+    insight: "A short story about a secret society that invents a world so detailed it begins to overwrite reality. A reminder that ideas and narratives are not just abstractions—when rigorous enough, they become the architecture of the physical world."
+  },
+  {
+    title: "The Power Broker",
+    author: "Robert A. Caro",
+    coverImage: "/images/library/power-broker.jpg",
+    insight: "The definitive manual on political mechanics and infrastructure. It teaches the hard lesson that engineering isn't enough; building in the physical world requires mastering the friction of human systems and the accumulation of power."
+  },
+  {
+    title: "One from Many",
+    author: "Dee Hock",
+    coverImage: "/images/library/visa.jpg",
+    insight: "The founder of Visa on 'chaotic' organizations. It argues that the most resilient systems aren't commanded from the top, but emerge from the bottom. A treatise on decentralized consensus and bringing out the agency in others."
+  },
+  {
+    title: "The Count of Monte Cristo",
+    author: "Alexandre Dumas",
+    coverImage: "/images/library/monte-cristo.jpg",
+    insight: "The ultimate case study in long-time horizons. While ostensibly an adventure story, it is a masterclass in compounding execution, information asymmetry, and the strategic patience required to reshape one's circumstances."
+  },
+  {
+    title: "Star Maker",
+    author: "Olaf Stapledon",
+    coverImage: "/images/library/star-maker.jpg",
+    insight: "A scale-breaker. Stapledon expands the scope of history to the cosmic level, exploring the upper bounds of biological and technological potential. It serves as an antidote to quarterly-thinking and a prompt for radical imagination."
+  },
+  {
+    title: "A Death in the Family (My Struggle: Book 1)",
+    author: "Karl Ove Knausgård",
+    coverImage: "/images/library/knausgard.jpg",
+    insight: "An exercise in high-fidelity observation. Knausgård demonstrates that the difference between existence and life lies in the quality of one's attention. A reminder to document reality with precision."
+  }
+];
+---
+
+<div class="not-prose my-12">
+  <p class="text-muted mb-8 text-center italic">
+    A selection of books that have shaped my thinking on technology, history, and strategy. Click a cover to explore.
+  </p>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+    {books.map((book) => (
+      <button 
+        class="group relative aspect-[2/3] w-full bg-transparent shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 book-trigger"
+        data-book={JSON.stringify(book)}
+        aria-label={`View details for ${book.title}`}
+      >
+        <img 
+          src={book.coverImage} 
+          alt={`Cover of ${book.title}`}
+          class="w-full h-full object-contain grayscale group-hover:grayscale-0 transition-all duration-500"
+          loading="lazy"
+        />
+      </button>
+    ))}
+  </div>
+</div>
+
+<!-- Modal Overlay -->
+<div id="library-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-8 opacity-0 pointer-events-none transition-opacity duration-300" aria-hidden="true">
+  <!-- Backdrop -->
+  <div class="absolute inset-0 bg-stone-100/90 dark:bg-stone-900/90 backdrop-blur-sm" id="modal-backdrop"></div>
+  
+  <!-- Content -->
+  <div class="relative bg-white dark:bg-stone-800 max-w-4xl w-full shadow-2xl overflow-hidden flex flex-col md:flex-row max-h-[90vh] md:max-h-[600px]">
+    <button id="modal-close" class="absolute top-4 right-4 z-10 p-2 text-muted hover:text-fg transition-colors">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      <span class="sr-only">Close</span>
+    </button>
+
+    <!-- Modal Image -->
+    <div class="w-full md:w-1/3 bg-transparent flex items-center justify-center flex-shrink-0">
+      <img id="modal-img" src="" alt="" class="w-full h-full object-contain">
+    </div>
+
+    <!-- Modal Text -->
+    <div class="p-8 md:p-12 flex flex-col justify-center overflow-y-auto">
+      <div>
+        <h3 id="modal-title" class="font-serif text-3xl text-fg mb-2 font-medium"></h3>
+        <p id="modal-author" class="text-muted font-mono text-sm uppercase tracking-wider mb-8"></p>
+        <div class="prose prose-stone dark:prose-invert">
+          <p id="modal-insight" class="text-lg leading-relaxed"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const modal = document.getElementById('library-modal');
+  const backdrop = document.getElementById('modal-backdrop');
+  const closeBtn = document.getElementById('modal-close');
+  const modalImg = document.getElementById('modal-img') as HTMLImageElement;
+  const modalTitle = document.getElementById('modal-title');
+  const modalAuthor = document.getElementById('modal-author');
+  const modalInsight = document.getElementById('modal-insight');
+  const triggers = document.querySelectorAll('.book-trigger');
+
+  function openModal(book) {
+    if (!modal || !modalImg || !modalTitle || !modalAuthor || !modalInsight) return;
+
+    modalImg.src = book.coverImage;
+    modalTitle.textContent = book.title;
+    modalAuthor.textContent = book.author;
+    modalInsight.textContent = book.insight;
+
+    modal.classList.remove('opacity-0', 'pointer-events-none');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    if (!modal) return;
+    modal.classList.add('opacity-0', 'pointer-events-none');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  triggers.forEach(trigger => {
+    trigger.addEventListener('click', () => {
+      const bookData = JSON.parse(trigger.getAttribute('data-book') || '{}');
+      openModal(bookData);
+    });
+  });
+
+  closeBtn?.addEventListener('click', closeModal);
+  backdrop?.addEventListener('click', closeModal);
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeModal();
+  });
+</script>
