@@ -1,3 +1,6 @@
 .DS_Store
 .hugo_build.lock
 public/
+
+# Allow the Astro public folder to be committed
+!site/public/

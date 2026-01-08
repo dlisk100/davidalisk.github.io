@@ -2,23 +2,29 @@
 @tailwind components;
 @tailwind utilities;
 
-:root{
-  --bg: 44 24% 95%;      /* paper */
-  --fg: 60 4% 11%;       /* ink */
-  --muted: 60 2% 40%;
-  --surface: 60 6% 98%;
-  --border: 60 4% 85%;
-  --accent: 17 66% 60%;  /* terracotta */
-}
-
-@media (prefers-color-scheme: dark){
+@layer base {
   :root{
-    --bg: 240 8% 7%;
-    --fg: 210 10% 92%;
-    --muted: 210 5% 62%;
-    --surface: 240 8% 10%;
-    --border: 240 6% 18%;
-    --accent: 17 66% 64%;
+    --bg: 44 24% 95%;      /* paper */
+    --fg: 60 4% 11%;       /* ink */
+    --muted: 60 2% 40%;
+    --surface: 60 6% 98%;
+    --border: 60 4% 85%;
+    --accent: 17 66% 60%;  /* terracotta */
+  }
+
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg: 240 8% 7%;
+      --fg: 210 10% 92%;
+      --muted: 210 5% 62%;
+      --surface: 240 8% 10%;
+      --border: 240 6% 18%;
+      --accent: 17 66% 64%;
+    }
+  }
+
+  h1, h2, h3, h4, .card-title {
+    text-wrap: balance;
   }
 }
 
