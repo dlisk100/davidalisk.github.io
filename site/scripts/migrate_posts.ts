@@ -5,7 +5,6 @@ import { globby } from 'globby';
 import TurndownService from 'turndown';
 
 const CANDIDATE_DIRS = [
-  '../old_site/content/posts',
   '../content/posts',
   'posts',
   'blog',
@@ -13,7 +12,6 @@ const CANDIDATE_DIRS = [
   'content',
   '_site/blog',
   '_site/posts',
-  'old_site',
   './'
 ];
 
@@ -40,7 +38,7 @@ function toFrontmatterDefaults(title:string) {
 async function run(){
   const files = await findSources();
   if (!files.length) {
-    console.log('⚠ No source posts found. Place your posts under old_site/content/posts/ or content/posts/.');
+    console.log('No source posts found. Place your posts under content/posts/.');
     return;
   }
 

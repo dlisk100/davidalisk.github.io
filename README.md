@@ -5,7 +5,6 @@ Personal website built with Astro + MDX + Tailwind CSS, featuring Anthropic-insp
 ## Structure
 
 - `/site` - New Astro-based website
-- `/old_site` - Previous Hugo site (archived)
 - `CNAME` - Custom domain configuration
 
 ## Quick Start
