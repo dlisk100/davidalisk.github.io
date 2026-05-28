@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="820" viewBox="0 0 1400 820" role="img" aria-labelledby="title desc">
+  <title id="title">Procedural Fog Machine workflow, swimlane option</title>
+  <desc id="desc">A technical swimlane architecture diagram separating UI, API routes, OpenRouter, and output.</desc>
+  <defs>
+    <style>
+      .bg{fill:#f5f0e7}.lane{fill:#fffaf0;stroke:#d5cbbb;stroke-width:2}.ink{fill:#1c1b18}.muted{fill:#655f56}.accent{fill:#d8653d}.box{fill:#fffefd;stroke:#bfb3a3;stroke-width:2}.line{stroke:#d8653d;stroke-width:4;fill:none;stroke-linecap:round}.dash{stroke:#8f8374;stroke-width:3;fill:none;stroke-dasharray:8 8;stroke-linecap:round}.h{font:600 42px Georgia,serif}.laneText{font:800 20px Inter,Arial,sans-serif}.label{font:700 21px Inter,Arial,sans-serif}.small{font:500 16px Inter,Arial,sans-serif}.mono{font:700 15px ui-monospace,SFMono-Regular,Menlo,monospace}
+    </style>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M2,2 L10,6 L2,10 Z" fill="#d8653d"/></marker>
+    <marker id="arrowMuted" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M2,2 L10,6 L2,10 Z" fill="#8f8374"/></marker>
+  </defs>
+  <rect class="bg" width="1400" height="820"/>
+  <text x="70" y="76" class="ink h">Split-Route Architecture</text>
+  <text x="70" y="112" class="muted small">A slightly more technical version with UI, API, model routing, and output responsibilities separated.</text>
+
+  <g transform="translate(70 165)">
+    <rect class="lane" width="1260" height="130" rx="8"/>
+    <text x="24" y="44" class="accent laneText">UI</text>
+    <rect class="box" x="170" y="28" width="230" height="74" rx="8"/>
+    <text x="190" y="60" class="ink label">User inputs</text><text x="190" y="84" class="muted small">message, context, density</text>
+    <rect class="box" x="480" y="28" width="230" height="74" rx="8"/>
+    <text x="500" y="60" class="ink label">fireFogMachine()</text><text x="500" y="84" class="muted small">client orchestrator</text>
+    <rect class="box" x="930" y="28" width="250" height="74" rx="8"/>
+    <text x="950" y="60" class="ink label">Stream reader</text><text x="950" y="84" class="muted small">accumulates NDJSON</text>
+  </g>
+  <path class="line" d="M470 230 H545" marker-end="url(#arrow)"/>
+  <path class="line" d="M780 230 H985" marker-end="url(#arrow)"/>
+
+  <g transform="translate(70 330)">
+    <rect class="lane" width="1260" height="150" rx="8"/>
+    <text x="24" y="48" class="accent laneText">API Routes</text>
+    <rect class="box" x="170" y="38" width="220" height="78" rx="8"/>
+    <text x="190" y="70" class="ink mono">/outline</text><text x="190" y="94" class="muted small">builds packet outline</text>
+    <rect class="box" x="480" y="38" width="250" height="78" rx="8"/>
+    <text x="500" y="70" class="ink mono">/section-stream</text><text x="500" y="94" class="muted small">streams section bodies</text>
+    <rect class="box" x="820" y="38" width="220" height="78" rx="8"/>
+    <text x="840" y="70" class="ink mono">/section</text><text x="840" y="94" class="muted small">fallback JSON route</text>
+    <rect class="box" x="1110" y="38" width="120" height="78" rx="8"/>
+    <text x="1130" y="70" class="ink mono">/inflate</text><text x="1130" y="94" class="muted small">density 11</text>
+  </g>
+  <path class="line" d="M595 268 V350" marker-end="url(#arrow)"/>
+  <path class="line" d="M350 405 H530" marker-end="url(#arrow)"/>
+  <path class="dash" d="M1055 230 C1190 255 1220 300 1240 368" marker-end="url(#arrowMuted)"/>
+
+  <g transform="translate(70 515)">
+    <rect class="lane" width="1260" height="125" rx="8"/>
+    <text x="24" y="45" class="accent laneText">OpenRouter</text>
+    <rect class="box" x="170" y="28" width="330" height="70" rx="8"/>
+    <text x="190" y="59" class="ink label">Outline model</text><text x="190" y="82" class="muted small">default x-ai/grok-4.3</text>
+    <rect class="box" x="600" y="28" width="350" height="70" rx="8"/>
+    <text x="620" y="59" class="ink label">Section model</text><text x="620" y="82" class="muted small">configurable via env var</text>
+  </g>
+  <path class="line" d="M350 480 V535" marker-end="url(#arrow)"/>
+  <path class="line" d="M625 480 V535" marker-end="url(#arrow)"/>
+
+  <g transform="translate(70 675)">
+    <rect class="lane" width="1260" height="95" rx="8"/>
+    <text x="24" y="42" class="accent laneText">Output</text>
+    <rect class="box" x="365" y="20" width="560" height="56" rx="8"/>
+    <text x="390" y="55" class="ink label">Structured packet preview plus optional supplemental addenda</text>
+  </g>
+  <path class="line" d="M775 640 V695" marker-end="url(#arrow)"/>
+</svg>

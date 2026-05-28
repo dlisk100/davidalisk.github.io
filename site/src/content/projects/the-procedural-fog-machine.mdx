@@ -43,12 +43,13 @@ Most AI writing tools try to summarize, simplify, or compress. The Procedural Fo
 
 The app uses a natural-language front end. The backend generation flow runs in stages:
 
-1. User input is sent through OpenRouter with a system prompt.
-2. Grok 4.1 generates an outline for the response packet.
-3. The slop level slider determines how many sections are outlined.
-4. Each section outline is sent to DeepSeek v4 Fast with a section-specific system prompt.
-5. OpenRouter turbo mode and streaming are used to generate output quickly.
-6. If slop level is set to 11, each generated section is sent back to DeepSeek to generate a corresponding appendix.
+1. User input enters through the app interface: the scary message, optional context, domain, stance, and slop density.
+2. The UI calls a dedicated outline route, `/api/cannon/outline`, which sends the request through OpenRouter.
+3. The outline model defaults to `x-ai/grok-4.3`, with deployment configuration available through `OPENROUTER_OUTLINE_MODEL`.
+4. The slop density slider determines the section count, target words, and section token budget.
+5. Each outline section is generated through `/api/cannon/section-stream`, using OpenRouter streaming and the configured section model.
+6. The UI reads streamed NDJSON chunks and assembles them into the live packet preview as sections arrive.
+7. If slop density is set to 11, the app sends each completed section through `/api/cannon/inflate` to generate a supplemental addendum.
 
 This makes the system more reliable than asking one model to produce the entire document in a single pass.
 
@@ -60,11 +61,11 @@ This makes the system more reliable than asking one model to produce the entire 
 
 A naive version of this project would ask a model to "write a huge bureaucratic document."
 
-That approach is brittle. It tends to lose structure, repeat itself, or collapse into generic filler. The Procedural Fog Machine instead decomposes the output into an outline, sections, and optional appendices. That gives the system more control over length, pacing, structure, and tone.
+That approach is brittle. It tends to lose structure, repeat itself, or collapse into generic filler. The Procedural Fog Machine instead decomposes the output into an outline, streamed sections, and optional max-density addenda. That gives the system more control over length, pacing, structure, and tone.
 
 The project is intentionally absurd, but the underlying pattern is useful: for longform AI generation, orchestration matters as much as prompting.
 
-The quality of the output depends on model choice, but also on how the system breaks the task apart, routes each stage, streams progress, and preserves a clear document shape for the user.
+The quality of the output depends on model choice, but also on how the system breaks the task apart, routes each stage, streams progress, and preserves a clear document shape for the user. The implementation is deliberately modular: outline generation, streamed section generation, fallback section generation, and density-11 inflation each live behind separate API routes.
 
 ![A generated procedural response packet with dense sectioned output and status metrics.](/images/procedural-fog-machine/app-generated-packet.jpg)
 
@@ -74,7 +75,7 @@ The quality of the output depends on model choice, but also on how the system br
 
 One of the most interesting parts of the build was how cheap large-scale text generation has become.
 
-Using low-cost, high-throughput models through OpenRouter, the app can generate 150+ pages of structured text for less than one cent in model inference cost.
+Using low-cost, high-throughput models through OpenRouter, the app is designed around a striking cost curve: very large structured packets can be generated for a fraction of a cent when routed to inexpensive section-generation models.
 
 That changes the product design space. When longform generation is expensive, products optimize for brevity. When longform generation becomes nearly free, new interaction patterns become possible: procedural packets, generated dossiers, synthetic documentation, simulated institutions, narrative worlds, fake compliance systems, and other forms of structured abundance.
 
@@ -84,22 +85,22 @@ The Procedural Fog Machine is tongue-in-cheek, but it points at a real shift: AI
 
 AI UX is not just chat. The experience depends on pacing, streaming, loading states, section structure, and how the output reveals itself. This project worked best when it felt like a machine generating an artifact, not just a chatbot answering a prompt.
 
-Longform generation needs decomposition. Breaking the output into outlines, sections, and appendices produced better structure than a single large generation call.
+Longform generation needs decomposition. Breaking the output into outlines, streamed sections, and optional addenda produced better structure than a single large generation call.
 
-Model selection is a product decision. One model handled high-level outline generation while another handled fast, inexpensive section expansion.
+Model selection is a product decision. The app keeps outline and section models configurable, which makes routing a product lever rather than a hardcoded assumption.
 
-Cost curves create new product surfaces. If 150+ pages of coherent text can be generated for less than a cent, "generate a lot of structured material" becomes a viable design primitive.
+Cost curves create new product surfaces. When large packets of coherent text can be generated cheaply through model routing, "generate a lot of structured material" becomes a viable design primitive.
 
 Absurd products can still teach serious lessons. The project was playful, but it was a useful way to explore prompt orchestration, streaming UX, inference cost, model routing, and AI-native product design under a tight build constraint.
 
 ## Stack
 
 - OpenRouter
-- Grok 4.1
-- DeepSeek v4 Fast
+- `x-ai/grok-4.3` as the default outline and section model
+- Configurable OpenRouter outline and section models
 - Vercel
-- Streaming generation
-- Prompt orchestration
+- Streaming section generation
+- Split-route prompt orchestration
 - Natural-language user input
 - Slop-level controlled output sizing
 

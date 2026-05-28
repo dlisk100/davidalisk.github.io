@@ -1,0 +1,138 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1050" viewBox="0 0 1800 1050" role="img" aria-labelledby="title desc">
+  <title id="title">The Procedural Fog Machine generation architecture</title>
+  <desc id="desc">A refined architecture diagram showing the real split-route generation workflow: user input, client orchestration, outline generation, streamed sections, optional density eleven inflation, and packet preview assembly.</desc>
+  <defs>
+    <linearGradient id="paper" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fff8e6"/>
+      <stop offset="1" stop-color="#eadfc7"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#262118"/>
+      <stop offset="1" stop-color="#15130f"/>
+    </linearGradient>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#000000" flood-opacity="0.28"/>
+    </filter>
+    <marker id="arrowGold" markerWidth="16" markerHeight="16" refX="13" refY="8" orient="auto">
+      <path d="M2 2 L14 8 L2 14 Z" fill="#f2c84b"/>
+    </marker>
+    <marker id="arrowClay" markerWidth="16" markerHeight="16" refX="13" refY="8" orient="auto">
+      <path d="M2 2 L14 8 L2 14 Z" fill="#d8653d"/>
+    </marker>
+    <style>
+      .bg{fill:#15130f}
+      .grid{stroke:#3a3329;stroke-width:1;opacity:.55}
+      .eyebrow{fill:#f2c84b;font:800 18px ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.22em}
+      .title{fill:#fff8e6;font:800 58px Inter,Arial,sans-serif;letter-spacing:-.02em}
+      .subtitle{fill:#cbbca4;font:500 23px Inter,Arial,sans-serif}
+      .sectionLabel{fill:#f2c84b;font:800 17px ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.16em}
+      .card{fill:url(#panel);stroke:#5e5549;stroke-width:2}
+      .cardHot{fill:#2b2118;stroke:#d8653d;stroke-width:3}
+      .paper{fill:url(#paper);stroke:#c8b894;stroke-width:2}
+      .h{fill:#fff8e6;font:800 29px Inter,Arial,sans-serif;letter-spacing:-.01em}
+      .body{fill:#d8ccb8;font:500 20px Inter,Arial,sans-serif}
+      .muted{fill:#9d907c;font:500 18px Inter,Arial,sans-serif}
+      .mono{fill:#f7d978;font:800 18px ui-monospace,SFMono-Regular,Menlo,monospace}
+      .paperText{fill:#1c1b18;font:800 25px Inter,Arial,sans-serif}
+      .paperSmall{fill:#645b4c;font:500 18px Inter,Arial,sans-serif}
+      .lineGold{stroke:#f2c84b;stroke-width:5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+      .lineClay{stroke:#d8653d;stroke-width:5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+      .lineMuted{stroke:#726657;stroke-width:4;fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:9 11}
+      .chip{fill:#332b20;stroke:#6a5d4c;stroke-width:1.5}
+      .chipText{fill:#e8dcc7;font:800 16px ui-monospace,SFMono-Regular,Menlo,monospace}
+    </style>
+  </defs>
+
+  <rect class="bg" width="1800" height="1050"/>
+  <g opacity=".45">
+    <path class="grid" d="M0 160H1800M0 300H1800M0 440H1800M0 580H1800M0 720H1800M0 860H1800"/>
+    <path class="grid" d="M180 0V1050M360 0V1050M540 0V1050M720 0V1050M900 0V1050M1080 0V1050M1260 0V1050M1440 0V1050M1620 0V1050"/>
+  </g>
+
+  <text x="92" y="96" class="eyebrow">VERIFIED IMPLEMENTATION FLOW</text>
+  <text x="90" y="166" class="title">Procedural Fog Machine</text>
+  <text x="94" y="210" class="subtitle">Split-route orchestration for longform, streamed procedural document generation.</text>
+
+  <g transform="translate(96 305)" filter="url(#softShadow)">
+    <rect class="card" width="365" height="220" rx="18"/>
+    <text x="32" y="50" class="sectionLabel">01 INPUT</text>
+    <text x="32" y="96" class="h">Natural-language front end</text>
+    <text x="32" y="132" class="body">Scary message, optional context,</text>
+    <text x="32" y="162" class="body">domain, stance, and slop density.</text>
+    <rect class="chip" x="32" y="180" width="184" height="30" rx="15"/>
+    <text x="48" y="201" class="chipText">app/page.tsx</text>
+  </g>
+
+  <path class="lineGold" d="M485 415 H605" marker-end="url(#arrowGold)"/>
+
+  <g transform="translate(635 305)" filter="url(#softShadow)">
+    <rect class="cardHot" width="365" height="220" rx="18"/>
+    <text x="32" y="50" class="sectionLabel">02 ORCHESTRATE</text>
+    <text x="32" y="96" class="h">fireFogMachine()</text>
+    <text x="32" y="132" class="body">The client coordinates outline,</text>
+    <text x="32" y="162" class="body">section streams, and inflation.</text>
+    <rect class="chip" x="32" y="180" width="176" height="30" rx="15"/>
+    <text x="48" y="201" class="chipText">client state</text>
+  </g>
+
+  <path class="lineGold" d="M820 550 V640" marker-end="url(#arrowGold)"/>
+
+  <g transform="translate(565 670)" filter="url(#softShadow)">
+    <rect class="paper" width="510" height="235" rx="18"/>
+    <text x="34" y="58" class="paperText">Density plan</text>
+    <text x="34" y="94" class="paperSmall">Slop density controls section count,</text>
+    <text x="34" y="123" class="paperSmall">target words, and section token budget.</text>
+    <path d="M34 154H475" stroke="#d6c7a7" stroke-width="2"/>
+    <text x="34" y="190" class="paperSmall">Density 11 generates density-10 base</text>
+    <text x="34" y="219" class="paperSmall">sections, then runs an addendum volley.</text>
+  </g>
+
+  <path class="lineClay" d="M1028 415 H1148" marker-end="url(#arrowClay)"/>
+
+  <g transform="translate(1178 275)" filter="url(#softShadow)">
+    <rect class="card" width="455" height="280" rx="18"/>
+    <text x="32" y="50" class="sectionLabel">03 OUTLINE</text>
+    <text x="32" y="96" class="h">/api/cannon/outline</text>
+    <text x="32" y="132" class="body">OpenRouter chat completion returns</text>
+    <text x="32" y="162" class="body">the response-packet outline.</text>
+    <rect class="chip" x="32" y="192" width="226" height="32" rx="16"/>
+    <text x="50" y="214" class="chipText">OPENROUTER_OUTLINE_MODEL</text>
+    <rect class="chip" x="32" y="234" width="154" height="32" rx="16"/>
+    <text x="50" y="256" class="chipText">x-ai/grok-4.3</text>
+  </g>
+
+  <path class="lineClay" d="M1405 575 C1405 638 1360 662 1288 662 H1128" marker-end="url(#arrowClay)"/>
+
+  <g transform="translate(1132 640)" filter="url(#softShadow)">
+    <rect class="card" width="505" height="245" rx="18"/>
+    <text x="32" y="50" class="sectionLabel">04 STREAM SECTIONS</text>
+    <text x="32" y="96" class="h">/api/cannon/section-stream</text>
+    <text x="32" y="132" class="body">Each outline section becomes a streamed</text>
+    <text x="32" y="162" class="body">OpenRouter request; the UI reads NDJSON.</text>
+    <rect class="chip" x="32" y="192" width="226" height="32" rx="16"/>
+    <text x="50" y="214" class="chipText">OPENROUTER_SECTION_MODEL</text>
+  </g>
+
+  <path class="lineGold" d="M1132 775 H965" marker-end="url(#arrowGold)"/>
+  <path class="lineMuted" d="M820 670 C865 615 930 585 1020 575 C1120 563 1187 550 1220 520" marker-end="url(#arrowGold)"/>
+
+  <g transform="translate(110 660)" filter="url(#softShadow)">
+    <rect class="card" width="365" height="225" rx="18"/>
+    <text x="32" y="50" class="sectionLabel">05 OUTPUT</text>
+    <text x="32" y="96" class="h">Live packet preview</text>
+    <text x="32" y="132" class="body">Streamed chunks accumulate into</text>
+    <text x="32" y="162" class="body">sections, then render as a packet.</text>
+    <rect class="chip" x="32" y="182" width="176" height="30" rx="15"/>
+    <text x="48" y="203" class="chipText">sections.map()</text>
+  </g>
+
+  <path class="lineGold" d="M565 775 H500" marker-end="url(#arrowGold)"/>
+
+  <g transform="translate(96 920)">
+    <rect x="0" y="0" width="1558" height="70" rx="16" fill="#201b14" stroke="#51483b" stroke-width="2"/>
+    <text x="28" y="44" class="mono">Density 11 branch:</text>
+    <text x="238" y="44" class="body">completed sections are sent to</text>
+    <text x="535" y="44" class="mono">/api/cannon/inflate</text>
+    <text x="770" y="44" class="body">using the section model to generate supplemental addenda.</text>
+  </g>
+</svg>

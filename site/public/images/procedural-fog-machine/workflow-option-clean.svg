@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="760" viewBox="0 0 1400 760" role="img" aria-labelledby="title desc">
+  <title id="title">Procedural Fog Machine workflow, clean portfolio option</title>
+  <desc id="desc">A clean horizontal workflow showing user inputs, fireFogMachine, outline route, section streaming, live packet preview, and density eleven inflation.</desc>
+  <defs>
+    <style>
+      .bg{fill:#f5f0e7}.ink{fill:#1c1b18}.muted{fill:#655f56}.card{fill:#fffaf0;stroke:#d5cbbb;stroke-width:2}.accent{fill:#d8653d}.line{stroke:#d8653d;stroke-width:4;fill:none;stroke-linecap:round;stroke-linejoin:round}.dash{stroke:#8f8374;stroke-width:3;fill:none;stroke-dasharray:8 8;stroke-linecap:round}.label{font:700 28px Inter,Arial,sans-serif}.small{font:500 18px Inter,Arial,sans-serif}.mono{font:700 17px ui-monospace,SFMono-Regular,Menlo,monospace}.tiny{font:600 15px Inter,Arial,sans-serif}
+    </style>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#d8653d"/>
+    </marker>
+    <marker id="arrowMuted" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#8f8374"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="1400" height="760"/>
+  <text x="70" y="80" class="ink label" style="font-size:42px;font-family:Source Serif 4,Georgia,serif;font-weight:600">Generation Workflow</text>
+  <text x="70" y="118" class="muted small">The real implementation uses split API routes, OpenRouter, streamed NDJSON, and optional density-11 inflation.</text>
+
+  <g transform="translate(65 210)">
+    <rect class="card" width="190" height="150" rx="10"/>
+    <circle cx="40" cy="38" r="17" class="accent"/>
+    <text x="68" y="47" class="ink mono">UI</text>
+    <text x="24" y="84" class="ink tiny">Scary message</text>
+    <text x="24" y="109" class="muted tiny">Context, domain,</text>
+    <text x="24" y="132" class="muted tiny">stance, density</text>
+  </g>
+  <path class="line" d="M270 285 H355" marker-end="url(#arrow)"/>
+
+  <g transform="translate(370 210)">
+    <rect class="card" width="190" height="150" rx="10"/>
+    <circle cx="40" cy="38" r="17" class="accent"/>
+    <text x="68" y="47" class="ink mono">Client</text>
+    <text x="24" y="87" class="ink tiny">fireFogMachine()</text>
+    <text x="24" y="116" class="muted tiny">Orchestrates</text>
+    <text x="24" y="139" class="muted tiny">the volleys</text>
+  </g>
+  <path class="line" d="M575 285 H660" marker-end="url(#arrow)"/>
+
+  <g transform="translate(675 210)">
+    <rect class="card" width="210" height="150" rx="10"/>
+    <circle cx="40" cy="38" r="17" class="accent"/>
+    <text x="68" y="47" class="ink mono">Outline</text>
+    <text x="24" y="84" class="ink tiny">/api/cannon/outline</text>
+    <text x="24" y="112" class="muted tiny">OpenRouter</text>
+    <text x="24" y="136" class="muted tiny">default x-ai/grok-4.3</text>
+  </g>
+  <path class="line" d="M900 285 H985" marker-end="url(#arrow)"/>
+
+  <g transform="translate(1000 210)">
+    <rect class="card" width="225" height="150" rx="10"/>
+    <circle cx="40" cy="38" r="17" class="accent"/>
+    <text x="68" y="47" class="ink mono">Sections</text>
+    <text x="24" y="84" class="ink tiny">/section-stream</text>
+    <text x="24" y="112" class="muted tiny">OpenRouter streaming</text>
+    <text x="24" y="136" class="muted tiny">NDJSON chunks</text>
+  </g>
+  <path class="line" d="M1112 375 V458" marker-end="url(#arrow)"/>
+
+  <g transform="translate(890 475)">
+    <rect class="card" width="445" height="140" rx="10"/>
+    <text x="26" y="49" class="ink mono">Live Packet Preview</text>
+    <text x="26" y="83" class="muted tiny">The UI accumulates streamed chunks into section state,</text>
+    <text x="26" y="109" class="muted tiny">then renders the structured response packet.</text>
+  </g>
+
+  <g transform="translate(350 475)">
+    <rect class="card" width="370" height="140" rx="10"/>
+    <text x="26" y="49" class="ink mono">Slop Density Plan</text>
+    <text x="26" y="83" class="muted tiny">Controls section count, target words,</text>
+    <text x="26" y="109" class="muted tiny">and section token budget.</text>
+  </g>
+  <path class="dash" d="M780 360 C720 420 660 455 585 470" marker-end="url(#arrowMuted)"/>
+
+  <g transform="translate(90 475)">
+    <rect class="card" width="210" height="140" rx="10"/>
+    <text x="24" y="48" class="ink mono">Density 11</text>
+    <text x="24" y="82" class="muted tiny">/api/cannon/inflate</text>
+    <text x="24" y="108" class="muted tiny">Supplemental</text>
+    <text x="24" y="130" class="muted tiny">addenda</text>
+  </g>
+  <path class="dash" d="M1000 550 H320" marker-end="url(#arrowMuted)"/>
+</svg>
