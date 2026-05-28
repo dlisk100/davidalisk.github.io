@@ -30,15 +30,15 @@ const inbound = (backlinks[`/writing/${entry.slug}`] || []);
 ---
 
 <Layout title={`${data.title} — David A. Lisk`} description={data.summary}>
-  <article class="prose prose-lg prose-stone max-w-none prose-headings:font-serif prose-headings:font-medium prose-a:text-accent prose-a:no-underline hover:prose-a:underline dark:prose-invert">
-    <header class="not-prose mb-10">
-      <h1 class="font-serif text-3xl sm:text-4xl font-medium text-fg mb-3 leading-tight">{data.title}</h1>
-      <div class="flex flex-wrap gap-3 text-sm text-muted font-mono items-center">
+  <article class="prose prose-stone max-w-none prose-p:text-[1.05rem] prose-p:leading-[1.78] prose-li:text-[1.05rem] prose-li:leading-[1.78] prose-headings:font-serif prose-headings:font-medium prose-a:text-accent prose-a:no-underline hover:prose-a:underline dark:prose-invert">
+    <header class="not-prose mb-9">
+      <h1 class="font-serif text-[2rem] sm:text-[2.3rem] font-medium text-fg mb-3 leading-[1.12]">{data.title}</h1>
+      <div class="flex flex-wrap gap-x-2.5 gap-y-2 text-[0.82rem] text-muted/90 font-mono items-center">
         {data.updated && <time>{data.updated}</time>}
         <span class="text-muted/40">•</span>
         <span>{readingTime} min read</span>
         {data.tags && data.tags.length > 0 && (
-          <div class="flex gap-2 items-center">
+          <div class="flex flex-wrap gap-x-2 gap-y-1 items-center">
             <span class="text-muted/40">•</span>
             {data.tags.map(tag => (
               <a href={`/tags/${tag}`} class="hover:text-fg transition-colors">#{tag}</a>
