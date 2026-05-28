@@ -9,6 +9,8 @@ updated: "2026-05-02"
 
 I built The Procedural Fog Machine for the Slow Ventures Slop Cannon hackathon on May 2, 2026. It was conceived, designed, and built in roughly six hours.
 
+[Try the live demo](https://procedural-fog-machine.vercel.app)
+
 The app takes a simple dispute, complaint, or bureaucratic problem and turns it into a massive structured response packet: formal language, procedural sections, factual questions, appendices, escalation paths, and enough institutional texture to make a copier sigh.
 
 It is satirical and experimental. It is not legal advice, and it is not intended to generate filings, threaten anyone, or abuse formal processes. The project is a builder artifact about controlled excess, AI-native UX, prompt orchestration, streaming generation, and the economics of cheap longform output.
@@ -43,13 +45,12 @@ Most AI writing tools try to summarize, simplify, or compress. The Procedural Fo
 
 The app uses a natural-language front end. The backend generation flow runs in stages:
 
-1. User input enters through the app interface: the scary message, optional context, domain, stance, and slop density.
-2. The UI calls a dedicated outline route, `/api/cannon/outline`, which sends the request through OpenRouter.
-3. The outline model defaults to `x-ai/grok-4.3`, with deployment configuration available through `OPENROUTER_OUTLINE_MODEL`.
-4. The slop density slider determines the section count, target words, and section token budget.
-5. Each outline section is generated through `/api/cannon/section-stream`, using OpenRouter streaming and the configured section model.
-6. The UI reads streamed NDJSON chunks and assembles them into the live packet preview as sections arrive.
-7. If slop density is set to 11, the app sends each completed section through `/api/cannon/inflate` to generate a supplemental addendum.
+1. The user describes the situation and sets the desired level of procedural excess.
+2. The app turns that input into an outline for a full response packet.
+3. The selected slop density controls how many sections the packet should contain and how expansive each section should be.
+4. Each section is generated separately, then streamed back into the interface as it is written.
+5. The preview assembles those streams into a single formal packet, so the user can watch the document take shape.
+6. At the maximum setting, the app runs a second pass that adds supplemental material to each completed section.
 
 This makes the system more reliable than asking one model to produce the entire document in a single pass.
 
@@ -59,13 +60,13 @@ This makes the system more reliable than asking one model to produce the entire 
 
 ## Why the Architecture Matters
 
-A naive version of this project would ask a model to "write a huge bureaucratic document."
+A naive version of this project would ask a single model to "write a huge bureaucratic document."
 
 That approach is brittle. It tends to lose structure, repeat itself, or collapse into generic filler. The Procedural Fog Machine instead decomposes the output into an outline, streamed sections, and optional max-density addenda. That gives the system more control over length, pacing, structure, and tone.
 
 The project is intentionally absurd, but the underlying pattern is useful: for longform AI generation, orchestration matters as much as prompting.
 
-The quality of the output depends on model choice, but also on how the system breaks the task apart, routes each stage, streams progress, and preserves a clear document shape for the user. The implementation is deliberately modular: outline generation, streamed section generation, fallback section generation, and density-11 inflation each live behind separate API routes.
+The quality of the output depends on model choice, but also on how the system breaks the task apart, routes each stage, streams progress, and preserves a clear document shape for the user. The implementation is deliberately modular: outline generation, streamed section generation, fallback generation, and maximum-density expansion are separate pieces of the pipeline.
 
 ![A generated procedural response packet with dense sectioned output and status metrics.](/images/procedural-fog-machine/app-generated-packet.jpg)
 
