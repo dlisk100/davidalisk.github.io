@@ -18,12 +18,12 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install, build, and upload your site
-        uses: withastro/action@v2
+        uses: withastro/action@v6
         with:
-            # THIS IS THE CRITICAL LINE:
-            # It tells GitHub your site is inside the "site" folder, not the root.
-            path: ./site
-            package-manager: pnpm
+          # The Astro project lives in the "site" folder, not the repo root.
+          path: ./site
+          node-version: 24
+          package-manager: pnpm@10.23.0
 
   deploy:
     needs: build
