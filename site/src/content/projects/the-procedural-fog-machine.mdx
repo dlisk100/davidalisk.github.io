@@ -13,6 +13,21 @@ The app takes a simple dispute, complaint, or bureaucratic problem and turns it 
 
 It is satirical and experimental. It is not legal advice, and it is not intended to generate filings, threaten anyone, or abuse formal processes. The project is a builder artifact about controlled excess, AI-native UX, prompt orchestration, streaming generation, and the economics of cheap longform output.
 
+<figure class="not-prose my-8 rounded-lg border border-border bg-[#15130f] px-5 py-6 sm:px-8">
+  <img
+    src="/images/procedural-fog-machine/fog-machine-logo.png"
+    alt="Illustrated red procedural fog machine firing papers and smoke."
+    class="mx-auto h-auto w-full max-w-3xl"
+  />
+  <figcaption class="mt-4 text-center text-sm leading-relaxed text-stone-300">
+    The project mark: a cheerful little engine for turning simple prompts into procedural weather.
+  </figcaption>
+</figure>
+
+![The Procedural Fog Machine command dock, showing the live app interface and status panels.](/images/procedural-fog-machine/app-command-dock.jpg)
+
+*The app presents generation as a command dock: source material in, procedural fog out.*
+
 ## The Idea
 
 The central joke is simple: what if the best way to respond to bureaucracy was with even more bureaucracy?
@@ -24,6 +39,10 @@ The Procedural Fog Machine flips that dynamic as a product experiment. Instead o
 ## Product Concept
 
 The user describes a situation in plain English, then chooses a "slop level" that controls how large and elaborate the output should be.
+
+![The slop density controls set to maximum bureaucracy with the fire button armed.](/images/procedural-fog-machine/app-slop-controls.jpg)
+
+*The slop density control turns output size into part of the product interaction.*
 
 Depending on the prompt and setting, the generated packet can include formal response letters, procedural objections, request-for-information sections, escalation timelines, compliance-style matrices, factual clarification questions, appendices, footnotes, supporting documentation checklists, and passive-voice institutional language.
 
@@ -44,6 +63,10 @@ The app uses a natural-language front end. The backend generation flow runs in s
 
 This makes the system more reliable than asking one model to produce the entire document in a single pass.
 
+![The app generating sections, with status cards and a live shell log updating during generation.](/images/procedural-fog-machine/app-generating.jpg)
+
+*Streaming status and shell-log copy make the long generation feel like an artifact being assembled, not a chat response waiting to finish.*
+
 ## Why the Architecture Matters
 
 A naive version of this project would ask a model to "write a huge bureaucratic document."
@@ -53,6 +76,10 @@ That approach is brittle. It tends to lose structure, repeat itself, or collapse
 The project is intentionally absurd, but the underlying pattern is useful: for longform AI generation, orchestration matters as much as prompting.
 
 The quality of the output depends on model choice, but also on how the system breaks the task apart, routes each stage, streams progress, and preserves a clear document shape for the user.
+
+![A generated procedural response packet with dense sectioned output and status metrics.](/images/procedural-fog-machine/app-generated-packet.jpg)
+
+*The generated packet keeps a formal document shape even as the output gets intentionally excessive.*
 
 ## Inference Economics
 
