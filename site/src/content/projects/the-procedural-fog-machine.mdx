@@ -9,7 +9,7 @@ updated: "2026-05-02"
 
 I built The Procedural Fog Machine for the Slow Ventures Slop Cannon hackathon on May 2, 2026. It was conceived, designed, and built in roughly six hours.
 
-[Try the live demo](https://procedural-fog-machine.vercel.app)
+<a href="https://procedural-fog-machine.vercel.app" target="_blank" rel="noopener noreferrer">Try the live demo</a>
 
 The app takes a simple dispute, complaint, or bureaucratic problem and turns it into a massive structured response packet: formal language, procedural sections, factual questions, appendices, escalation paths, and enough institutional texture to make a copier sigh.
 
@@ -96,14 +96,15 @@ Absurd products can still teach serious lessons. The project was playful, but it
 
 ## Stack
 
-- OpenRouter
-- `x-ai/grok-4.3` as the default outline and section model
-- Configurable OpenRouter outline and section models
-- Vercel
-- Streaming section generation
-- Split-route prompt orchestration
-- Natural-language user input
-- Slop-level controlled output sizing
+- Next.js app deployed on Vercel, with the interface, generation controls, live log, and packet preview handled in the client.
+- Natural-language input form for the dispute, optional source context, domain, stance, and slop density.
+- Split API routes for each generation stage: one route creates the outline, another streams section bodies, and a separate max-density route expands completed sections.
+- OpenRouter for model routing, so outline generation and section expansion can use different models without changing the product code.
+- Grok for high-level packet outlining, where the model's job is to plan the structure before generation begins.
+- DeepSeek v4 Flash Nitro for streamed section writing in production, optimized for fast, low-cost longform expansion.
+- Streaming response handling that converts section output into incremental chunks the UI can assemble into the live document preview.
+- Density planning logic that maps the slop slider to section count, target length, and token budget.
+- A density-11 expansion pass that sends completed sections back through the section-writing model to generate supplemental addenda.
 
 ## Links
 
