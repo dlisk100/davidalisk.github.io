@@ -9,6 +9,17 @@ const projects = (await getCollection('projects'))
     const dateB = b.data.updated || '';
     return dateB.localeCompare(dateA);
   });
+
+const formatDate = (date: string) => {
+  const [year, month, day] = date.split('-').map(Number);
+
+  return new Intl.DateTimeFormat('en-US', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+    timeZone: 'UTC',
+  }).format(new Date(Date.UTC(year, month - 1, day)));
+};
 ---
 
 <Layout title="Projects — David A. Lisk">
@@ -17,10 +28,10 @@ const projects = (await getCollection('projects'))
     <p class="text-muted max-w-[60ch]">Selected works and experiments.</p>
   </header>
 
-  <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+  <div class="grid grid-cols-[minmax(0,1fr)] sm:grid-cols-[repeat(2,minmax(0,1fr))] gap-6">
     {projects.length > 0 ? (
       projects.map(p => (
-        <a href={p.data.href || `/projects/${p.slug}`} class="group block p-6 h-full border border-border rounded-lg bg-surface hover:border-accent/30 hover:shadow-cardHover transition-all duration-300 flex flex-col">
+        <a href={p.data.href || `/projects/${p.slug}`} class="group flex min-w-0 w-full flex-col p-6 h-full border border-border rounded-lg bg-surface hover:border-accent/30 hover:shadow-cardHover transition-all duration-300">
           <h2 class="font-serif text-xl font-medium text-fg group-hover:text-accent transition-colors mb-2">
             {p.data.title}
           </h2>
@@ -29,16 +40,18 @@ const projects = (await getCollection('projects'))
               {p.data.summary}
             </p>
           )}
-          <div class="flex items-center justify-between mt-auto pt-4 border-t border-border/50">
-            <div class="flex gap-2">
-              {p.data.tags && p.data.tags.slice(0, 3).map(tag => (
-                <span class="text-xs text-muted bg-bg px-1.5 py-0.5 rounded border border-border">#{tag}</span>
-              ))}
-            </div>
+          <div class="mt-auto pt-4 border-t border-border/50 space-y-2">
             {p.data.updated && (
-              <time class="text-xs text-muted/60 font-mono">
-                {p.data.updated}
+              <time class="block text-xs text-muted/60">
+                Updated {formatDate(p.data.updated)}
               </time>
+            )}
+            {p.data.tags && p.data.tags.length > 0 && (
+              <div class="flex flex-wrap gap-x-3 gap-y-1.5">
+                {p.data.tags.slice(0, 3).map(tag => (
+                  <span class="text-xs text-muted leading-relaxed">{tag}</span>
+                ))}
+              </div>
             )}
           </div>
         </a>
