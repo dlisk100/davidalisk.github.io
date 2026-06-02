@@ -8,6 +8,11 @@ export interface FilmAtlasManifest {
     labeled?: boolean;
   }>>;
   movie_count?: number;
+  neighbor_shards?: {
+    count?: number;
+    directory?: string;
+    strategy?: string;
+  };
   privacy?: {
     contains_api_keys?: boolean;
     contains_embeddings?: boolean;
@@ -77,6 +82,57 @@ export interface FilmAtlasNeighbor {
 export interface FilmAtlasNeighborRecord {
   tmdb_id: number;
   neighbors?: FilmAtlasNeighbor[];
+}
+
+export interface FilmAtlasTerritoryPoint {
+  tmdb_id: number;
+  x: number;
+  y: number;
+}
+
+export interface FilmAtlasTerritoryRegion {
+  cluster_id: number;
+  layer: FilmAtlasLayer;
+  macro_id?: number | null;
+  neighborhood_id?: number | null;
+  parent_cluster_id?: number | null;
+  radius: number;
+  size?: number;
+  x: number;
+  y: number;
+}
+
+export interface FilmAtlasGmapCell {
+  macro_id: number;
+  micro_id: number;
+  neighborhood_id: number;
+  polygon: Array<[number, number]>;
+  tmdb_id: number;
+}
+
+export interface FilmAtlasTerritoryVariant {
+  algorithm?: string;
+  description?: string;
+  gmap_cells?: FilmAtlasGmapCell[];
+  id: string;
+  label: string;
+  metrics?: {
+    gmap_cells?: number;
+    gmap_outer_vertices?: number;
+    macro_regions?: number;
+    micro_regions?: number;
+    movie_points?: number;
+    neighborhood_regions?: number;
+  };
+  points: FilmAtlasTerritoryPoint[];
+  regions: FilmAtlasTerritoryRegion[];
+}
+
+export interface FilmAtlasTerritoryLayouts {
+  generated_at?: string;
+  movie_count?: number;
+  source?: string;
+  variants: FilmAtlasTerritoryVariant[];
 }
 
 export interface FilmAtlasExport {
