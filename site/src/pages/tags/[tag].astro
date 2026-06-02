@@ -37,7 +37,7 @@ const sortedPosts = posts.sort((a, b) => {
   <div class="space-y-10">
     {sortedPosts.map(p => (
       <article class="group">
-        <a href={`/${p.collection}/${p.slug}`} class="block">
+        <a href={p.data.href || `/${p.collection}/${p.slug}`} class="block">
           <h2 class="font-serif text-xl sm:text-2xl font-medium text-fg group-hover:text-accent transition-colors mb-2">
             {p.data.title}
           </h2>

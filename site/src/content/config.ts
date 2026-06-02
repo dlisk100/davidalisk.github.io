@@ -5,6 +5,7 @@ const commonSchema = z.object({
   summary: z.string().optional(),
   tags: z.array(z.string()).default([]),
   updated: z.string().optional(),
+  href: z.string().optional(),
   draft: z.boolean().default(false),
 });
 

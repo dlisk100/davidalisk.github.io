@@ -1,0 +1,20 @@
+---
+import { existsSync } from "node:fs";
+import Layout from "../layouts/Layout.astro";
+import FilmAtlasExperience from "../components/film-atlas/FilmAtlasExperience.astro";
+
+const rootManifest = new URL("../../public/film-atlas/data/manifest.json", import.meta.url);
+const nestedManifest = new URL("../../public/film-atlas/data/public_export/manifest.json", import.meta.url);
+const dataBase = existsSync(rootManifest)
+  ? "/film-atlas/data"
+  : existsSync(nestedManifest)
+    ? "/film-atlas/data/public_export"
+    : "/film-atlas/data";
+---
+
+<Layout
+  title="The Film Atlas - David A. Lisk"
+  description="An interactive movie map of cinema's hidden genres, built from a static Film Atlas export."
+>
+  <FilmAtlasExperience dataBase={dataBase} />
+</Layout>
