@@ -10,6 +10,15 @@ const { dataBase } = Astro.props;
   <section class="atlas-shell relative overflow-hidden border-b border-[#f2c46d]/15">
     <div class="atlas-page-field absolute inset-0"></div>
     <div class="atlas-app-frame relative mx-auto flex max-w-[1540px] flex-col">
+      <nav class="atlas-site-nav" aria-label="Site navigation">
+        <a class="atlas-site-home" href="/">David A. Lisk</a>
+        <div class="atlas-site-links" aria-label="More from David A. Lisk">
+          <a href="/projects">Projects</a>
+          <a href="/writing">Writing</a>
+          <a href="/about">About</a>
+        </div>
+      </nav>
+
       <header class="atlas-masthead">
         <div class="atlas-title-block">
           <p class="atlas-eyebrow">Film Microgenres Mapped</p>
@@ -339,6 +348,49 @@ const { dataBase } = Astro.props;
   .atlas-app-frame {
     min-height: calc(100vh - 3.5rem);
     padding: clamp(1.1rem, 2vw, 2rem);
+  }
+
+  .atlas-site-nav {
+    align-items: center;
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+    margin-bottom: clamp(1rem, 2vw, 1.55rem);
+    min-height: 2rem;
+  }
+
+  .atlas-site-home {
+    color: #fff8ea;
+    font-family: "Source Serif 4", ui-serif, Georgia, serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    line-height: 1;
+    text-decoration: none;
+    transition: color 160ms ease;
+  }
+
+  .atlas-site-links {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: clamp(0.8rem, 2vw, 1.25rem);
+    justify-content: flex-end;
+  }
+
+  .atlas-site-links a {
+    color: rgba(217, 199, 163, 0.72);
+    font-size: 0.82rem;
+    line-height: 1;
+    text-decoration: none;
+    transition: color 160ms ease;
+  }
+
+  .atlas-site-home:hover,
+  .atlas-site-home:focus-visible,
+  .atlas-site-links a:hover,
+  .atlas-site-links a:focus-visible {
+    color: #f2c46d;
+    outline: none;
   }
 
   .atlas-masthead {
