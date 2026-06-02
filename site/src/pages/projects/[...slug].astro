@@ -4,10 +4,12 @@ import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
   const projects = await getCollection('projects');
-  return projects.map((entry) => ({
-    params: { slug: entry.slug },
-    props: { entry }
-  }));
+  return projects
+    .filter((entry) => entry.slug !== "the-film-atlas")
+    .map((entry) => ({
+      params: { slug: entry.slug },
+      props: { entry }
+    }));
 }
 
 const { entry } = Astro.props;
