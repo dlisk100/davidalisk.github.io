@@ -241,6 +241,87 @@ const { dataBase } = Astro.props;
         </article>
       </div>
 
+      <div class="atlas-writeup-split atlas-technical-section">
+        <div>
+          <p class="atlas-eyebrow">Technical implementation</p>
+          <h3>The public atlas is static. The semantic system is built offline.</h3>
+        </div>
+        <div class="atlas-writeup-copy">
+          <p>
+            The production page is intentionally simple: Astro serves sanitized JSON, and a custom Canvas renderer draws the atlas in the browser. There is no recommendation API, no model call, and no private data dependency on the public page. All of the expensive work happens ahead of time in an offline pipeline.
+          </p>
+          <p>
+            TMDb is the foundation for movie identity and metadata: titles, release years, overviews, genres, keywords, taglines, popularity signals, and stable IDs for matching. The MovieLens Tag Genome adds structured audience-perception signal through tag relevance scores, which helps the atlas capture vibe, tone, theme, and style more directly than genre fields alone. MPST contributes plot tags and controlled synopsis texture, giving thin TMDb summaries more narrative shape without letting long synopses overwhelm the representation.
+          </p>
+          <p>
+            Those sources are combined into semantic profiles: compact, source-balanced descriptions of what each film is about, how it feels, and what viewers tend to associate with it. The profiles are embedded with OpenAI embeddings, then used in two separate ways. Nearest neighbors are computed in the full embedding space, where semantic similarity is strongest. Clustering is also performed in embedding space, using a strict hierarchy: macro regions first, neighborhoods inside each macro region, and microclusters inside each neighborhood.
+          </p>
+          <p>
+            Labels are generated with LLM assistance, but treated as a reviewable product layer rather than ground truth. The labeling pass uses cluster evidence, representative films, tags, and neighbor behavior to make names vivid enough for a public-facing atlas while keeping them inspectable. The final export keeps only what the browser needs: movie display fields, points, hierarchy records, labels, territory layouts, and neighbor shards. API keys, raw reviews, raw embeddings, and private experiment artifacts stay out of the static site.
+          </p>
+        </div>
+      </div>
+
+      <div class="atlas-experiment-block">
+        <div class="atlas-experiment-heading">
+          <p class="atlas-eyebrow">Experiments and tradeoffs</p>
+          <h3>What improved the atlas, and what did not.</h3>
+        </div>
+        <div class="atlas-experiment-table-wrap">
+          <table class="atlas-experiment-table">
+            <thead>
+              <tr>
+                <th scope="col">Area</th>
+                <th scope="col">Tradeoff</th>
+                <th scope="col">Final choice</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Data</th>
+                <td>Richer sources improved semantic texture, but scraped review ecosystems would weaken the public data story.</td>
+                <td>Use TMDb plus public MovieLens and MPST signals; avoid Letterboxd and IMDb scraping.</td>
+              </tr>
+              <tr>
+                <th scope="row">Profiles</th>
+                <td>More text was not automatically better; title-heavy or review-heavy profiles could create leakage and noise.</td>
+                <td>Build balanced semantic profiles from plot, theme, tone, tags, and controlled review/synopsis texture.</td>
+              </tr>
+              <tr>
+                <th scope="row">Clustering</th>
+                <td>Flat clusters were easier to generate, but made the UI imply a hierarchy the data did not fully support.</td>
+                <td>Use strict macro -> neighborhood -> micro clustering so each film has one real atlas path.</td>
+              </tr>
+              <tr>
+                <th scope="row">Methods</th>
+                <td>A beautiful 2D projection can hide or distort high-dimensional relationships.</td>
+                <td>Compute neighbors and clusters in full embedding space; use the map as an explorable projection.</td>
+              </tr>
+              <tr>
+                <th scope="row">Labels</th>
+                <td>Purely literal labels felt flat; purely poetic labels could overstate the evidence.</td>
+                <td>Use LLM-assisted labels that are vivid, inspectable, and accountable to cluster evidence.</td>
+              </tr>
+              <tr>
+                <th scope="row">Validation</th>
+                <td>Semantic quality is partly subjective, so a single metric would be false confidence.</td>
+                <td>Combine structural scans, spot checks, large audits, failure-set rechecks, and browser QA.</td>
+              </tr>
+              <tr>
+                <th scope="row">UI</th>
+                <td>More explanation in the map surface added cognitive weight.</td>
+                <td>Keep the interaction lightweight and move deeper methodology lower on the page.</td>
+              </tr>
+              <tr>
+                <th scope="row">Frontend</th>
+                <td>A backend could make exploration more dynamic, but would add operational and privacy surface area.</td>
+                <td>Ship a static Astro + Canvas experience backed by sanitized JSON and lazy neighbor shards.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
       <div class="atlas-writeup-split">
         <div>
           <p class="atlas-eyebrow">Validation</p>
@@ -258,6 +339,12 @@ const { dataBase } = Astro.props;
           </p>
           <p>
             Browser QA became part of the validation loop too. Search, zoom, selected-film panels, expandable cluster cards, labels, territory boundaries, and console health were all inspected against the sanitized static export so the public page stayed aligned with the offline pipeline.
+          </p>
+          <p>
+            The final public export contains 10,000 films, 946 labels, 16 macro regions, 180 neighborhoods, and 750 microclusters. The hierarchy scan found no duplicate macro/neighborhood/micro path labels, and the browser export contains no API keys, raw reviews, or embeddings.
+          </p>
+          <p>
+            The largest audit before targeted repair scored 9,633 pass, 336 mixed, and 31 fail. After repair rules were applied to the failure set, the recheck found 22 pass, 9 mixed, and 0 fail. I treat those results as evidence that the atlas is useful and inspectable, not as proof of perfect classification.
           </p>
         </div>
       </div>
@@ -1069,6 +1156,10 @@ const { dataBase } = Astro.props;
     padding-top: clamp(2rem, 4vw, 3rem);
   }
 
+  .atlas-technical-section {
+    margin-top: clamp(2.5rem, 5vw, 4rem);
+  }
+
   .atlas-writeup-copy {
     display: grid;
     gap: 1rem;
@@ -1076,6 +1167,61 @@ const { dataBase } = Astro.props;
 
   .atlas-writeup-copy p {
     margin: 0;
+  }
+
+  .atlas-experiment-block {
+    border-top: 1px solid rgba(242, 196, 109, 0.14);
+    display: grid;
+    gap: clamp(1.25rem, 2.5vw, 2rem);
+    margin-top: clamp(2.5rem, 5vw, 4rem);
+    padding-top: clamp(2rem, 4vw, 3rem);
+  }
+
+  .atlas-experiment-heading {
+    max-width: 42rem;
+  }
+
+  .atlas-experiment-heading h3 {
+    color: #fff8ea;
+    font-family: "Source Serif 4", ui-serif, Georgia, serif;
+    font-size: 1.6rem;
+    font-weight: 600;
+    line-height: 1.08;
+    margin: 0.72rem 0 0;
+  }
+
+  .atlas-experiment-table-wrap {
+    overflow-x: auto;
+  }
+
+  .atlas-experiment-table {
+    border-collapse: collapse;
+    color: rgba(217, 199, 163, 0.84);
+    font-size: 0.88rem;
+    line-height: 1.55;
+    min-width: 48rem;
+    width: 100%;
+  }
+
+  .atlas-experiment-table th,
+  .atlas-experiment-table td {
+    border-bottom: 1px solid rgba(242, 196, 109, 0.12);
+    padding: 0.82rem 0.9rem;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  .atlas-experiment-table thead th {
+    color: #68d8c5;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.66rem;
+    text-transform: uppercase;
+  }
+
+  .atlas-experiment-table tbody th {
+    color: #fff8ea;
+    font-weight: 600;
+    white-space: nowrap;
   }
 
   .atlas-lessons-grid {
