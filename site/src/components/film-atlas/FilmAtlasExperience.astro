@@ -44,11 +44,11 @@ const { dataBase } = Astro.props;
         <section class="atlas-map-panel" aria-label="Interactive movie map">
           <div class="atlas-toolbar">
             <form class="atlas-search-form" data-atlas-search-form>
-              <label class="sr-only" for="film-atlas-search">Search by movie title</label>
               <input
                 id="film-atlas-search"
                 class="atlas-search-input"
                 data-atlas-search
+                aria-label="Search by movie title"
                 autocomplete="off"
                 placeholder="Search by movie title"
                 type="search"
@@ -57,7 +57,7 @@ const { dataBase } = Astro.props;
             </form>
 
             <div class="atlas-control-rack">
-              <span class="atlas-tier-pill" data-atlas-label-tier>Macro clusters</span>
+              <span class="atlas-tier-pill" data-atlas-label-tier>Macro regions</span>
               <div class="atlas-zoom-controls">
                 <button class="atlas-icon-button" type="button" data-atlas-zoom-out aria-label="Zoom out">-</button>
                 <button class="atlas-icon-button" type="button" data-atlas-zoom-in aria-label="Zoom in">+</button>
@@ -90,7 +90,7 @@ const { dataBase } = Astro.props;
             </p>
             <div class="atlas-genre-row" data-atlas-selected-genres></div>
             <p class="atlas-selected-overview" data-atlas-selected-overview>
-              Search for a movie or click any dot on the map to see where it lives in the atlas. Each film belongs to a nested semantic path: a broad region, a local neighborhood, and a tight microcluster.
+              Search for a movie or click any dot on the map to see where it lives in the atlas. Each film belongs to a nested semantic path: a broad region, a local neighborhood, and a tight micro cluster.
             </p>
 
             <div class="atlas-selected-labels" data-atlas-selected-labels></div>
@@ -116,10 +116,10 @@ const { dataBase } = Astro.props;
           Every dot is one film. The atlas maps 10,000 popular TMDb movies released from 1980 onward. At the widest zoom, it shows broad cinematic territories: crime worlds, family animation, dystopian futures, romance and becoming, survival dread, mythic spectacle, and more.
         </p>
         <p>
-          Zoom in and those territories split into neighborhoods. Zoom further and neighborhoods reveal microclusters: smaller groups of films with unusually similar themes, tone, story mechanics, or audience vibe.
+          Zoom in and those territories split into neighborhoods. Zoom further and neighborhoods reveal micro clusters: smaller groups of films with unusually similar themes, tone, story mechanics, or audience vibe.
         </p>
         <p>
-          Search for a film, click a dot, or follow a nearest neighbor to move through the map. The side panel shows the selected movie's macro region, neighborhood, microcluster, and closest semantic neighbors.
+          Search for a film, click a dot, or follow a nearest neighbor to move through the map. The side panel shows the selected movie's macro region, neighborhood, micro cluster, and closest semantic neighbors.
         </p>
         <p>
           Visual distance is a guide, not the whole truth. Nearest neighbors are calculated in the full semantic embedding space; the map is a browser-rendered projection designed to make that high-dimensional structure explorable.
@@ -142,7 +142,7 @@ const { dataBase } = Astro.props;
           Movies already have genres, but genre is blunt. A film can be comedy, horror, romance, or sci-fi and still belong to a stranger experiential family: lonely future intimacy, corporate satire, cozy mystery, survival dread, mythic spectacle, suburban paranoia, or slacker noir.
         </p>
         <p>
-          The Film Atlas asks whether cinema can be organized the way people often discover music: by texture, mood, story shape, and felt similarity. It is not a replacement for genre. It is a second map underneath it.
+          The Film Atlas asks whether cinema can be explored the way people often discover music: by texture, mood, story shape, and felt similarity. It is not a replacement for genre. It is a second map underneath it.
         </p>
       </div>
     </div>
@@ -169,7 +169,7 @@ const { dataBase } = Astro.props;
             The first version used the official TMDb API to build controlled movie profiles from titles, overviews, genres, keywords, and short review-language snippets.
           </p>
           <p>
-            That made the project viable as a public portfolio piece: no Letterboxd scraping, no IMDb review scraping, no private datasets, and no raw review text exposed in the browser. But the early profiles were too thin. They produced some good neighbors, but not enough depth for the kind of vibe map the interface wanted.
+            That made the project publishable: no Letterboxd scraping, no IMDb review scraping, no private datasets, and no raw review text exposed in the browser. But the early profiles were too thin. They produced some good neighbors, but not enough depth for the kind of vibe map the interface wanted.
           </p>
         </article>
 
@@ -202,10 +202,10 @@ const { dataBase } = Astro.props;
           <p class="atlas-writeup-step">04</p>
           <h3>Make the hierarchy real</h3>
           <p>
-            The biggest early failure was structural. Macro regions, neighborhoods, and microclusters originally behaved like separate layers that looked nested in the UI but were not always truly nested in the data.
+            The biggest early failure was structural. Macro regions, neighborhoods, and micro clusters originally behaved like separate layers that looked nested in the UI but were not always truly nested in the data.
           </p>
           <p>
-            The final system uses strict hierarchical clustering: cluster the full set into macro regions, cluster within each macro region into neighborhoods, then cluster within each neighborhood into microclusters. That means every film has one real path through the atlas: macro region -> neighborhood -> microcluster.
+            The final system uses strict hierarchical clustering: cluster the full set into macro regions, cluster within each macro region into neighborhoods, then cluster within each neighborhood into micro clusters. That means every film has one real path through the atlas: macro region -> neighborhood -> micro cluster.
           </p>
           <p>
             The geography is not just a visual effect. It is enforced by the data model.
@@ -219,7 +219,7 @@ const { dataBase } = Astro.props;
             The labels are the product surface. They are how people understand the map.
           </p>
           <p>
-            I used LLM-assisted labeling to generate names for regions, neighborhoods, and microclusters, but the goal was not to blindly accept whatever sounded clever. Labels had to be vivid enough to feel human and specific enough to be useful.
+            I used LLM-assisted labeling to generate names for regions, neighborhoods, and micro clusters, but the goal was not to blindly accept whatever sounded clever. Labels had to be vivid enough to feel human and specific enough to be useful.
           </p>
           <p>
             The guiding phrase became: poetic but accountable. A good label should be memorable, but it should also be supported by representative films, tags, cluster evidence, and nearest-neighbor behavior.
@@ -254,7 +254,7 @@ const { dataBase } = Astro.props;
             TMDb is the foundation for movie identity and metadata: titles, release years, overviews, genres, keywords, taglines, popularity signals, and stable IDs for matching. The MovieLens Tag Genome adds structured audience-perception signal through tag relevance scores, which helps the atlas capture vibe, tone, theme, and style more directly than genre fields alone. MPST contributes plot tags and controlled synopsis texture, giving thin TMDb summaries more narrative shape without letting long synopses overwhelm the representation.
           </p>
           <p>
-            Those sources are combined into semantic profiles: compact, source-balanced descriptions of what each film is about, how it feels, and what viewers tend to associate with it. The profiles are embedded with OpenAI embeddings, then used in two separate ways. Nearest neighbors are computed in the full embedding space, where semantic similarity is strongest. Clustering is also performed in embedding space, using a strict hierarchy: macro regions first, neighborhoods inside each macro region, and microclusters inside each neighborhood.
+            Those sources are combined into semantic profiles: compact, source-balanced descriptions of what each film is about, how it feels, and what viewers tend to associate with it. The profiles are embedded with OpenAI embeddings, then used in two separate ways. Nearest neighbors are computed in the full embedding space, where semantic similarity is strongest. Clustering is also performed in embedding space, using a strict hierarchy: macro regions first, neighborhoods inside each macro region, and micro clusters inside each neighborhood.
           </p>
           <p>
             Labels are generated with LLM assistance, but treated as a reviewable product layer rather than ground truth. The labeling pass uses cluster evidence, representative films, tags, and neighbor behavior to make names vivid enough for a public-facing atlas while keeping them inspectable. The final export keeps only what the browser needs: movie display fields, points, hierarchy records, labels, territory layouts, and neighbor shards. API keys, raw reviews, raw embeddings, and private experiment artifacts stay out of the static site.
@@ -290,7 +290,7 @@ const { dataBase } = Astro.props;
               <tr>
                 <th scope="row">Clustering</th>
                 <td>Flat clusters were easier to generate, but made the UI imply a hierarchy the data did not fully support.</td>
-                <td>Use strict macro -> neighborhood -> micro clustering so each film has one real atlas path.</td>
+                <td>Use a strict macro region -> neighborhood -> micro cluster hierarchy so each film has one real atlas path.</td>
               </tr>
               <tr>
                 <th scope="row">Methods</th>
@@ -332,7 +332,7 @@ const { dataBase } = Astro.props;
             A semantic map is partly subjective, so validation could not be purely mathematical. I used a mix of known-film spot checks, cluster-label review, structural scans, large LLM-assisted audits, and targeted repairs.
           </p>
           <p>
-            The technical checks focused on whether the hierarchy was real, not merely visual: every movie needed one valid macro region, one neighborhood inside that macro region, and one microcluster inside that neighborhood. The export was also scanned for duplicate path labels, missing cluster assignments, malformed neighbor lists, and accidental leakage of private artifacts.
+            The technical checks focused on whether the hierarchy was real, not merely visual: every movie needed one valid macro region, one neighborhood inside that macro region, and one micro cluster inside that neighborhood. The export was also scanned for duplicate path labels, missing cluster assignments, malformed neighbor lists, and accidental leakage of private artifacts.
           </p>
           <p>
             Nearest-neighbor quality was checked separately from screen position. That mattered because the map is a projection: a point can look distant on the canvas while still being close in the full embedding space. Validation therefore compared selected films against their semantic neighbors, cluster memberships, labels, and visible territory placement as separate signals.
@@ -341,10 +341,10 @@ const { dataBase } = Astro.props;
             Browser QA became part of the validation loop too. Search, zoom, selected-film panels, expandable cluster cards, labels, territory boundaries, and console health were all inspected against the sanitized static export so the public page stayed aligned with the offline pipeline.
           </p>
           <p>
-            The final public export contains 10,000 films, 946 labels, 16 macro regions, 180 neighborhoods, and 750 microclusters. The hierarchy scan found no duplicate macro/neighborhood/micro path labels, and the browser export contains no API keys, raw reviews, or embeddings.
+            The final public export contains 10,000 films, 946 labels, 16 macro regions, 180 neighborhoods, and 750 micro clusters. The hierarchy scan found no duplicate macro region/neighborhood/micro cluster path labels, and the browser export contains no API keys, raw reviews, or embeddings.
           </p>
           <p>
-            The largest audit before targeted repair scored 9,633 pass, 336 mixed, and 31 fail. After repair rules were applied to the failure set, the recheck found 22 pass, 9 mixed, and 0 fail. I treat those results as evidence that the atlas is useful and inspectable, not as proof of perfect classification.
+            The largest audit before targeted repair scored 9,633 pass, 336 mixed, and 31 fail. After repair rules were applied to the failure set, the recheck found 22 pass, 9 mixed, and 0 fail. I treated audit results as directional quality checks, not as objective truth: evidence that the atlas is useful and inspectable, not proof of perfect classification.
           </p>
         </div>
       </div>
