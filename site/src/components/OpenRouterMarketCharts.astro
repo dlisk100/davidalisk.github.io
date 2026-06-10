@@ -234,7 +234,7 @@ const payload = JSON.stringify(chartData);
       const hitLeft = index === 0 ? plot.left : (previousX + point.x) / 2;
       const hitRight = index === points.length - 1 ? plot.right : (point.x + nextX) / 2;
       const band = svgEl('rect', { x: hitLeft, y: plot.top, width: hitRight - hitLeft, height: plot.bottom - plot.top, fill: 'transparent', tabindex: 0 });
-      const html = `<strong>${formatDate(point.week)}</strong><span>${formatTokens(point.tokens)} observed routed tokens</span>`;
+      const html = `<strong>${formatDate(point.week)}</strong><br>${formatTokens(point.tokens)} observed routed tokens`;
       band.addEventListener('mousemove', (event) => showTooltip(root, html, event));
       band.addEventListener('focus', (event) => showTooltip(root, html, event));
       band.addEventListener('mouseleave', () => hideTooltip(root));
@@ -273,7 +273,7 @@ const payload = JSON.stringify(chartData);
 
     top.forEach((point) => {
       const band = svgEl('rect', { x: point.x - 7, y: plot.top, width: 14, height: plot.bottom - plot.top, fill: 'transparent', tabindex: 0 });
-      const html = `<strong>${formatDate(point.week)}</strong><span>OSS: ${formatShare(point.oss)}<br>Proprietary: ${formatShare(point.proprietary)}</span>`;
+      const html = `<strong>${formatDate(point.week)}</strong><br>OSS: ${formatShare(point.oss)}<br>Proprietary: ${formatShare(point.proprietary)}`;
       band.addEventListener('mousemove', (event) => showTooltip(root, html, event));
       band.addEventListener('focus', (event) => showTooltip(root, html, event));
       band.addEventListener('mouseleave', () => hideTooltip(root));
@@ -324,7 +324,7 @@ const payload = JSON.stringify(chartData);
         'stroke-width': 1.4,
         tabindex: 0
       });
-      const html = `<strong>${product.label}</strong><span>${product.source}<br>${formatTokens(product.tokens)} tokens<br>${formatPrice(product.price_blended)} per 1M tokens<br>Elo proxy: ${Math.round(product.elo_overall)}</span>`;
+      const html = `<strong>${product.label}</strong><br>${product.source}<br>${formatTokens(product.tokens)} tokens<br>${formatPrice(product.price_blended)} per 1M tokens<br>Elo proxy: ${Math.round(product.elo_overall)}`;
       dot.addEventListener('mousemove', (event) => showTooltip(root, html, event));
       dot.addEventListener('focus', (event) => showTooltip(root, html, event));
       dot.addEventListener('mouseleave', () => hideTooltip(root));
