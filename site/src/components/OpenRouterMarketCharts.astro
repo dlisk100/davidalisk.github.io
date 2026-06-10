@@ -1,0 +1,343 @@
+---
+import chartData from '../data/openrouter-market-charts.json';
+
+const payload = JSON.stringify(chartData);
+---
+
+<div class="not-prose openrouter-viz" data-openrouter-viz>
+  <script type="application/json" data-openrouter-data set:html={payload} />
+
+  <figure class="openrouter-chart">
+    <div class="openrouter-chart-head">
+      <h3>Weekly OpenRouter-routed token volume</h3>
+      <p>Observed text-to-text routed usage in the research panel.</p>
+    </div>
+    <div class="openrouter-chart-frame" data-chart="volume" aria-label="Interactive weekly routed token volume chart"></div>
+  </figure>
+
+  <figure class="openrouter-chart">
+    <div class="openrouter-chart-head">
+      <h3>OSS vs proprietary share of routed tokens</h3>
+      <p>Token-weighted share of observed OpenRouter-routed usage.</p>
+    </div>
+    <div class="openrouter-chart-frame" data-chart="share" aria-label="Interactive OSS and proprietary token share chart"></div>
+  </figure>
+
+  <figure class="openrouter-chart">
+    <div class="openrouter-chart-head">
+      <h3>Price and quality across routed API products</h3>
+      <p>Provider-tier products are token-weighted across the final sample window.</p>
+    </div>
+    <div class="openrouter-chart-frame openrouter-chart-frame--scatter" data-chart="scatter" aria-label="Interactive price-quality scatter chart"></div>
+  </figure>
+
+  <div class="openrouter-tooltip" data-tooltip hidden></div>
+</div>
+
+<style>
+  .openrouter-viz {
+    --ink: hsl(var(--fg));
+    --muted: hsl(var(--muted));
+    --line: hsl(var(--border));
+    --paper: hsl(var(--bg));
+    --surface: hsl(var(--surface));
+    --accent-blue: #3b4d63;
+    --oss: #2f7f73;
+    --prop: #c96f4d;
+    position: relative;
+    display: grid;
+    gap: 1.5rem;
+    margin: 2rem 0;
+  }
+
+  .openrouter-chart {
+    margin: 0;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: color-mix(in srgb, var(--surface) 72%, transparent);
+    overflow: hidden;
+  }
+
+  .openrouter-chart-head {
+    padding: 1rem 1rem 0;
+  }
+
+  .openrouter-chart h3 {
+    margin: 0;
+    color: var(--ink);
+    font-family: var(--font-serif, serif);
+    font-size: 1.05rem;
+    font-weight: 500;
+    line-height: 1.25;
+  }
+
+  .openrouter-chart p {
+    margin: 0.25rem 0 0;
+    color: var(--muted);
+    font-size: 0.82rem;
+    line-height: 1.45;
+  }
+
+  .openrouter-chart-frame {
+    min-height: 320px;
+    padding: 0.75rem;
+  }
+
+  .openrouter-chart-frame svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+
+  .openrouter-tooltip {
+    position: fixed;
+    z-index: 60;
+    max-width: 240px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: color-mix(in srgb, var(--surface) 96%, white 4%);
+    box-shadow: 0 12px 28px rgb(0 0 0 / 14%);
+    color: var(--ink);
+    padding: 0.65rem 0.75rem;
+    font-size: 0.78rem;
+    line-height: 1.45;
+    pointer-events: none;
+  }
+
+  .openrouter-tooltip strong {
+    display: block;
+    margin-bottom: 0.15rem;
+    font-size: 0.82rem;
+  }
+
+  @media (max-width: 520px) {
+    .openrouter-chart-frame {
+      min-height: 280px;
+      padding: 0.5rem;
+    }
+
+    .openrouter-chart-head {
+      padding: 0.85rem 0.85rem 0;
+    }
+  }
+</style>
+
+<script>
+  const SVG_NS = 'http://www.w3.org/2000/svg';
+  const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+  function svgEl(name, attrs = {}) {
+    const el = document.createElementNS(SVG_NS, name);
+    Object.entries(attrs).forEach(([key, value]) => el.setAttribute(key, String(value)));
+    return el;
+  }
+
+  function formatDate(value) {
+    const date = new Date(`${value}T00:00:00Z`);
+    return `${MONTHS[date.getUTCMonth()]} ${date.getUTCDate()}, ${date.getUTCFullYear()}`;
+  }
+
+  function formatMonth(value) {
+    const date = new Date(`${value}T00:00:00Z`);
+    return `${MONTHS[date.getUTCMonth()]} ${date.getUTCFullYear()}`;
+  }
+
+  function formatTokens(value) {
+    return `${(value / 1e12).toFixed(2)}T`;
+  }
+
+  function formatShare(value) {
+    return `${Math.round(value * 1000) / 10}%`;
+  }
+
+  function formatPrice(value) {
+    if (value < 1) return `$${value.toFixed(2)}`;
+    if (value < 10) return `$${value.toFixed(1)}`;
+    return `$${Math.round(value)}`;
+  }
+
+  function linePath(points) {
+    return points.map((point, index) => `${index === 0 ? 'M' : 'L'}${point.x},${point.y}`).join(' ');
+  }
+
+  function showTooltip(root, html, event) {
+    const tooltip = root.querySelector('[data-tooltip]');
+    if (!tooltip) return;
+    tooltip.innerHTML = html;
+    tooltip.hidden = false;
+    const pad = 14;
+    const rect = tooltip.getBoundingClientRect();
+    const x = Math.min(window.innerWidth - rect.width - pad, event.clientX + pad);
+    const y = Math.min(window.innerHeight - rect.height - pad, event.clientY + pad);
+    tooltip.style.left = `${Math.max(pad, x)}px`;
+    tooltip.style.top = `${Math.max(pad, y)}px`;
+  }
+
+  function hideTooltip(root) {
+    const tooltip = root.querySelector('[data-tooltip]');
+    if (tooltip) tooltip.hidden = true;
+  }
+
+  function drawAxes(svg, plot, yTicks, yFormat, xLabels) {
+    yTicks.forEach((tick) => {
+      const y = plot.y(tick);
+      svg.append(svgEl('line', { x1: plot.left, x2: plot.right, y1: y, y2: y, stroke: 'var(--line)', 'stroke-width': 1 }));
+      const label = svgEl('text', { x: plot.left - 8, y: y + 4, 'text-anchor': 'end', fill: 'var(--muted)', 'font-size': 11 });
+      label.textContent = yFormat(tick);
+      svg.append(label);
+    });
+
+    xLabels.forEach((labelData) => {
+      const label = svgEl('text', { x: plot.x(labelData.value), y: plot.bottom + 24, 'text-anchor': 'middle', fill: 'var(--muted)', 'font-size': 11 });
+      label.textContent = labelData.label;
+      svg.append(label);
+    });
+  }
+
+  function makeSvg(frame, height = 340) {
+    frame.textContent = '';
+    const width = Math.max(340, frame.clientWidth || 680);
+    const svg = svgEl('svg', { viewBox: `0 0 ${width} ${height}`, role: 'img' });
+    frame.append(svg);
+    return { svg, width, height };
+  }
+
+  function renderVolume(root, frame, data) {
+    const { svg, width, height } = makeSvg(frame);
+    const plot = { left: 54, right: width - 18, top: 22, bottom: height - 46 };
+    const max = 10e12;
+    const x = (i) => plot.left + (i / (data.length - 1)) * (plot.right - plot.left);
+    const y = (v) => plot.bottom - (v / max) * (plot.bottom - plot.top);
+    plot.x = x;
+    plot.y = y;
+
+    drawAxes(svg, plot, [0, 2e12, 4e12, 6e12, 8e12, 10e12], formatTokens, [
+      { value: 1, label: 'Sep 2025' },
+      { value: 9, label: 'Nov 2025' },
+      { value: 18, label: 'Jan 2026' },
+      { value: 25, label: 'Feb 2026' },
+    ]);
+
+    const points = data.map((d, i) => ({ ...d, x: x(i), y: y(d.tokens) }));
+    const area = `${linePath(points)} L${plot.right},${plot.bottom} L${plot.left},${plot.bottom} Z`;
+    svg.append(svgEl('path', { d: area, fill: 'var(--accent-blue)', opacity: 0.14 }));
+    svg.append(svgEl('path', { d: linePath(points), fill: 'none', stroke: 'var(--accent-blue)', 'stroke-width': 3.2, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' }));
+
+    points.forEach((point, index) => {
+      const previousX = points[index - 1]?.x ?? plot.left;
+      const nextX = points[index + 1]?.x ?? plot.right;
+      const hitLeft = index === 0 ? plot.left : (previousX + point.x) / 2;
+      const hitRight = index === points.length - 1 ? plot.right : (point.x + nextX) / 2;
+      const band = svgEl('rect', { x: hitLeft, y: plot.top, width: hitRight - hitLeft, height: plot.bottom - plot.top, fill: 'transparent', tabindex: 0 });
+      const html = `<strong>${formatDate(point.week)}</strong>${formatTokens(point.tokens)} observed routed tokens`;
+      band.addEventListener('mousemove', (event) => showTooltip(root, html, event));
+      band.addEventListener('focus', (event) => showTooltip(root, html, event));
+      band.addEventListener('mouseleave', () => hideTooltip(root));
+      band.addEventListener('blur', () => hideTooltip(root));
+      svg.append(band);
+    });
+  }
+
+  function renderShare(root, frame, data) {
+    const { svg, width, height } = makeSvg(frame);
+    const plot = { left: 54, right: width - 18, top: 22, bottom: height - 46 };
+    const x = (i) => plot.left + (i / (data.length - 1)) * (plot.right - plot.left);
+    const y = (v) => plot.bottom - v * (plot.bottom - plot.top);
+    plot.x = x;
+    plot.y = y;
+
+    drawAxes(svg, plot, [0, 0.25, 0.5, 0.75, 1], formatShare, [
+      { value: 1, label: 'Sep 2025' },
+      { value: 9, label: 'Nov 2025' },
+      { value: 18, label: 'Jan 2026' },
+      { value: 25, label: 'Feb 2026' },
+    ]);
+
+    const top = data.map((d, i) => ({ ...d, x: x(i), y: y(d.oss) }));
+    svg.append(svgEl('path', { d: `M${plot.left},${plot.top} L${plot.right},${plot.top} L${plot.right},${plot.bottom} L${plot.left},${plot.bottom} Z`, fill: 'var(--prop)', opacity: 0.9 }));
+    svg.append(svgEl('path', { d: `${linePath(top)} L${plot.right},${plot.bottom} L${plot.left},${plot.bottom} Z`, fill: 'var(--oss)', opacity: 0.92 }));
+    svg.append(svgEl('path', { d: linePath(top), fill: 'none', stroke: 'var(--paper)', 'stroke-width': 2.5, opacity: 0.8 }));
+
+    [['OSS', 'var(--oss)', plot.left, plot.top + 18], ['Proprietary', 'var(--prop)', plot.left + 76, plot.top + 18]].forEach(([label, color, x0, y0]) => {
+      svg.append(svgEl('rect', { x: x0, y: Number(y0) - 10, width: 14, height: 10, fill: color }));
+      const text = svgEl('text', { x: Number(x0) + 20, y: y0, fill: 'var(--muted)', 'font-size': 12 });
+      text.textContent = label;
+      svg.append(text);
+    });
+
+    top.forEach((point) => {
+      const band = svgEl('rect', { x: point.x - 7, y: plot.top, width: 14, height: plot.bottom - plot.top, fill: 'transparent', tabindex: 0 });
+      const html = `<strong>${formatDate(point.week)}</strong>OSS: ${formatShare(point.oss)}<br>Proprietary: ${formatShare(point.proprietary)}`;
+      band.addEventListener('mousemove', (event) => showTooltip(root, html, event));
+      band.addEventListener('focus', (event) => showTooltip(root, html, event));
+      band.addEventListener('mouseleave', () => hideTooltip(root));
+      band.addEventListener('blur', () => hideTooltip(root));
+      svg.append(band);
+    });
+  }
+
+  function renderScatter(root, frame, data) {
+    const { svg, width, height } = makeSvg(frame, 370);
+    const plot = { left: 58, right: width - 22, top: 24, bottom: height - 50 };
+    const eloMin = 1190;
+    const eloMax = 1480;
+    const priceMin = Math.log10(0.025);
+    const priceMax = Math.log10(20);
+    const tokenMax = Math.max(...data.map((d) => d.tokens));
+    const x = (v) => plot.left + ((v - eloMin) / (eloMax - eloMin)) * (plot.right - plot.left);
+    const y = (v) => plot.bottom - ((Math.log10(v) - priceMin) / (priceMax - priceMin)) * (plot.bottom - plot.top);
+    plot.x = x;
+    plot.y = y;
+
+    drawAxes(svg, plot, [0.1, 1, 10], formatPrice, [
+      { value: 1210, label: '1210' },
+      { value: 1350, label: '1350' },
+      { value: 1470, label: '1470' },
+    ]);
+
+    const xLabel = svgEl('text', { x: (plot.left + plot.right) / 2, y: height - 12, 'text-anchor': 'middle', fill: 'var(--muted)', 'font-size': 11 });
+    xLabel.textContent = 'LM Arena-style Elo quality proxy';
+    svg.append(xLabel);
+
+    data.forEach((product) => {
+      const radius = 5 + 17 * Math.sqrt(product.tokens / tokenMax);
+      const dot = svgEl('circle', {
+        cx: x(product.elo_overall),
+        cy: y(product.price_blended),
+        r: radius,
+        fill: product.source === 'OSS' ? 'var(--oss)' : 'var(--prop)',
+        opacity: 0.82,
+        stroke: 'var(--paper)',
+        'stroke-width': 1.4,
+        tabindex: 0
+      });
+      const html = `<strong>${product.label}</strong>${product.source}<br>${formatTokens(product.tokens)} tokens<br>${formatPrice(product.price_blended)} per 1M tokens<br>Elo proxy: ${Math.round(product.elo_overall)}`;
+      dot.addEventListener('mousemove', (event) => showTooltip(root, html, event));
+      dot.addEventListener('focus', (event) => showTooltip(root, html, event));
+      dot.addEventListener('mouseleave', () => hideTooltip(root));
+      dot.addEventListener('blur', () => hideTooltip(root));
+      svg.append(dot);
+    });
+  }
+
+  function init(root) {
+    const dataNode = root.querySelector('[data-openrouter-data]');
+    if (!dataNode) return;
+    const data = JSON.parse(dataNode.textContent || '{}');
+    const render = () => {
+      root.querySelectorAll('[data-chart]').forEach((frame) => {
+        const kind = frame.getAttribute('data-chart');
+        if (kind === 'volume') renderVolume(root, frame, data.weekly);
+        if (kind === 'share') renderShare(root, frame, data.share);
+        if (kind === 'scatter') renderScatter(root, frame, data.products);
+      });
+    };
+
+    render();
+    const observer = new ResizeObserver(render);
+    root.querySelectorAll('[data-chart]').forEach((frame) => observer.observe(frame));
+  }
+
+  document.querySelectorAll('[data-openrouter-viz]').forEach(init);
+</script>

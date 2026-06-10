@@ -2,28 +2,27 @@
 title: "Substitution Across LLM API Products in the OpenRouter Market"
 summary: "A NYU Stern Glucksman research project studying demand, pricing, and OSS/proprietary substitution in a routed LLM API marketplace."
 tags: ["AI", "Economics", "OpenRouter", "Data", "Market Structure"]
-updated: "2026-04-21"
+updated: "2026-06-10"
 ---
+import OpenRouterMarketCharts from '../../components/OpenRouterMarketCharts.astro';
 
-- <a href="/papers/substitution-across-llm-api-products-openrouter-market.pdf" target="_blank" rel="noopener noreferrer">Read the paper PDF</a>
+- <a href="https://www.davidalisk.com/papers/substitution-across-llm-api-products-openrouter-market.pdf" target="_blank" rel="noopener noreferrer">Read the paper</a>
 - <a href="https://www.stern.nyu.edu/experience-stern/about/departments-centers-initiatives/centers-of-research/glucksman-institute-for-research-in-securities-markets/research/student-research-archive" target="_blank" rel="noopener noreferrer">NYU Stern Glucksman archive</a>
-- <a href="https://github.com/dlisk100/ai-llm-demand-elasticities" target="_blank" rel="noopener noreferrer">GitHub repo</a>
+- <a href="https://github.com/dlisk100/ai-llm-demand-elasticities" target="_blank" rel="noopener noreferrer">Project Github repo</a>
 
-This project began as my NYU Stern MBA research paper through the Glucksman Institute for Research in Securities Markets, advised by Professor Felix Montag.
+This was my NYU Stern MBA research project through the Glucksman Institute for Research in Securities Markets, advised by Professor Felix Montag.
 
-I wanted to study a question at the intersection of AI infrastructure, economics, and product strategy: are LLM API products becoming commodities, or does meaningful differentiation still structure competition?
+The question was practical: as developers get access to many LLMs through a single routing layer, do API products start to behave like commodities, or does market structure still show up in how users substitute across products?
 
-The short version: in the OpenRouter-routed market, competition does not look like one flat pool of interchangeable models. Substitution appears much stronger within the open-source/proprietary divide than across it.
+My answer is narrower, but more useful: in the OpenRouter-routed market, competition does not look like one flat pool of interchangeable models. Substitution appears much stronger within the open-source/proprietary divide than across it.
 
-![Weekly OpenRouter-routed token volume](/images/openrouter-market/openrouter-weekly-routed-tokens.png)
-
-*Observed text-to-text routed usage in the research panel.*
+<OpenRouterMarketCharts />
 
 ## Research Question
 
-LLM APIs are often discussed as if they are moving toward commodity infrastructure: cheaper tokens, many available models, and low switching costs for developers who already route calls through an aggregator.
+LLM APIs are often discussed as if they are moving toward commodity infrastructure: cheaper tokens, many available models, and lower switching costs for developers who already route calls through an aggregator.
 
-That intuition is partly right, but it leaves out a practical question: when usage shifts, does it shift across the whole market, or mostly among nearby products that users already treat as comparable?
+That intuition is partly right, but it leaves out the competitive question. When usage shifts, does it shift across the whole market, or mostly among products that users already treat as close substitutes?
 
 I focused on OpenRouter because it gives that question a concrete empirical setting. Many competing models are available through one routed API marketplace, prices are visible, and switching friction is lower than in a world where every provider has its own separate integration path.
 
@@ -37,59 +36,58 @@ The raw weekly panel covers 53 models, 11 providers, and 27 weeks from August 20
 
 ## What I Built
 
-I assembled a weekly panel of OpenRouter-routed model activity and prices, merged in an LM Arena-style quality proxy, and reconciled model aliases across data sources.
+I built the data pipeline and empirical panel behind the paper: OpenRouter-routed model activity, prices, model metadata, LM Arena-style quality signals, manual alias reconciliation, and final product labels.
 
 The data work included scraping and normalizing OpenRouter model activity, converting daily observations into a weekly model panel, joining price and quality signals, manually resolving model aliases, and labeling models by provider, open-source/proprietary status, generation status, and product bucket.
 
-The final estimation panel aggregates model-level observations to provider × bucket composite products. That aggregation matters: individual model prices barely moved during the sample, so the demand estimates are not estimates for individual named models. They are estimates for composite products such as a provider's flagship, balanced, or value bucket.
-
-![OSS vs proprietary share of routed tokens](/images/openrouter-market/openrouter-oss-proprietary-share.png)
-
-*Token-weighted share of observed OpenRouter-routed usage.*
+The final estimation panel aggregates model-level observations to provider x bucket composite products. That aggregation matters: individual model prices barely moved during the sample, so the demand estimates are not estimates for individual named models. They are estimates for composite products such as a provider's flagship, balanced, or value bucket.
 
 ## Main Result
 
-The preferred specification is a nested-logit IV demand model with open-source and proprietary nests. The empirical object is substitution across provider × bucket products inside the OpenRouter-routed market.
+The preferred specification is a nested-logit IV demand model with open-source and proprietary nests. The empirical object is substitution across provider x bucket products inside the OpenRouter-routed market.
 
-The headline result is segmentation: substitution is much stronger within the OSS/proprietary divide than across it. In the preferred model, average within-group cross-elasticity is about 0.126, average across-group cross-elasticity is about 0.008, and the implied within/across substitution ratio is about 14.9.
+| Result from preferred source-nest model | Estimate |
+| --- | ---: |
+| Observations in estimation panel | 456 |
+| Nested-logit substitution parameter | 0.780 |
+| First-stage diagnostic | 74.9 |
+| Average own-price elasticity | -0.78 |
+| Average within-group cross-elasticity | 0.126 |
+| Average across-group cross-elasticity | 0.008 |
+| Within/across substitution ratio | 14.9x |
 
-The same model implies an average own-price elasticity of about -0.78 at the composite-product level. I read the exact elasticity magnitude cautiously, but the structured substitution pattern is the more important result.
+The headline result is segmentation: substitution is much stronger within the OSS/proprietary divide than across it. The preferred model implies that within-group substitution is roughly 14.9 times stronger than across-group substitution.
 
-The segmentation finding remains stable under nearby outside-good calibrations and a stable-roster robustness check. That gives the result a useful interpretation: in this market, open-source and proprietary products appear to occupy meaningfully different competitive neighborhoods, even when they are distributed through the same routing layer.
-
-![Price and quality across routed API products](/images/openrouter-market/openrouter-price-quality-scatter.png)
-
-*Provider-tier products are token-weighted across the final sample window; marker size reflects routed token volume.*
+I read the exact elasticity magnitude cautiously, but the structured substitution pattern is the more important result. The segmentation finding remains stable under nearby outside-good calibrations and a stable-roster robustness check.
 
 ## Why It Matters
 
 For AI infrastructure, the result pushes against the simplest commodity story. Lower switching costs and shared routing do not necessarily erase product segmentation.
 
-For product strategy, it suggests that OSS/proprietary status is not just metadata. It may bundle differences in trust, deployment preference, performance expectations, cost structure, or buyer taste that shape substitution even when users can access models through the same marketplace.
+For product strategy, it suggests that OSS/proprietary status is not just metadata. It may bundle differences in trust, deployment preference, performance expectations, cost structure, buyer taste, or organizational constraints that shape substitution even when users can access models through the same marketplace.
 
 For economics, the project is a small example of how AI marketplace data can be used to study competition in a market that changes faster than traditional industry datasets usually capture.
-
-## What the Repo Reproduces
-
-The public GitHub repo focuses on reproducing the final empirical analysis from the released derived panel, rather than rebuilding the entire raw scraping pipeline.
-
-```bash
-python analysis/assemble_regression_data.py
-python analysis/run_nested_logit_berry.py
-```
-
-The normal public reproduction path starts from `data/final_panel_dataset.csv`, rebuilds the provider × bucket estimation panels, and regenerates the nested-logit IV results. The raw OpenRouter ingestion code is included for transparency, but it is not required to reproduce the paper's final tables.
 
 ## Limits
 
 Scope matters. This is a study of OpenRouter-routed API usage, not all LLM inference.
 
-The estimates are for provider × bucket composite products, not individual named models. The outside option is calibrated rather than directly observed. Exact elasticity levels should be read with care, especially because the market was evolving quickly during the sample.
+The estimates are for provider x bucket composite products, not individual named models. The outside option is calibrated rather than directly observed. Exact elasticity levels should be read with care, especially because the market was evolving quickly during the sample.
 
 The main takeaway is the pattern: within this routed marketplace, substitution appears structured by the OSS/proprietary divide rather than behaving like one undifferentiated pool of API products.
 
+## What I Learned
+
+The project became a lesson in how much empirical AI work depends on the boring, load-bearing parts of data infrastructure.
+
+The hardest part was not running the final demand model. It was building a reliable path from visible marketplace activity to an analysis-ready panel: collecting usage signals, handling dynamic model pages, reconciling aliases, deciding when two names referred to the same underlying product, and preserving enough metadata to make the final econometrics interpretable.
+
+I also learned that portfolio-quality research code needs a different shape than exploratory research code. The final public repo had to separate the clean reproduction spine from exploratory notebooks, generated bundles, and raw ingestion machinery. That forced a useful discipline: make the final panel auditable, make the analysis commands boring, and keep the public claims scoped to what the data can actually support.
+
+The most useful product lesson was that routing layers do not automatically flatten markets. Even in a shared API marketplace, product identity still matters. The open-source/proprietary divide behaved less like a label and more like a market boundary.
+
 ## Links
 
-- [Paper PDF](/papers/substitution-across-llm-api-products-openrouter-market.pdf)
+- [Read the paper](https://www.davidalisk.com/papers/substitution-across-llm-api-products-openrouter-market.pdf)
 - [NYU Stern Glucksman student research archive](https://www.stern.nyu.edu/experience-stern/about/departments-centers-initiatives/centers-of-research/glucksman-institute-for-research-in-securities-markets/research/student-research-archive)
-- [GitHub: dlisk100/ai-llm-demand-elasticities](https://github.com/dlisk100/ai-llm-demand-elasticities)
+- [Project Github repo](https://github.com/dlisk100/ai-llm-demand-elasticities)
