@@ -111,6 +111,10 @@ const payload = JSON.stringify(chartData);
     font-size: 0.82rem;
   }
 
+  .openrouter-tooltip span {
+    display: block;
+  }
+
   @media (max-width: 520px) {
     .openrouter-chart-frame {
       min-height: 280px;
@@ -230,7 +234,7 @@ const payload = JSON.stringify(chartData);
       const hitLeft = index === 0 ? plot.left : (previousX + point.x) / 2;
       const hitRight = index === points.length - 1 ? plot.right : (point.x + nextX) / 2;
       const band = svgEl('rect', { x: hitLeft, y: plot.top, width: hitRight - hitLeft, height: plot.bottom - plot.top, fill: 'transparent', tabindex: 0 });
-      const html = `<strong>${formatDate(point.week)}</strong>${formatTokens(point.tokens)} observed routed tokens`;
+      const html = `<strong>${formatDate(point.week)}</strong><span>${formatTokens(point.tokens)} observed routed tokens</span>`;
       band.addEventListener('mousemove', (event) => showTooltip(root, html, event));
       band.addEventListener('focus', (event) => showTooltip(root, html, event));
       band.addEventListener('mouseleave', () => hideTooltip(root));
@@ -246,6 +250,7 @@ const payload = JSON.stringify(chartData);
     const y = (v) => plot.bottom - v * (plot.bottom - plot.top);
     plot.x = x;
     plot.y = y;
+    plot.top = 42;
 
     drawAxes(svg, plot, [0, 0.25, 0.5, 0.75, 1], formatShare, [
       { value: 1, label: 'Sep 2025' },
@@ -259,7 +264,7 @@ const payload = JSON.stringify(chartData);
     svg.append(svgEl('path', { d: `${linePath(top)} L${plot.right},${plot.bottom} L${plot.left},${plot.bottom} Z`, fill: 'var(--oss)', opacity: 0.92 }));
     svg.append(svgEl('path', { d: linePath(top), fill: 'none', stroke: 'var(--paper)', 'stroke-width': 2.5, opacity: 0.8 }));
 
-    [['OSS', 'var(--oss)', plot.left, plot.top + 18], ['Proprietary', 'var(--prop)', plot.left + 76, plot.top + 18]].forEach(([label, color, x0, y0]) => {
+    [['OSS', 'var(--oss)', plot.left, 20], ['Proprietary', 'var(--prop)', plot.left + 76, 20]].forEach(([label, color, x0, y0]) => {
       svg.append(svgEl('rect', { x: x0, y: Number(y0) - 10, width: 14, height: 10, fill: color }));
       const text = svgEl('text', { x: Number(x0) + 20, y: y0, fill: 'var(--muted)', 'font-size': 12 });
       text.textContent = label;
@@ -268,7 +273,7 @@ const payload = JSON.stringify(chartData);
 
     top.forEach((point) => {
       const band = svgEl('rect', { x: point.x - 7, y: plot.top, width: 14, height: plot.bottom - plot.top, fill: 'transparent', tabindex: 0 });
-      const html = `<strong>${formatDate(point.week)}</strong>OSS: ${formatShare(point.oss)}<br>Proprietary: ${formatShare(point.proprietary)}`;
+      const html = `<strong>${formatDate(point.week)}</strong><span>OSS: ${formatShare(point.oss)}<br>Proprietary: ${formatShare(point.proprietary)}</span>`;
       band.addEventListener('mousemove', (event) => showTooltip(root, html, event));
       band.addEventListener('focus', (event) => showTooltip(root, html, event));
       band.addEventListener('mouseleave', () => hideTooltip(root));
@@ -300,6 +305,13 @@ const payload = JSON.stringify(chartData);
     xLabel.textContent = 'LM Arena-style Elo quality proxy';
     svg.append(xLabel);
 
+    [['OSS', 'var(--oss)', plot.left, 20], ['Proprietary', 'var(--prop)', plot.left + 76, 20]].forEach(([label, color, x0, y0]) => {
+      svg.append(svgEl('circle', { cx: x0, cy: Number(y0) - 4, r: 5, fill: color, opacity: 0.86 }));
+      const text = svgEl('text', { x: Number(x0) + 12, y: y0, fill: 'var(--muted)', 'font-size': 12 });
+      text.textContent = label;
+      svg.append(text);
+    });
+
     data.forEach((product) => {
       const radius = 5 + 17 * Math.sqrt(product.tokens / tokenMax);
       const dot = svgEl('circle', {
@@ -312,7 +324,7 @@ const payload = JSON.stringify(chartData);
         'stroke-width': 1.4,
         tabindex: 0
       });
-      const html = `<strong>${product.label}</strong>${product.source}<br>${formatTokens(product.tokens)} tokens<br>${formatPrice(product.price_blended)} per 1M tokens<br>Elo proxy: ${Math.round(product.elo_overall)}`;
+      const html = `<strong>${product.label}</strong><span>${product.source}<br>${formatTokens(product.tokens)} tokens<br>${formatPrice(product.price_blended)} per 1M tokens<br>Elo proxy: ${Math.round(product.elo_overall)}</span>`;
       dot.addEventListener('mousemove', (event) => showTooltip(root, html, event));
       dot.addEventListener('focus', (event) => showTooltip(root, html, event));
       dot.addEventListener('mouseleave', () => hideTooltip(root));
