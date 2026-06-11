@@ -36,11 +36,11 @@ const payload = JSON.stringify(chartData);
 
 <style>
   .openrouter-viz {
-    --ink: hsl(var(--fg));
-    --muted: hsl(var(--muted));
-    --line: hsl(var(--border));
-    --paper: hsl(var(--bg));
-    --surface: hsl(var(--surface));
+    --chart-ink: hsl(var(--fg));
+    --chart-muted: hsl(var(--muted));
+    --chart-line: hsl(var(--border));
+    --chart-paper: hsl(var(--bg));
+    --chart-surface: hsl(var(--surface));
     --accent-blue: #3b4d63;
     --oss: #2f7f73;
     --prop: #c96f4d;
@@ -52,9 +52,9 @@ const payload = JSON.stringify(chartData);
 
   .openrouter-chart {
     margin: 0;
-    border: 1px solid var(--line);
+    border: 1px solid var(--chart-line);
     border-radius: 8px;
-    background: color-mix(in srgb, var(--surface) 72%, transparent);
+    background: color-mix(in srgb, var(--chart-surface) 72%, transparent);
     overflow: hidden;
   }
 
@@ -64,7 +64,7 @@ const payload = JSON.stringify(chartData);
 
   .openrouter-chart h3 {
     margin: 0;
-    color: var(--ink);
+    color: var(--chart-ink);
     font-family: var(--font-serif, serif);
     font-size: 1.05rem;
     font-weight: 500;
@@ -73,7 +73,7 @@ const payload = JSON.stringify(chartData);
 
   .openrouter-chart p {
     margin: 0.25rem 0 0;
-    color: var(--muted);
+    color: var(--chart-muted);
     font-size: 0.82rem;
     line-height: 1.45;
   }
@@ -94,11 +94,11 @@ const payload = JSON.stringify(chartData);
     position: fixed;
     z-index: 60;
     max-width: 240px;
-    border: 1px solid color-mix(in srgb, var(--line) 80%, var(--ink) 20%);
+    border: 1px solid color-mix(in srgb, var(--chart-line) 80%, var(--chart-ink) 20%);
     border-radius: 8px;
-    background: var(--surface);
+    background: #fbfaf7;
     box-shadow: 0 16px 36px rgb(0 0 0 / 22%);
-    color: var(--ink);
+    color: var(--chart-ink);
     padding: 0.65rem 0.75rem;
     font-size: 0.78rem;
     line-height: 1.45;
@@ -186,14 +186,14 @@ const payload = JSON.stringify(chartData);
   function drawAxes(svg, plot, yTicks, yFormat, xLabels) {
     yTicks.forEach((tick) => {
       const y = plot.y(tick);
-      svg.append(svgEl('line', { x1: plot.left, x2: plot.right, y1: y, y2: y, stroke: 'var(--line)', 'stroke-width': 1 }));
-      const label = svgEl('text', { x: plot.left - 8, y: y + 4, 'text-anchor': 'end', fill: 'var(--muted)', 'font-size': 11 });
+      svg.append(svgEl('line', { x1: plot.left, x2: plot.right, y1: y, y2: y, stroke: 'var(--chart-line)', 'stroke-width': 1 }));
+      const label = svgEl('text', { x: plot.left - 8, y: y + 4, 'text-anchor': 'end', fill: 'var(--chart-muted)', 'font-size': 11 });
       label.textContent = yFormat(tick);
       svg.append(label);
     });
 
     xLabels.forEach((labelData) => {
-      const label = svgEl('text', { x: plot.x(labelData.value), y: plot.bottom + 24, 'text-anchor': 'middle', fill: 'var(--muted)', 'font-size': 11 });
+      const label = svgEl('text', { x: plot.x(labelData.value), y: plot.bottom + 24, 'text-anchor': 'middle', fill: 'var(--chart-muted)', 'font-size': 11 });
       label.textContent = labelData.label;
       svg.append(label);
     });
@@ -262,11 +262,11 @@ const payload = JSON.stringify(chartData);
     const top = data.map((d, i) => ({ ...d, x: x(i), y: y(d.oss) }));
     svg.append(svgEl('path', { d: `M${plot.left},${plot.top} L${plot.right},${plot.top} L${plot.right},${plot.bottom} L${plot.left},${plot.bottom} Z`, fill: 'var(--prop)', opacity: 0.9 }));
     svg.append(svgEl('path', { d: `${linePath(top)} L${plot.right},${plot.bottom} L${plot.left},${plot.bottom} Z`, fill: 'var(--oss)', opacity: 0.92 }));
-    svg.append(svgEl('path', { d: linePath(top), fill: 'none', stroke: 'var(--paper)', 'stroke-width': 2.5, opacity: 0.8 }));
+    svg.append(svgEl('path', { d: linePath(top), fill: 'none', stroke: 'var(--chart-paper)', 'stroke-width': 2.5, opacity: 0.8 }));
 
     [['OSS', 'var(--oss)', plot.left, 20], ['Proprietary', 'var(--prop)', plot.left + 76, 20]].forEach(([label, color, x0, y0]) => {
       svg.append(svgEl('rect', { x: x0, y: Number(y0) - 10, width: 14, height: 10, fill: color }));
-      const text = svgEl('text', { x: Number(x0) + 20, y: y0, fill: 'var(--muted)', 'font-size': 12 });
+      const text = svgEl('text', { x: Number(x0) + 20, y: y0, fill: 'var(--chart-muted)', 'font-size': 12 });
       text.textContent = label;
       svg.append(text);
     });
@@ -301,13 +301,13 @@ const payload = JSON.stringify(chartData);
       { value: 1470, label: '1470' },
     ]);
 
-    const xLabel = svgEl('text', { x: (plot.left + plot.right) / 2, y: height - 12, 'text-anchor': 'middle', fill: 'var(--muted)', 'font-size': 11 });
+    const xLabel = svgEl('text', { x: (plot.left + plot.right) / 2, y: height - 12, 'text-anchor': 'middle', fill: 'var(--chart-muted)', 'font-size': 11 });
     xLabel.textContent = 'LM Arena-style Elo quality proxy';
     svg.append(xLabel);
 
     [['OSS', 'var(--oss)', plot.left, 20], ['Proprietary', 'var(--prop)', plot.left + 76, 20]].forEach(([label, color, x0, y0]) => {
       svg.append(svgEl('circle', { cx: x0, cy: Number(y0) - 4, r: 5, fill: color, opacity: 0.86 }));
-      const text = svgEl('text', { x: Number(x0) + 12, y: y0, fill: 'var(--muted)', 'font-size': 12 });
+      const text = svgEl('text', { x: Number(x0) + 12, y: y0, fill: 'var(--chart-muted)', 'font-size': 12 });
       text.textContent = label;
       svg.append(text);
     });
@@ -320,7 +320,7 @@ const payload = JSON.stringify(chartData);
         r: radius,
         fill: product.source === 'OSS' ? 'var(--oss)' : 'var(--prop)',
         opacity: 0.82,
-        stroke: 'var(--paper)',
+        stroke: 'var(--chart-paper)',
         'stroke-width': 1.4,
         tabindex: 0
       });
