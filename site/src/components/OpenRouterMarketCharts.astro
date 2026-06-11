@@ -271,15 +271,22 @@ const payload = JSON.stringify(chartData);
       svg.append(text);
     });
 
-    top.forEach((point) => {
-      const band = svgEl('rect', { x: point.x - 7, y: plot.top, width: 14, height: plot.bottom - plot.top, fill: 'transparent', tabindex: 0 });
+    const hitLayer = svgEl('rect', { x: plot.left, y: plot.top, width: plot.right - plot.left, height: plot.bottom - plot.top, fill: 'transparent', tabindex: 0 });
+    const showSharePoint = (event, point) => {
       const html = `<strong>${formatDate(point.week)}</strong><br>OSS: ${formatShare(point.oss)}<br>Proprietary: ${formatShare(point.proprietary)}`;
-      band.addEventListener('mousemove', (event) => showTooltip(root, html, event));
-      band.addEventListener('focus', (event) => showTooltip(root, html, event));
-      band.addEventListener('mouseleave', () => hideTooltip(root));
-      band.addEventListener('blur', () => hideTooltip(root));
-      svg.append(band);
+      showTooltip(root, html, event);
+    };
+    hitLayer.addEventListener('mousemove', (event) => {
+      const rect = svg.getBoundingClientRect();
+      const localX = (event.clientX - rect.left) * (width / rect.width);
+      const ratio = Math.min(1, Math.max(0, (localX - plot.left) / (plot.right - plot.left)));
+      const index = Math.round(ratio * (top.length - 1));
+      showSharePoint(event, top[index]);
     });
+    hitLayer.addEventListener('focus', (event) => showSharePoint(event, top[top.length - 1]));
+    hitLayer.addEventListener('mouseleave', () => hideTooltip(root));
+    hitLayer.addEventListener('blur', () => hideTooltip(root));
+    svg.append(hitLayer);
   }
 
   function renderScatter(root, frame, data) {
