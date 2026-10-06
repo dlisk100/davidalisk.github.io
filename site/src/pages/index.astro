@@ -9,8 +9,29 @@ import LinkCard from '../components/LinkCard.astro';
 			Mechanical Engineer | NYU Stern MBA
 		</p>
 		<p class="text-lg text-fg leading-relaxed mb-4 max-w-[60ch]">
-			I build with AI and work where technical products, customers, and go-to-market meet. I've built and shipped production AI agents that get used in the real world.
+			I build and deploy AI systems for real operations: production agents, data pipelines, and research on AI markets.
 		</p>
+	</section>
+
+	<section class="mb-12">
+		<h2 class="font-serif text-xl font-medium text-fg mb-4">Selected work</h2>
+		<div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+			<LinkCard
+				href="/projects/openrouter-llm-substitution"
+				title="LLM Substitution on OpenRouter"
+				subtitle="NYU Stern research: data pipeline and demand model across 53 LLMs"
+			/>
+			<LinkCard
+				href="/writing/industrial-vibe-coding"
+				title="The Embedded Toolmaker"
+				subtitle="Why AI-built tools are the future of industrial operations"
+			/>
+			<LinkCard
+				href="/projects/the-film-atlas"
+				title="The Film Atlas"
+				subtitle="An interactive map of 10,000 films, built with embeddings and clustering"
+			/>
+		</div>
 	</section>
 
 	<section>
