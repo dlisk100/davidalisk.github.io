@@ -1,0 +1,160 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Implemented U.S. Freight Atlas architecture, from public annual datasets through offline modeling to static browser exploration."><title>Freight Atlas · System architecture</title><style>
+:root{color-scheme:light}*{box-sizing:border-box}body{margin:0;background:#f5efdd;color:#302b24;font-family:system-ui,sans-serif}main{max-width:1664px;margin:auto;padding:24px 32px 40px}.diagram{margin:0;border:1px solid #c5b69b;border-radius:16px;overflow:hidden;box-shadow:0 8px 34px #49331c12}.diagram svg{display:block;width:100%;height:auto}.reading{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin-top:26px}.note{border-top:2px solid #a55d37;padding-top:15px}.note:nth-child(2){border-color:#476c65}.note h2{font-family:Georgia,serif;font-size:25px;margin:0 0 10px}.note p,.note li{font-size:16px;line-height:1.65}.note p{margin:0 0 12px}.note ul{padding-left:20px;margin:0}footer{margin-top:26px;border-top:1px solid #c5b69b;padding-top:16px;font-size:14px;line-height:1.6;overflow-wrap:anywhere}a{color:#476c65;text-underline-offset:3px}@media(max-width:700px){main{padding:12px}.reading{grid-template-columns:1fr;gap:22px}.note h2{font-size:24px}.note p,.note li{font-size:16px}.diagram{border-radius:9px}}@media print{main{padding:0}.diagram{box-shadow:none}.reading{break-inside:avoid}body{background:white}}</style></head><body><main><figure class="diagram" aria-label="End-to-end system architecture"><svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1800" viewBox="0 0 1600 1800" role="img" aria-labelledby="diagram-title diagram-desc">
+<title id="diagram-title">U.S. Freight Atlas — from public records to a place on the map</title>
+<desc id="diagram-desc">Build-time public data ingestion, mode-specific estimates, compact facts and geometry packaging feed a static Vercel release. The browser prepares a genuine usable scene, renders Canvas freight networks and SVG geography and labels, picks local places, and stores or shares views. Annual snapshots, not live traffic; no inference server.</desc>
+<defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="#d9cebb" stroke-width=".5"/></pattern>
+<marker id="arrow-build" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#a55d37"/></marker>
+<marker id="arrow-browser" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#476c65"/></marker></defs>
+<style>text{font-family:'DejaVu Sans',sans-serif;fill:#302b24}.body{fill:#51483e}.title{font-weight:700}.kicker{font-weight:700;letter-spacing:1.5px}.kicker.build{fill:#a55d37}.kicker.browser{fill:#476c65}.card{stroke-width:1.3;fill-opacity:0}.card.build{stroke:#b99678}.card.browser{stroke:#7e9c8d}.flow{fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}.flow.build{stroke:#a55d37}.flow.browser{stroke:#476c65}</style>
+<rect width="1600" height="1800" fill="#f5efdd"/><rect width="1600" height="1800" fill="url(#grid)"/>
+
+<text x="60" y="48" font-size="14" class="kicker build">SYSTEM PLATE  /  IMPLEMENTED PUBLIC RELEASE</text>
+<text x="60" y="100" font-size="39" class="title">From public records to a place on the map</text>
+<text x="60" y="135" font-size="21" class="body">U.S. Freight Atlas · Annual source snapshots, prepared offline and explored in your browser.</text>
+<rect x="40" y="170" width="1520" height="680" rx="18" fill="#efe3ce" stroke="#b99678" stroke-dasharray="8 5"/>
+<rect x="40" y="890" width="1520" height="800" rx="18" fill="#e6e9dd" stroke="#7e9c8d" stroke-dasharray="8 5"/>
+<text x="65" y="203" font-size="17" class="kicker build">01  BUILD-TIME</text>
+<text x="300" y="203" font-size="18" class="body">Public releases → checked derivatives → deployable static assets</text>
+<text x="65" y="923" font-size="17" class="kicker browser">02  BROWSER-TIME</text>
+<text x="900" y="923" font-size="18" class="body">Download → prepare → render → inspect and return</text>
+<path d="M300 377V392" class="flow build" marker-end="url(#arrow-build)"/>
+<path d="M800 377V392" class="flow build" marker-end="url(#arrow-build)"/>
+<path d="M1300 377V392" class="flow build" marker-end="url(#arrow-build)"/>
+<path d="M300 392H1300 M800 392V412" class="flow build" marker-end="url(#arrow-build)"/>
+<path d="M800 502V522" class="flow build" marker-end="url(#arrow-build)"/>
+<path d="M300 522H1300" class="flow build"/>
+<path d="M300 522V542" class="flow build" marker-end="url(#arrow-build)"/>
+<path d="M800 522V542" class="flow build" marker-end="url(#arrow-build)"/>
+<path d="M1300 522V542" class="flow build" marker-end="url(#arrow-build)"/>
+<path d="M300 687V705" class="flow build" marker-end="url(#arrow-build)"/>
+<path d="M800 687V705" class="flow build" marker-end="url(#arrow-build)"/>
+<path d="M1300 687V705" class="flow build" marker-end="url(#arrow-build)"/>
+<path d="M300 705H1300 M800 705V725" class="flow build" marker-end="url(#arrow-build)"/>
+<path d="M800 830V860" class="flow build" marker-end="url(#arrow-build)"/>
+<path d="M800 860V946" class="flow browser" marker-end="url(#arrow-browser)"/>
+<path d="M800 1036V1076" class="flow browser" marker-end="url(#arrow-browser)"/>
+<path d="M800 1186V1226" class="flow browser" marker-end="url(#arrow-browser)"/>
+<path d="M300 1326V1366" class="flow browser" marker-end="url(#arrow-browser)"/>
+<path d="M520 1460H560" class="flow browser" marker-end="url(#arrow-browser)"/>
+<path d="M1020 1460H1060" class="flow browser" marker-end="url(#arrow-browser)"/>
+<g class="component" data-card="Demand &amp; physical networks"><rect x="80" y="227" width="440" height="150" rx="12" fill="#fffaf0"/><rect x="80" y="227" width="440" height="150" rx="12" class="card build"/>
+<text x="103" y="251" font-size="12" class="kicker build">PUBLIC SOURCES / FREIGHT</text>
+<text x="103" y="281" font-size="23" class="title">Demand &amp; physical networks</text>
+<text x="103" y="303" font-size="16" class="body">FAF 5.7.1: preliminary 2024; BEA county</text>
+<text x="103" y="324" font-size="16" class="body">weights: 2024.</text>
+<text x="103" y="347" font-size="16" class="body">FHWA highways, BTS rail, USACE waterways and</text>
+<text x="103" y="368" font-size="16" class="body">EIA pipelines: retained geometry snapshots.</text>
+</g>
+<g class="component" data-card="Cargo, trade &amp; water controls"><rect x="580" y="227" width="440" height="150" rx="12" fill="#fffaf0"/><rect x="580" y="227" width="440" height="150" rx="12" class="card build"/>
+<text x="603" y="251" font-size="12" class="kicker build">PUBLIC SOURCES / GATEWAYS</text>
+<text x="603" y="281" font-size="23" class="title">Cargo, trade &amp; water controls</text>
+<text x="603" y="303" font-size="18" class="body">BTS T-100 + Census customs: 2025.</text>
+<text x="603" y="328" font-size="18" class="body">USACE link tons: 2023; LPMS locks: 2023 /</text>
+<text x="603" y="351" font-size="18" class="body">2025; EIA calibration controls: 2024 / 2025.</text>
+</g>
+<g class="component" data-card="Output &amp; geographic context"><rect x="1080" y="227" width="440" height="150" rx="12" fill="#fffaf0"/><rect x="1080" y="227" width="440" height="150" rx="12" class="card build"/>
+<text x="1103" y="251" font-size="12" class="kicker build">PUBLIC SOURCES / PRODUCTION</text>
+<text x="1103" y="281" font-size="23" class="title">Output &amp; geographic context</text>
+<text x="1103" y="303" font-size="17" class="body">NASS + Economic Census: 2022; CDFA: 2023,</text>
+<text x="1103" y="325" font-size="17" class="body">some 2022.</text>
+<text x="1103" y="349" font-size="17" class="body">EIA / MSHA / USGS: 2025 output; coal price:</text>
+<text x="1103" y="371" font-size="17" class="body">2024; Census boundaries: 2024.</text>
+</g>
+<g class="component" data-card="Keep source scope, actual year and units"><rect x="80" y="412" width="1440" height="90" rx="12" fill="#fffaf0"/><rect x="80" y="412" width="1440" height="90" rx="12" class="card build"/>
+<text x="103" y="436" font-size="12" class="kicker build">INGESTION + VALIDATION</text>
+<text x="103" y="466" font-size="25" class="title">Keep source scope, actual year and units</text>
+</g>
+<text x="103" y="485" font-size="20" class="body">Parse retained tables / extracts · join stable IDs · convert units · preserve withheld / unknown · reconcile aggregates</text>
+<g class="component" data-card="Roads &amp; rail"><rect x="80" y="542" width="440" height="150" rx="12" fill="#fffaf0"/><rect x="80" y="542" width="440" height="150" rx="12" class="card build"/>
+<text x="103" y="566" font-size="12" class="kicker build">ADDITIONAL ATLAS MODELING</text>
+<text x="103" y="596" font-size="25" class="title">Roads &amp; rail</text>
+<text x="103" y="618" font-size="17" class="body">County-weighted FAF demand → least-cost</text>
+<text x="103" y="640" font-size="17" class="body">paths → local edge tons / dollars.</text>
+<text x="103" y="664" font-size="17" class="body">Not traffic counts or tracked routes;</text>
+<text x="103" y="686" font-size="17" class="body">within-region freight stays in regional totals.</text>
+</g>
+<g class="component" data-card="Water &amp; pipelines"><rect x="580" y="542" width="440" height="150" rx="12" fill="#fffaf0"/><rect x="580" y="542" width="440" height="150" rx="12" class="card build"/>
+<text x="603" y="566" font-size="12" class="kicker build">ADDITIONAL ATLAS MODELING</text>
+<text x="603" y="596" font-size="25" class="title">Water &amp; pipelines</text>
+<text x="603" y="618" font-size="16" class="body">Water: observed 2023 link tons × lock ratios →</text>
+<text x="603" y="639" font-size="16" class="body">estimated 2025.</text>
+<text x="603" y="662" font-size="16" class="body">Pipelines: EIA-calibrated FAF demand →</text>
+<text x="603" y="683" font-size="16" class="body">incremental assignment; local flow is estimated.</text>
+</g>
+<g class="component" data-card="Places &amp; producing areas"><rect x="1080" y="542" width="440" height="150" rx="12" fill="#fffaf0"/><rect x="1080" y="542" width="440" height="150" rx="12" class="card build"/>
+<text x="1103" y="566" font-size="12" class="kicker build">AGGREGATION + ALLOCATION</text>
+<text x="1103" y="596" font-size="25" class="title">Places &amp; producing areas</text>
+<text x="1103" y="618" font-size="17" class="body">Reported trade / handling / output remain</text>
+<text x="1103" y="640" font-size="17" class="body">separate measures.</text>
+<text x="1103" y="664" font-size="17" class="body">Airport dollars are allocated; oil, gas and coal</text>
+<text x="1103" y="686" font-size="17" class="body">values use price proxies. State ≠ local.</text>
+</g>
+<g class="component" data-card="Compact facts + geometry + discoverability"><rect x="80" y="725" width="1440" height="105" rx="12" fill="#fffaf0"/><rect x="80" y="725" width="1440" height="105" rx="12" class="card build"/>
+<text x="103" y="749" font-size="12" class="kicker build">GENERATED RELEASE ASSETS</text>
+<text x="103" y="779" font-size="25" class="title">Compact facts + geometry + discoverability</text>
+<text x="103" y="801" font-size="16" class="body">Numeric buffers; plate / core facts; admission recipes and dependencies; national coarse geometry; spatial + LOD tiles.</text>
+<text x="103" y="824" font-size="16" class="body">Explore catalog and source identities; metric registry → Methods / Data. Public build keeps reachable assets only.</text>
+</g>
+<g class="component" data-card="HTML, CSS, JavaScript, fonts and compressed data"><rect x="80" y="946" width="1440" height="90" rx="12" fill="#fffaf0"/><rect x="80" y="946" width="1440" height="90" rx="12" class="card browser"/>
+<text x="103" y="970" font-size="12" class="kicker browser">STATIC DELIVERY / VERCEL</text>
+<text x="103" y="1000" font-size="25" class="title">HTML, CSS, JavaScript, fonts and compressed data</text>
+</g>
+<text x="103" y="1019" font-size="20" class="body">FRB1 root bundle retains original gzip members; directory, coarse assets and fine-detail tiles stay static files.</text>
+<g class="component" data-card="Gathering the map → Preparing the flow network → Ready to explore"><rect x="80" y="1076" width="1440" height="110" rx="12" fill="#fffaf0"/><rect x="80" y="1076" width="1440" height="110" rx="12" class="card browser"/>
+<text x="103" y="1100" font-size="12" class="kicker browser">GENUINE STARTUP WORK</text>
+<text x="103" y="1130" font-size="25" class="title">Gathering the map → Preparing the flow network → Ready to explore</text>
+<text x="103" y="1152" font-size="20" class="body">Inflate / validate buffers; resolve projection-specific admission; build viewport index; decode and project coarse roads.</text>
+<text x="103" y="1179" font-size="20" class="body">Check render / pick dependencies, then settle the initial scene. Ready follows completed work, not a timer.</text>
+</g>
+<g class="component" data-card="One continuous map; source quantities do not change with zoom"><rect x="80" y="1226" width="1440" height="110" rx="12" fill="#fffaf0"/><rect x="80" y="1226" width="1440" height="110" rx="12" class="card browser"/>
+<text x="103" y="1250" font-size="12" class="kicker browser">CAMERA + VIEW ELIGIBILITY</text>
+<text x="103" y="1280" font-size="25" class="title">One continuous map; source quantities do not change with zoom</text>
+<text x="103" y="1302" font-size="20" class="body">D3 conic equal-area projection + pan / zoom → viewport admission, visible owners, geometry LOD and label priorities.</text>
+<text x="103" y="1329" font-size="20" class="body">Fine detail loads on demand with pending / retry states; bounded compressed-only idle prefetch starts after Ready.</text>
+</g>
+<g class="component" data-card="Canvas + SVG"><rect x="80" y="1366" width="440" height="205" rx="12" fill="#fffaf0"/><rect x="80" y="1366" width="440" height="205" rx="12" class="card browser"/>
+<text x="103" y="1390" font-size="12" class="kicker browser">DISPLAY / MAIN THREAD</text>
+<text x="103" y="1420" font-size="25" class="title">Canvas + SVG</text>
+<text x="103" y="1442" font-size="18" class="body">Canvas: freight ribbons, places and</text>
+<text x="103" y="1465" font-size="18" class="body">production context.</text>
+<text x="103" y="1490" font-size="18" class="body">SVG: geography, labels and insets.</text>
+<text x="103" y="1515" font-size="18" class="body">Gesture: transform current bitmap +</text>
+<text x="103" y="1538" font-size="18" class="body">labels; settle → same exact renderer.</text>
+<text x="103" y="1561" font-size="18" class="body">Picking pauses while moving.</text>
+</g>
+<g class="component" data-card="Local identity → marker → card"><rect x="560" y="1366" width="460" height="205" rx="12" fill="#fffaf0"/><rect x="560" y="1366" width="460" height="205" rx="12" class="card browser"/>
+<text x="583" y="1390" font-size="12" class="kicker browser">CLICKED-PLACE INSPECTION</text>
+<text x="583" y="1420" font-size="23" class="title">Local identity → marker → card</text>
+<text x="583" y="1442" font-size="18" class="body">Pick an eligible visible interval or site / area</text>
+<text x="583" y="1465" font-size="18" class="body">at the actual location.</text>
+<text x="583" y="1490" font-size="18" class="body">Preserve source-edge quantities; show year,</text>
+<text x="583" y="1513" font-size="18" class="body">scope, estimate and source.</text>
+<text x="583" y="1538" font-size="18" class="body">Camera stays fixed. No whole-route highlight</text>
+<text x="583" y="1561" font-size="18" class="body">or nationwide selection load.</text>
+</g>
+<g class="component" data-card="Save, share &amp; understand"><rect x="1060" y="1366" width="460" height="205" rx="12" fill="#fffaf0"/><rect x="1060" y="1366" width="460" height="205" rx="12" class="card browser"/>
+<text x="1083" y="1390" font-size="12" class="kicker browser">VIEW STATE + EXPLANATION</text>
+<text x="1083" y="1420" font-size="25" class="title">Save, share &amp; understand</text>
+<text x="1083" y="1442" font-size="18" class="body">Explore uses the place catalog.</text>
+<text x="1083" y="1467" font-size="18" class="body">Save locally; share camera, units, layers and</text>
+<text x="1083" y="1490" font-size="18" class="body">stable selection in a URL.</text>
+<text x="1083" y="1515" font-size="18" class="body">Methods / Data links carry a safe same-origin</text>
+<text x="1083" y="1538" font-size="18" class="body">return to the serialized map view.</text>
+</g>
+<g class="component" data-card="No live traffic feed. No inference server. No browser-side freight routing."><rect x="80" y="1601" width="1440" height="65" rx="12" fill="#fffaf0"/><rect x="80" y="1601" width="1440" height="65" rx="12" class="card browser"/>
+<text x="103" y="1625" font-size="12" class="kicker browser">SYSTEM BOUNDARY</text>
+<text x="103" y="1655" font-size="25" class="title">No live traffic feed. No inference server. No browser-side freight routing.</text>
+</g>
+<text x="65" y="1730" font-size="14" class="kicker build">READ THE ARROWS</text>
+<path d="M265 1724H305" class="flow build" marker-end="url(#arrow-build)"/>
+<text x="325" y="1730" font-size="18" class="body">Build / data handoff</text>
+<path d="M600 1724H640" class="flow browser" marker-end="url(#arrow-browser)"/>
+<text x="660" y="1730" font-size="18" class="body">Browser processing / interaction</text>
+<text x="65" y="1770" font-size="18" class="body">Reported quantities, published estimates and atlas-modeled local values are distinct. Layers overlap; do not sum them.</text>
+</svg></figure>
+<section class="reading" aria-label="Architecture explained in readable text">
+<article class="note"><h2>What happens before release</h2><p>Public annual releases become checked derivatives, not a live logistics database. The nominal 2025 edition retains actual source years from 2022–2025.</p><ul><li>FAF already contains published freight estimates. The atlas additionally allocates demand within freight regions and assigns road, rail and pipeline paths.</li><li>Water uses observed 2023 link passages scaled by 2023/2025 lock ratios. Customs trade, airport handling and production statistics each keep their own reporting scope.</li><li>Compact facts, geometry, admission dependencies, coarse and fine tiles, the Explore catalog and a versioned metric registry are generated before deployment.</li></ul></article>
+<article class="note"><h2>What happens on your device</h2><p>Vercel serves static files. The browser inflates compressed data and completes real preparation before enabling entry. No server calculates routes or infers freight flows for a visitor.</p><ul><li>The camera controls continuous view admission, geometry detail and label placement; annual quantities remain unchanged.</li><li>The main thread draws networks and places on Canvas, with SVG geography and labels. During a gesture, the existing Canvas bitmap and labels transform; after settling, the unchanged exact renderer redraws.</li><li>Fine detail can arrive later, with loading and retry states. Idle prefetch caches compressed bytes only, rather than changing the visible network.</li></ul></article>
+<article class="note"><h2>What a click actually means</h2><p>A line click identifies the local drawn source interval, not a tracked shipment or every stretch of a named highway. A small marker and card explain the quantity, source year and geographic scope without moving the camera.</p><ul><li>Observed or reported handling, published estimates and additional atlas modeling are not interchangeable. Missing values are not observed zero.</li><li>Saved views live on this device; share links encode camera, unit, visible layers and stable selection, not new data. Methods and Data preserve a safe return to that view.</li><li>Successive link passages, gateway handling and overlapping production areas cannot be summed into one national total.</li></ul></article></section>
+<footer><strong>Evidence and limits.</strong> Derived from the integrated release runtime, public asset packager, retained source builder and final Methods / Data pages. The older source-build methods document describes superseded focus views; this diagram instead follows the final continuous-zoom, local-click implementation. Original waterway tonnage rows and a replayable STEO extraction remain unavailable; some geometry publication dates are unverified. No unsupported accuracy bounds are implied.<br><a href="https://www.davidalisk.com/projects/freight-atlas/map/methods.html">Methods</a> · <a href="https://www.davidalisk.com/projects/freight-atlas/map/data.html">Data and source vintages</a> · Diagram is entirely self-contained and works offline.</footer>
+</main></body></html>

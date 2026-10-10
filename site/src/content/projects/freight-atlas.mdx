@@ -22,6 +22,10 @@ The economy has a geography. GDP tables hide it, but every product passes throug
 - **Model.** Regional freight estimates are assigned to highway, rail, and pipeline networks; waterway flows use published link tonnage with river-system scaling. The map brings these sources together across about 188,000 network segments, keeping observed quantities separate from modeled estimates.
 - **Map.** A custom canvas renderer draws the whole country at once and reveals finer flows as you zoom, so the national picture and local detail are the same map. Clicking selects the exact point you touched; the camera never jumps.
 
+## System architecture
+
+[See the end-to-end system diagram](/projects/freight-atlas/architecture.html): public datasets, validation and modeling, generated assets, browser preparation, rendering, and clicked-place details.
+
 ## Product decisions
 
 - Every line is a quantity, and every visible line can be clicked.
