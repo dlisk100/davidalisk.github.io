@@ -10,7 +10,7 @@ export default defineConfig({
     mdx(),
     sitemap()
   ],
-  site: 'https://davidalisk.github.io',
+  site: 'https://www.davidalisk.com',
   markdown: {
     shikiConfig: {
       theme: 'github-light'

@@ -11,9 +11,10 @@ import Analytics from '@vercel/analytics/astro';
 interface Props {
 	title?: string;
 	description?: string;
+	image?: string;
 }
 
-const { title = "David A. Lisk", description = "Technology, Product Management, and Corporate Strategy." } = Astro.props;
+const { title = "David A. Lisk", description = "Technology, Product Management, and Corporate Strategy.", image = "/og-default.png" } = Astro.props;
 ---
 
 <!doctype html>
@@ -29,7 +30,7 @@ const { title = "David A. Lisk", description = "Technology, Product Management, 
 		<meta property="og:description" content={description} />
 		<meta property="og:type" content="website" />
 		<meta property="og:url" content={Astro.url} />
-		<meta property="og:image" content={new URL("/og-default.png", Astro.url)} />
+		<meta property="og:image" content={new URL(image, Astro.url)} />
 		<meta name="twitter:card" content="summary_large_image" />
 	</head>
 	<body class="bg-bg text-fg font-sans antialiased min-h-screen flex flex-col dark:bg-zinc-900 dark:text-zinc-100">

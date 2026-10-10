@@ -1,0 +1,51 @@
+/* Map controls: small visual footprint, generous hit areas. */
+#title .k{letter-spacing:0;text-transform:none;font:600 12px InterA,sans-serif;margin-top:8px}
+#tools button{min-height:40px;min-width:40px;box-sizing:border-box}
+#atlas-menu{position:fixed;right:26px;top:76px;z-index:12;background:var(--paper);border:1px solid var(--ink);font:13px InterA,sans-serif;max-width:350px;box-sizing:border-box}
+#atlas-menu>summary,#layers-panel>summary{cursor:pointer;min-height:40px;line-height:40px;padding:0 12px}
+.atlas-menu-body{width:310px;max-width:calc(100vw - 36px);max-height:calc(100dvh - 160px);overflow:auto;padding:6px;box-sizing:border-box;overscroll-behavior:contain}
+#atlas-docs{position:fixed;right:26px;top:120px;display:flex;gap:16px;z-index:8;font:12px InterA,sans-serif;background:rgba(245,239,221,.94);padding:0 8px}
+#atlas-docs a{color:var(--sepia);display:inline-flex;align-items:center;min-height:40px;text-underline-offset:3px}
+#legend{top:144px}
+#layers-panel{position:fixed;left:26px;right:auto;top:264px;z-index:10;background:var(--paper);border:1px solid var(--ink);font:12px InterA,sans-serif;width:210px;max-height:calc(100dvh - 290px);overflow:auto;box-sizing:border-box}
+#layers-panel fieldset{max-height:none;margin:0;border:0;padding:4px 10px 10px}
+#layers-panel legend{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+#layer-controls label{display:flex;align-items:center;gap:10px;min-height:40px;cursor:pointer}
+#layer-controls input{width:18px;height:18px;margin:0;flex-shrink:0;accent-color:var(--sepia)}
+#atlas-menu .atlas-explore{max-width:none;border:0;background:none}
+#atlas-menu .ae-body{max-height:none}
+#atlas-link-status{position:fixed;right:26px;top:166px;max-width:310px;padding:8px;background:var(--paper);border:1px solid #80705b;z-index:9;font:12px InterA,sans-serif}
+#atlas-link-status[data-status="ok"],#atlas-link-status[hidden]{display:none}
+#card a[data-method]{display:flex;align-items:center;min-height:40px;padding:0}
+#card .x{min-width:40px;min-height:40px}#card h3{padding-right:25px}
+#card .zt,#card button[data-retry-metro],#detail-loading button{min-height:40px;min-width:40px}
+#card{max-height:calc(100dvh - 310px);overflow:auto;box-sizing:border-box}
+#zbar{width:144px;padding:6px 10px;box-sizing:border-box}
+.distance-rule{height:5px;border:solid var(--ink);border-width:0 1px 1px;margin-top:3px;box-sizing:border-box}
+#detail-loading{z-index:9!important;bottom:76px!important;font:11px InterA,sans-serif!important;padding:6px 10px!important;border-color:#b9aa8f!important;pointer-events:none}
+#detail-loading[data-loading="error"]{pointer-events:auto}
+#detail-loading[data-loading="pending"]::before{content:'';display:inline-block;width:5px;height:5px;background:#82684c;border-radius:50%;margin-right:7px;animation:atlas-activity 1.4s ease-in-out infinite}
+#map-hint{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:7;padding:7px 12px;margin:0;background:rgba(245,239,221,.94);color:var(--sepia);font:12px InterA,sans-serif;pointer-events:none;white-space:nowrap}
+#map-hint[hidden]{display:none}
+@keyframes atlas-activity{50%{opacity:.3}}
+@media(prefers-reduced-motion:reduce){#detail-loading::before{animation:none!important}}
+@media(min-width:601px) and (max-height:500px){
+ #card{left:250px;right:190px;top:170px;bottom:24px;width:auto;max-height:none}
+ #atlas-menu[open]~#card{visibility:hidden}
+}
+@media(max-width:600px){
+ #title{padding:6px 10px;top:16px}#title .t{font-size:20px}#title .s{font-size:12px;margin-top:2px}#title .k{font-size:11px;margin-top:5px}
+ #tools{top:98px!important;left:16px!important;gap:4px}#tools button{padding:4px 7px}#tools #unit{margin-right:0}
+ #layers-panel{left:auto;right:16px;top:98px;width:90px;max-height:calc(100dvh - 160px)}
+ #layers-panel[open]{width:220px}#layers-panel>summary{padding:0 9px}
+ #legend{display:none}#layers-panel #legend{display:block;position:static;font-size:11px;line-height:1.5;border:0;border-top:1px solid #b9aa8f;padding:8px 10px;margin:0}
+ #atlas-menu{right:16px;left:auto;top:144px;max-width:calc(100vw - 32px)}
+ #atlas-menu[open]{left:16px}#atlas-menu[open] .atlas-menu-body{width:100%;max-height:calc(100dvh - 210px)}
+ #atlas-docs{left:16px;right:auto;top:144px;padding:0}
+ #atlas-link-status{left:16px;right:16px;top:auto;bottom:18px;max-width:none}
+ #zbar{left:auto!important;right:16px!important;bottom:16px;max-width:144px}
+ #card{top:196px;bottom:auto!important;max-height:calc(100dvh - 260px);width:auto}
+ #atlas-menu[open]~#card{visibility:hidden}
+ #detail-loading{top:auto!important;bottom:24px!important;left:16px!important;transform:none!important;width:auto!important;max-width:calc(100vw - 182px)!important}
+ #map-hint{bottom:180px;font-size:11px}
+}

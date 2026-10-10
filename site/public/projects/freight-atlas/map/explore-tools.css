@@ -1,0 +1,14 @@
+/* Compact paper-atlas search, device-local saved views and share. */
+.atlas-explore{color:#302b22;background:#faf5e8;max-width:22rem;font:inherit;position:relative;text-align:left}
+.atlas-explore .ae-body{padding:6px;overflow:auto;overscroll-behavior:contain}
+.atlas-explore button,.atlas-explore input{box-sizing:border-box;font:inherit;color:inherit;background:#fffaf0;border:1px solid #bcb09a;border-radius:0;min-height:40px;width:100%;margin:3px 0;padding:7px 9px;text-align:left}
+.atlas-explore button{cursor:pointer}.atlas-explore button:hover{background:#eee5d4}
+.atlas-explore :focus-visible{outline:2px solid #685039;outline-offset:2px}
+.atlas-explore h3{font:inherit;font-weight:600;margin:12px 0 4px}
+.atlas-explore p{font-size:11px;line-height:1.4;margin:6px 0;overflow-wrap:anywhere}
+.atlas-explore p:empty{display:none}
+.atlas-explore .ae-results{max-height:14rem;overflow:auto;overscroll-behavior:contain}
+.atlas-explore .ae-saved-row{border-top:1px solid #d3c8b4;padding:6px 0;display:grid;grid-template-columns:1fr 1fr;gap:4px}
+.atlas-explore .ae-saved-row input,.atlas-explore .ae-saved-row button:first-child{grid-column:1/-1}
+.atlas-explore [hidden]{display:none!important}
+@media(max-width:600px){.atlas-explore{max-width:100%;width:100%}.atlas-explore button,.atlas-explore input{min-height:44px}}
