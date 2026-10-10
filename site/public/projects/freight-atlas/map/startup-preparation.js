@@ -62,8 +62,12 @@ window.StartupPreparation=(()=>{
   panel.addEventListener('transitionend',e=>{if(e.target===panel&&e.propertyName==='opacity'&&panel.classList.contains('is-entering'))finishEntry();});
   const render=s=>{
    const ready=s.phase==='Ready';
-   panel.querySelector('h2').textContent=s.error?'Preparation unavailable':({'Downloading map data':'Gathering the map','Preparing roads':'Preparing the flow network','Ready':'Ready to explore','Cancelled':'Preparation cancelled'}[s.phase]||s.phase);
-   panel.querySelector('p').textContent=s.error?'The map preparation did not complete. Retry, or use the explicitly limited streamed fallback when available.':ready?'The map is prepared. Explore whenever you’re ready.':s.phase==='Preparing roads'?'Bringing the roads and their connections into view.':'Assembling the country, its places and connections.';
+   // Visuals owns the live stage copy. Byte/work updates must not re-announce it.
+   if(!visuals){
+    const heading=s.error?'Couldn’t load the atlas':({'Downloading map data':'Gathering the map','Preparing roads':'Drawing freight connections','Ready':'Ready to explore','Cancelled':'Loading stopped'}[s.phase]||'Opening the atlas');
+    const body=s.error?'Try again to open the atlas.':ready?'Your map is ready.':s.phase==='Preparing roads'?'Bringing roads and their connections into view.':'Loading the country, its places and freight routes.';
+    const h=panel.querySelector('h2'),p=panel.querySelector('p');if(h.textContent!==heading)h.textContent=heading;if(p.textContent!==body)p.textContent=body;
+   }
    const bar=panel.querySelector('progress');bar.hidden=ready||!!s.error||s.phase==='Cancelled';
    if(s.total!==null){bar.max=s.total;bar.value=s.done;}else bar.removeAttribute('value');
    panel.querySelector('[data-retry]').hidden=!s.error;
