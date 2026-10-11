@@ -2,6 +2,9 @@
 'use strict';
 window.StartupPreparation=(()=>{
  const yieldTask=()=>window.scheduler?.yield?window.scheduler.yield():new Promise(resolve=>setTimeout(resolve,0));
+ // The final status must paint before initial Canvas settlement begins. Background
+ // documents cannot wait on RAF (which browsers suspend). No timed work progress.
+ const paintCheckpoint=()=>!document.hidden&&window.requestAnimationFrame?new Promise(resolve=>window.requestAnimationFrame(()=>setTimeout(resolve,0))):yieldTask();
  async function decisions(recipe,proj,{batch=128,yield:pause=yieldTask,signal=null,progress=()=>{}}={}){
   const vectors=[],pairs=[],total=recipe.operands.length+recipe.program.length;let done=0;
   const checkpoint=async()=>{if(signal?.aborted)throw Error('Preparation cancelled');progress(done,total);await pause();if(signal?.aborted)throw Error('Preparation cancelled');};
@@ -32,15 +35,24 @@ window.StartupPreparation=(()=>{
   fail(e){this.generation++;this.prepared=false;this.value.phase='Preparation unavailable';this.value.error=String(e);this.publish();}
   cancel(){this.generation++;this.prepared=false;this.controller.abort();this.value.phase='Cancelled';this.publish();}
   async prepare(owner,asset,proj,groups,{batch=128,yield:pause=yieldTask,completed=0,extraJobs=0}={}){
-   const gen=++this.generation,rows=asset.rows,prepared=new Map();this.value={...this.value,phase:'Preparing roads',done:completed,total:completed+rows.length+groups.length+extraJobs};this.publish();
+   const gen=++this.generation,rows=asset.rows,prepared=new Map();this.value={...this.value,phase:'Preparing roads',detail:'Drawing routes · 0 / '+rows.length.toLocaleString(),done:completed,total:completed+rows.length+groups.length+extraJobs};this.publish();
    const check=()=>{if(gen!==this.generation||this.controller.signal.aborted)throw Error('Preparation cancelled');};
-   for(let i=0;i<rows.length;){check();const t=performance.now(),start=i;do{owner.install([rows[i]],proj,prepared);rows[i]=null;i++;}while(i<rows.length&&i-start<batch&&performance.now()-t<4);this.value.done=completed+i;this.publish();await pause();}
+   for(let i=0;i<rows.length;){check();const t=performance.now(),start=i;do{owner.install([rows[i]],proj,prepared);rows[i]=null;i++;}while(i<rows.length&&i-start<batch&&performance.now()-t<4);this.value.done=completed+i;this.value.detail=`Drawing routes · ${i.toLocaleString()} / ${rows.length.toLocaleString()}`;this.publish();await pause();}
    // Complete render/pick dependencies are validated before entry. Only the initial view is materialized;
    // national native meshes and per-group object graphs would defeat bounded residency.
    for(const g of groups){check();for(let j=owner.memberOffsets[g];j<owner.memberOffsets[g+1];j++)if(!prepared.has(owner.members[j])&&!owner.segs.has(owner.members[j]))throw Error('Missing coarse dependency '+owner.members[j]);owner.materialize(g);this.value.done++;this.publish();await pause();}
    check();this.prepared=this.value.done===this.value.total;return prepared;
   }
-  async validate(owner,groups,prepared,{batch=128,yield:pause=yieldTask,reserved=false}={}){const gen=this.generation;if(!reserved)this.value.total+=groups.length;this.prepared=false;this.publish();for(let i=0;i<groups.length;){if(gen!==this.generation||this.controller.signal.aborted)throw Error('Preparation cancelled');const end=Math.min(i+batch,groups.length);for(;i<end;i++){const g=groups[i];for(let j=owner.memberOffsets[g];j<owner.memberOffsets[g+1];j++)if(!prepared.has(owner.members[j]))throw Error('Missing coarse dependency '+owner.members[j]);this.value.done++;}this.publish();await pause();}if(gen!==this.generation)throw Error('Preparation cancelled');this.prepared=true;}
+  async validate(owner,groups,prepared,{batch=128,yield:pause=yieldTask,reserved=false}={}){const gen=this.generation;if(!reserved)this.value.total+=groups.length;this.prepared=false;this.publish();for(let i=0;i<groups.length;){if(gen!==this.generation||this.controller.signal.aborted)throw Error('Preparation cancelled');const end=Math.min(i+batch,groups.length);for(;i<end;i++){const g=groups[i];for(let j=owner.memberOffsets[g];j<owner.memberOffsets[g+1];j++)if(!prepared.has(owner.members[j]))throw Error('Missing coarse dependency '+owner.members[j]);this.value.done++;}this.value.detail=`Checking connections · ${i.toLocaleString()} / ${groups.length.toLocaleString()}`;this.publish();await pause();}if(gen!==this.generation)throw Error('Preparation cancelled');this.prepared=true;this.value.detail='Preparing the opening view…';this.publish();await paintCheckpoint();if(gen!==this.generation||this.controller.signal.aborted)throw Error('Preparation cancelled');}
+  settlement(s){
+   if(!this.prepared||this.value.error||this.controller.signal.aborted||this.value.phase==='Ready')return;
+   // Reader completion is fetched/inflated/decoded work, not installed-scene
+   // readiness. Empty pending intervals between batches never unlock entry.
+   this.value.settlement={completed:s.completed||0,pending:s.jobsPending||0};
+   const n=this.value.settlement.completed;
+   this.value.detail=`Opening the map · ${n.toLocaleString()} ${n===1?'file loaded':'files loaded'}${s.jobsPending?' · loading details…':' · preparing the view…'}`;
+   this.publish();
+  }
   ready(){if(!this.prepared||this.value.error||this.controller.signal.aborted)throw Error('Ready requires completed preparation');this.value.phase='Ready';this.publish();}
  }
  let state;
@@ -69,7 +81,7 @@ window.StartupPreparation=(()=>{
     const h=panel.querySelector('h2'),p=panel.querySelector('p');if(h.textContent!==heading)h.textContent=heading;if(p.textContent!==body)p.textContent=body;
    }
    const bar=panel.querySelector('progress');bar.hidden=ready||!!s.error||s.phase==='Cancelled';
-   if(s.total!==null){bar.max=s.total;bar.value=s.done;}else bar.removeAttribute('value');
+   if(s.total!==null&&!s.settlement&&s.detail!=='Preparing the opening view…'){bar.max=s.total;bar.value=s.done;}else bar.removeAttribute('value');
    panel.querySelector('[data-retry]').hidden=!s.error;
    panel.querySelector('[data-enter]').hidden=!ready||reviewing;
    panel.querySelector('[data-return]').hidden=!reviewing;

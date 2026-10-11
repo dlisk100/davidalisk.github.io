@@ -14,6 +14,21 @@ window.StartupVisuals=(()=>{
    ?{heading:'Drawing freight connections',body:'Bringing roads and their connections into view.'}
    :{heading:'Gathering the map',body:'Loading the country, its places and freight routes.'};
  }
+ // This output is outside the polite live region: frequent work updates stay quiet.
+ function workDetail(s,ink){
+  if(s.phase==='Downloading map data'){
+   if(!s.bytes&&!s.resources)return 'Loading map data…';
+   const bytes=Math.max(0,s.bytes||0),size=bytes>=1048576?`${(bytes/1048576).toFixed(1)} MiB`:`${Math.floor(bytes/1024)} KiB`;
+   return `${size} received · ${s.resources||0} files loaded`;
+  }
+  const detail=s.detail||'',counts=detail.match(/^([\d,]+) \/ ([\d,]+) (admission jobs completed|viewport-index sources prepared)$/);
+  if(counts&&Number.isFinite(s.total)&&s.total>0)return `Preparing connections · ${s.done.toLocaleString()} / ${s.total.toLocaleString()}`;
+  if(counts)return `${counts[3]==='admission jobs completed'?'Connecting routes':'Locating freight routes'} · ${counts[1]} / ${counts[2]}`;
+  if(detail)return detail;
+  return Number.isFinite(s.total)&&s.total>0&&Number.isFinite(s.done)
+   ?ink===1?'Connections prepared':`Freight connections · ${Math.floor(ink*100)}%`
+   :'Preparing freight connections…';
+ }
  function mount(panel){
   const stage=panel.querySelector('[data-startup-visual]'),counter=panel.querySelector('[data-work-count]');
   const reduced=window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -49,9 +64,7 @@ window.StartupVisuals=(()=>{
    panel.dataset.workPhase=s.phase==='Ready'?'ready':s.error?'error':s.phase==='Preparing roads'?'network':'gathering';
    if(counter){
     counter.hidden=!!s.error||s.phase==='Ready'||s.phase==='Cancelled';
-    counter.textContent=Number.isFinite(s.total)&&s.total>0&&Number.isFinite(s.done)
-     ?ink===1?'Connections prepared':`Freight connections · ${Math.floor(ink*100)}%`
-     :'Loading map data…';
+    const detail=workDetail(s,ink);if(counter.textContent!==detail)counter.textContent=detail;
    }
    const step=s.phase==='Ready'?2:s.phase==='Preparing roads'?1:0;
    for(const [i,el] of [...(panel.querySelectorAll?.('[data-startup-stage]')||[])].entries()){
