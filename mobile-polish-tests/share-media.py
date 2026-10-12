@@ -63,7 +63,7 @@ class Recorder(Browser):
             entries.extend(["file '"+f['file']+"'",'duration '+str(delta)])
         entries.append("file '"+intervals[-1][0]['file']+"'")
         concat=OUT/(label+'.concat');concat.write_text('\n'.join(entries)+'\n')
-        subprocess.run(['ffmpeg','-y','-loglevel','error','-f','concat','-safe','0','-i',str(concat),'-t',str(seconds),'-vf','scale=880:1100:flags=lanczos,fps=25','-c:v','libx264','-preset','medium','-crf','21','-pix_fmt','yuv420p','-an',str(OUT/(label+'.mp4'))],check=True)
+        subprocess.run(['ffmpeg','-y','-loglevel','error','-f','concat','-safe','0','-i',str(concat),'-t',str(duration),'-vf','scale=880:1100:flags=lanczos,fps=25','-c:v','libx264','-preset','medium','-crf','21','-pix_fmt','yuv420p','-an',str(OUT/(label+'.mp4'))],check=True)
     def cleanup(self):
         self.running=False;super().cleanup()
 class Handler(http.server.SimpleHTTPRequestHandler):
@@ -173,9 +173,9 @@ try:
     b.start('freight-atlas-tour');log('continuous motion tour start',national)
     sampler=threading.Thread(target=sample,daemon=True);sampler.start()
     choreography(False)
+    sampling=False;sampler.join(timeout=3)
     actual=time.monotonic()-b.start_mono
     b.stop('freight-atlas-tour',actual)
-    sampling=False;sampler.join(timeout=3)
     scene_ready();shot('gulf-energy')
     # Independently compose fresh stills; never interrupt the actual recording.
     zoom_move(1.2,on_canvas(point([-95.37,29.76])),-350);scene_ready();shot('texas-local')
