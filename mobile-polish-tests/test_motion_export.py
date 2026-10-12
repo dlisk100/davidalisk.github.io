@@ -23,7 +23,8 @@ class ExportTests(unittest.TestCase):
             return (out/'fixture.concat').read_text()
     def test_sampler_stops_before_codec_work_not_after(self):
         source=pathlib.Path(__file__).with_name('share-media.py').read_text()
-        self.assertLess(source.index('sampling=False;sampler.join'),source.index("b.stop('freight-atlas-tour',actual)"))
+        self.assertLess(source.index('sampling=False;sampler.join'),source.index('b.stop(label,actual)'))
+        self.assertLess(source.index('b.cleanup();server.shutdown()'),source.index("for clip in clips:"))
     def test_23ms_beyond_cutoff_is_excluded_not_negative_hold(self):
         text=self.export([0,1,28.9,29.023455858])
         self.assertNotIn('/3.jpg',text)

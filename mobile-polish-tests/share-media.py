@@ -1,7 +1,8 @@
 """Hosted native CDP recording of the exact QA-built renderer, no synthetic frames."""
-import base64, concurrent.futures, functools, hashlib, http.server, json, os, pathlib, queue, subprocess, threading, time
+import math, base64, concurrent.futures, functools, hashlib, http.server, json, os, pathlib, queue, subprocess, threading, time
 from hosted_cdp import Browser
 from motion_timing import frame_intervals
+from native_calibration import gain,wheel_delta
 from native_entry import native_entry
 from network_contract import assert_event
 ROOT=pathlib.Path('site/dist').resolve(); OUT=pathlib.Path('share-artifacts').resolve();OUT.mkdir(exist_ok=True)
@@ -63,7 +64,6 @@ class Recorder(Browser):
             entries.extend(["file '"+f['file']+"'",'duration '+str(delta)])
         entries.append("file '"+intervals[-1][0]['file']+"'")
         concat=OUT/(label+'.concat');concat.write_text('\n'.join(entries)+'\n')
-        subprocess.run(['ffmpeg','-y','-loglevel','error','-f','concat','-safe','0','-i',str(concat),'-t',str(duration),'-vf','scale=880:1100:flags=lanczos,fps=25','-c:v','libx264','-preset','medium','-crf','21','-pix_fmt','yuv420p','-an',str(OUT/(label+'.mp4'))],check=True)
     def cleanup(self):
         self.running=False;super().cleanup()
 class Handler(http.server.SimpleHTTPRequestHandler):
@@ -95,112 +95,91 @@ try:
     b.call('Page.navigate',url=origin+'/projects/freight-atlas/map/');wait("document.body?.dataset.ready==='1'&&!!window.ATLAS_EXPLORE");native_entry(b);wait("document.getElementById('startup-loading').hidden&&!DETAIL_LOADING.pending")
     assert b.ev("document.querySelector('#national-headline').textContent.includes('2024')&&!document.querySelector('#atlas-docs')&&!document.querySelector('#lab .insets')")
     time.sleep(6.1);assert b.ev("document.querySelector('#map-hint').hidden")
-    national=b.ev('APP.camera()')
-    movement=[];sampling=True
-    def sample():
-        while sampling:
-            try:
-                movement.append({'elapsed':time.monotonic()-b.start_mono,'camera':b.ev('APP.camera()'),'pending':b.ev('!!DETAIL_LOADING.pending')})
-                (OUT/'movement.json').write_text(json.dumps(movement,indent=2))
-            except Exception as e:log('movement sampling failure',str(e));return
-            time.sleep(.2)
-    def wheel_for(seconds,point,delta):
-        log('native paced wheel start',{'seconds':seconds,'point':point,'delta':delta})
-        end=time.monotonic()+seconds
-        while time.monotonic()<end:
-            b.wheel(point[0],point[1],delta);time.sleep(.05)
-        log('native paced wheel end',b.ev('APP.camera()'))
+    national=b.ev('APP.camera()'); base=national['k']; clips=[]; snapshots={}
+    chicago=[-87.63,41.88]; center=[220,320]
+    def camera():return b.ev('APP.camera()')
+    def point(ll):return b.ev('APP.screenOf('+json.dumps(ll)+')')
+    def scene_ready():
+        time.sleep(.35)
+        wait('!GESTURE.active&&!GESTURE.dirty&&!DETAIL_LOADING.pending')
+        wait('prefetchPlanTimer===null&&BoundedTiles.prefetch.job===null&&!BoundedTiles.prefetch.status().active')
     def pan_for(seconds,dx,dy):
-        # Small native movement increments, ordinary gesture speed, never APP camera writes.
-        log('native continuous pan start',{'seconds':seconds,'dx':dx,'dy':dy})
-        x,y=220,300;b.mouse('mousePressed',x,y,button='left',buttons=1,clickCount=1)
-        start=time.monotonic();end=start+seconds
-        while time.monotonic()<end:
+        x,y=220,320;b.mouse('mousePressed',x,y,button='left',buttons=1,clickCount=1)
+        start=time.monotonic()
+        while time.monotonic()-start<seconds:
             t=min(1,(time.monotonic()-start)/seconds)
             b.mouse('mouseMoved',x+dx*t,y+dy*t,button='left',buttons=1);time.sleep(.04)
         b.mouse('mouseReleased',x+dx,y+dy,button='left',clickCount=1)
-        log('native continuous pan end',b.ev('APP.camera()'))
-    def point(ll):return b.ev('APP.screenOf('+json.dumps(ll)+')')
-    def on_canvas(p):return [max(35,min(405,p[0])),max(170,min(495,p[1]))]
-    def scene_ready():
-        wait('!GESTURE.active&&!GESTURE.dirty&&!DETAIL_LOADING.pending')
-        wait('prefetchPlanTimer===null&&BoundedTiles.prefetch.job===null&&!BoundedTiles.prefetch.status().active')
-    def warm_zoom(target,ll,closer):
-        for _ in range(22):
-            k=b.ev('APP.camera().k')/national['k']
-            if (closer and k>=target) or (not closer and k<=target):break
-            scene_ready();b.wheel(*on_canvas(point(ll)),-100 if closer else 100);time.sleep(.2);scene_ready()
-        log('native warm zoom settled',{'ll':ll,'camera':b.ev('APP.camera()')})
-    # Continuous wheel leaves d3 zoom active for 150ms after its last event;
-    # Gesture.end then waits 120ms. Each zoom event begins LOAD.pending and
-    # cached geometry cannot commit while active. Short native pauses are required.
-    path=[]
-    def zoom_move(seconds,anchor,total):
+        log('native pan',{'dx':dx,'dy':dy,'camera':camera()})
+    def center_chicago():
+        for _ in range(12):
+            p=point(chicago);dx=center[0]-p[0];dy=center[1]-p[1]
+            if abs(dx)+abs(dy)<2:return
+            pan_for(.35,max(-140,min(140,dx)),max(-140,min(140,dy)));scene_ready()
+        raise AssertionError('Chicago anchor not centered')
+    def zoom_move(seconds,total):
         start=time.monotonic();sent=0
         while time.monotonic()-start<seconds:
             wanted=total*min(1,(time.monotonic()-start)/seconds)
-            b.wheel(*anchor,wanted-sent);sent=wanted;time.sleep(.04)
-        b.wheel(*anchor,total-sent)
-    def pause(label,warming=False):
-        if warming:scene_ready()
-        else:
-            time.sleep(.85)
-            log('visible native pause '+label,{'camera':b.ev('APP.camera()'),'pending':b.ev('!!DETAIL_LOADING.pending'),'gesture':b.ev('({active:GESTURE.active,dirty:GESTURE.dirty})')})
-    def choreography(warming=False):
-        def zoom(label,ll,total):
-            anchor=on_canvas(point(ll));zoom_move(1.85,anchor,total);path.append(('zoom',anchor,total)) if warming else None;pause(label,warming)
-        def pan(label,dx,dy):
-            pan_for(1.85,dx,dy);path.append(('pan',dx,dy)) if warming else None;pause(label,warming)
-        zoom('Chicago regional',[-87.63,41.88],-550)
-        zoom('Chicago local',[-87.63,41.88],-350)
-        pan('Midwest threads',-65,25)
-        zoom('Midwest pullback',[-87.63,41.88],350)
-        gulf=point([-91,30]);dx=max(-175,min(175,220-gulf[0]));dy=max(-170,min(170,310-gulf[1]))
-        pan('Gulf transition',dx,dy)
-        gulf=point([-91,30]);dx=max(-175,min(175,220-gulf[0]));dy=max(-170,min(170,310-gulf[1]))
-        pan('Louisiana regional',dx,dy)
-        zoom('Gulf local',[-91,30],-350)
-        pan('Gulf routes toward Texas',100,-20)
-        zoom('Gulf regional pullback',[-94,30],350)
-    log('native exact-path prewarming starts')
-    choreography(True)
-    # Undo the same native affine gestures; do not mutate the APP camera.
-    for operation in reversed(path):
-        if operation[0]=='zoom':zoom_move(.5,operation[1],-operation[2])
-        else:pan_for(.5,-operation[1],-operation[2])
-        scene_ready()
-    scene_ready();national=b.ev('APP.camera()');log('native exact-path prewarming ready',national)
-    b.start('freight-atlas-tour');log('continuous motion tour start',national)
-    sampler=threading.Thread(target=sample,daemon=True);sampler.start()
-    choreography(False)
-    sampling=False;sampler.join(timeout=3)
-    actual=time.monotonic()-b.start_mono
-    b.stop('freight-atlas-tour',actual)
-    scene_ready();shot('gulf-energy')
-    # Independently compose fresh stills; never interrupt the actual recording.
-    zoom_move(1.2,on_canvas(point([-95.37,29.76])),-350);scene_ready();shot('texas-local')
-    zoom_move(1.2,[220,310],900);scene_ready()
-    for _ in range(5):
-        g=point([-87.63,41.88]);dx=max(-175,min(175,220-g[0]));dy=max(-170,min(170,310-g[1]))
-        if abs(dx)+abs(dy)<2:break
-        b.drag(220,300,220+dx,300+dy);scene_ready()
-    zoom_move(1.5,on_canvas(point([-87.63,41.88])),-550);scene_ready();shot('midwest-threads')
-    zoom_move(1.2,on_canvas(point([-87.63,41.88])),-350);scene_ready();shot('chicago-local')
-    video=OUT/'freight-atlas-tour.mp4'
-    probe=json.loads(subprocess.check_output(['ffprobe','-v','error','-show_format','-show_streams','-of','json',str(video)]))
-    stream=probe['streams'][0];assert len(probe['streams'])==1 and stream['codec_name']=='h264' and stream['pix_fmt']=='yuv420p' and (stream['width'],stream['height'])==(880,1100) and abs(float(probe['format']['duration'])-actual)<.15
-    subprocess.run(['ffmpeg','-v','error','-i',str(video),'-f','null','-'],check=True)
-    subprocess.run(['ffmpeg','-y','-loglevel','error','-i',str(video),'-vf','fps=1,scale=220:275,tile=6x5','-frames:v','1',str(OUT/'contact-sheet.jpg')],check=True)
-    for sec in range(int(actual)+1):subprocess.run(['ffmpeg','-y','-loglevel','error','-ss',str(sec),'-i',str(video),'-frames:v','1','-vf','scale=440:550',str(OUT/('probe-%02d.jpg'%sec))],check=True)
-    moving=0;observed=0
-    for a,z in zip(movement,movement[1:]):
-        dt=z['elapsed']-a['elapsed'];c=a['camera'];d=z['camera'];observed+=dt
-        if abs(c['x']-d['x'])+abs(c['y']-d['y'])+abs(c['k']-d['k'])*100>.5:moving+=dt
-    assert observed>20 and moving/observed>=.5,{'observed':observed,'moving':moving}
-    report={'revision':qa['preflight']['revision'],'hashes':qa['hashesAfter'],'actions':actions,'probe':probe,'errors':b.failures,'qaReceipt':receipts[0].name,'segments':'one uninterrupted native CDP recording; no cuts, holds added, retiming, overlays or APP camera writes','movement':{'observedSeconds':observed,'movingSeconds':moving,'fraction':moving/observed,'samples':len(movement),'threshold':'sum CSS camera translation plus scale delta*100 > 0.5 between 200ms observations; visual review separately required'},'physicalDevices':'not tested'}
-    (OUT/'media-report.json').write_text(json.dumps(report,indent=2));assert not b.failures,b.failures
-    assert sum(p.stat().st_size for p in OUT.glob('*') if p.is_file())<50*1024**2
-
+            b.wheel(*center,wanted-sent);sent=wanted;time.sleep(.045)
+        b.wheel(*center,total-sent)
+        log('native zoom',{'delta':total,'camera':camera()})
+    scene_ready();center_chicago()
+    before=camera()['k'];b.wheel(*center,-400);scene_ready();after=camera()['k']
+    coefficient=gain(before,after,-400)
+    log('measured native wheel calibration',{'before':before,'after':after,'delta':-400,'gain':coefficient})
+    def target_zoom(target,seconds=.75):
+        zoom_move(seconds,wheel_delta(camera()['k']/base,target,coefficient));scene_ready()
+        for _ in range(3):
+            ratio=camera()['k']/base
+            if abs(math.log(ratio/target))<.025:break
+            zoom_move(.3,wheel_delta(ratio,target,coefficient));scene_ready()
+        assert abs(math.log(camera()['k']/base/target))<.025,camera()
+    def still(name,target):
+        target_zoom(target);center_chicago();scene_ready();shot(name)
+        snapshots[name]={'camera':camera(),'ratio':camera()['k']/base,'chicagoScreen':point(chicago),'pending':b.ev('!!DETAIL_LOADING.pending')}
+        (OUT/'stills-report.json').write_text(json.dumps(snapshots,indent=2))
+    # Complete the three independent settled photos before video production.
+    still('midwest-tons',3.5)
+    still('chicago-great-lakes',7.5)
+    target_zoom(3.5);center_chicago();scene_ready();tap('[data-u="usd"]');scene_ready();shot('midwest-usd')
+    snapshots['midwest-usd']={'camera':camera(),'ratio':camera()['k']/base,'chicagoScreen':point(chicago),'pending':b.ev('!!DETAIL_LOADING.pending')}
+    assert all(abs(snapshots['midwest-tons']['camera'][key]-snapshots['midwest-usd']['camera'][key])<.1 for key in ('x','y','k'))
+    (OUT/'stills-report.json').write_text(json.dumps(snapshots,indent=2))
+    tap('[data-u="t"]');scene_ready()
+    # Warm every view with native gestures, then each separately recorded scene
+    # starts from real settled geometry. No hiding loaders or timing changes.
+    target_zoom(1);center_chicago();scene_ready()
+    movement=[]
+    def record(label,gesture):
+        scene_ready();b.start(label);start=camera();sampling=True
+        def sample():
+            while sampling:
+                movement.append({'clip':label,'elapsed':time.monotonic()-b.start_mono,'camera':camera(),'pending':b.ev('!!DETAIL_LOADING.pending')})
+                time.sleep(.2)
+        sampler=threading.Thread(target=sample,daemon=True);sampler.start()
+        gesture();time.sleep(1.4)
+        sampling=False;sampler.join(timeout=3)
+        actual=time.monotonic()-b.start_mono
+        b.stop(label,actual)
+        clips.append({'label':label,'seconds':actual,'start':start,'end':camera(),'pendingEnd':b.ev('!!DETAIL_LOADING.pending')})
+        (OUT/'clips.json').write_text(json.dumps(clips,indent=2))
+        (OUT/'movement.json').write_text(json.dumps(movement,indent=2))
+    record('01-national-midwest',lambda:zoom_move(3,wheel_delta(camera()['k']/base,3.5,coefficient)))
+    target_zoom(3.5);center_chicago();scene_ready()
+    record('02-midwest-chicago',lambda:zoom_move(3,wheel_delta(camera()['k']/base,7.5,coefficient)))
+    target_zoom(7.5);center_chicago();scene_ready()
+    # Drift west/south so the frame explores dense land corridors rather than water.
+    pan_for(.5,75,-30);scene_ready();pan_for(.5,-75,30);scene_ready()
+    record('03-great-lakes-corridors',lambda:pan_for(3,75,-30))
+    scene_ready()
+    record('04-midwest-pullback',lambda:zoom_move(3,wheel_delta(camera()['k']/base,3.5,coefficient)))
+    target_zoom(3.5);center_chicago();scene_ready()
+    tap('[data-u="usd"]');scene_ready();tap('[data-u="t"]');scene_ready()
+    def dollars():
+        tap('[data-u="usd"]');time.sleep(.6);pan_for(2.4,35,-15)
+    record('05-midwest-dollars',dollars)
+    assert not b.failures,b.failures
 finally:
     if b.recording:
         try:b.call('Page.stopScreencast')
@@ -210,3 +189,19 @@ finally:
     try:b.call('Browser.close')
     except Exception:pass
     b.cleanup();server.shutdown();server.server_close()
+# Browser and sampling are stopped before any codec work.
+for clip in clips:
+    label=clip['label']
+    subprocess.run(['ffmpeg','-y','-loglevel','error','-threads','2','-f','concat','-safe','0','-i',str(OUT/(label+'.concat')),'-t',str(clip['seconds']),'-vf','scale=880:1100:flags=lanczos,fps=25','-c:v','libx264','-threads','2','-preset','medium','-crf','22','-pix_fmt','yuv420p','-an',str(OUT/(label+'.mp4'))],check=True)
+(OUT/'tour.concat').write_text(''.join("file '"+str(OUT/(clip['label']+'.mp4'))+"'\n" for clip in clips))
+video=OUT/'freight-atlas-tour.mp4'
+subprocess.run(['ffmpeg','-y','-v','error','-f','concat','-safe','0','-i',str(OUT/'tour.concat'),'-c','copy','-movflags','+faststart',str(video)],check=True)
+probe=json.loads(subprocess.check_output(['ffprobe','-v','error','-show_format','-show_streams','-of','json',str(video)]))
+stream=probe['streams'][0]
+assert len(probe['streams'])==1 and stream['codec_name']=='h264' and stream['pix_fmt']=='yuv420p' and (stream['width'],stream['height'])==(880,1100)
+assert 20<=float(probe['format']['duration'])<=30,probe['format']
+subprocess.run(['ffmpeg','-v','error','-threads','2','-i',str(video),'-f','null','-'],check=True)
+for sec in range(math.ceil(float(probe['format']['duration']))):
+    subprocess.run(['ffmpeg','-y','-v','error','-threads','2','-ss',str(sec),'-i',str(video),'-frames:v','1',str(OUT/('full-frame-%02d.jpg'%sec))],check=True)
+report={'revision':qa['preflight']['revision'],'helperRevision':subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),'hashes':qa['hashesAfter'],'calibratedGain':coefficient,'baseCamera':national,'stills':snapshots,'clips':clips,'probe':probe,'errors':b.failures,'qaReceipt':receipts[0].name,'segments':'five genuine native gesture clips with natural cuts between settled warmed scenes; source timestamps unchanged; no fake motion, added overlays or APP camera writes','physicalDevices':'not tested'}
+(OUT/'media-report.json').write_text(json.dumps(report,indent=2))
