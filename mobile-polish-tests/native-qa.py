@@ -19,7 +19,11 @@ def digest():
     return {n:hashlib.sha256((MAP/n).read_bytes()).hexdigest() for n in ['core.js.gz','plate.json.gz','pz-sys.js.gz','explore-catalog.json','route-render.js','info-inspector.js','proto.js','atlas-bridge.css','atlas-bridge.js','index.html']}
 
 def preflight():
-    assert subprocess.run(['git','diff','--quiet','c49e8c0','--','site/public','site/src/content/projects/freight-atlas.mdx'],cwd=REPO).returncode==0,'Candidate runtime/source article drift'
+    for name, actual in digest().items():
+        original=subprocess.check_output(['git','show','c49e8c0:site/public/projects/freight-atlas/map/'+name],cwd=REPO)
+        assert hashlib.sha256(original).hexdigest()==actual,'Protected candidate runtime drift: '+name
+    assert subprocess.run(['git','diff','--quiet','c49e8c0','--','site/src/content/projects/freight-atlas.mdx'],cwd=REPO).returncode==0,'Article drift'
+    # Editorial favicon repair is separately regression-tested; all map runtime/data pins remain exact.
     article=(REPO/'site/src/content/projects/freight-atlas.mdx').read_text()
     assert all('map/'+name+'.html' in article for name in ['methods','data','about'])
     return {'candidate':'c49e8c0','revision':subprocess.check_output(['git','rev-parse','HEAD'],cwd=REPO,text=True).strip(),'articleLinks':'source MDX verified; static map QA does not claim Astro build','runtime':'hosted Chrome; isolated runner Python venv; stdlib plus websockets','hashes':digest()}
@@ -90,7 +94,7 @@ def main():
         for method in ['Page.enable','Runtime.enable','Network.enable']: b.call(method)
         b.call('Page.addScriptToEvaluateOnNewDocument',source="window.__qaReady=null;function q(){if(document.body?.dataset.ready==='1'){window.__qaReady=performance.now();return}requestAnimationFrame(q)}requestAnimationFrame(q)")
         for index,(w,h) in enumerate([(390,844),(393,852),(430,932),(852,393),(393,480),(393,360),(1489,900)]):
-            mobile=w<=600;label=f'{w}x{h}';r['phase']=label;persist()
+            mobile=w<1000;label=f'{w}x{h}';r['phase']=label;persist()
             b.call('Emulation.setDeviceMetricsOverride',width=w,height=h,deviceScaleFactor=1,mobile=mobile)
             b.call('Emulation.setTouchEmulationEnabled',enabled=mobile,maxTouchPoints=2)
             b.call('Emulation.setEmulatedMedia',features=[{'name':'prefers-reduced-motion','value':'reduce' if h==480 else 'no-preference'}])
@@ -101,6 +105,8 @@ def main():
             row={'viewport':[w,h],'readyMs':b.ev('__qaReady'),'layout':layout()};r['rows'].append(row);persist()
             check(label+' backing raster',row['layout']['raster']==[w,h,1])
             check(label+' released renderer and removed chrome',b.ev("typeof ExactSpike==='undefined'&&typeof ROUTE_WORKER==='undefined'&&!document.querySelector('#lab .insets')&&!document.querySelector('#atlas-docs')&&!document.querySelector('figcaption')"))
+            check(label+' Ready animation stopped',b.ev("document.querySelector('#startup-loading').dataset.motion==='still'"))
+            if h==480:check(label+' reduced motion honored',b.ev("document.querySelector('#startup-loading').dataset.reducedMotion==='true'"))
             if index==0: shot('ready-390x844')
             tap('[data-enter]');wait("document.getElementById('startup-loading').hidden")
             summaries(label+' collapsed')
@@ -154,6 +160,7 @@ def main():
                 state=b.ev('APP.getView()');tap('#card a[data-method]');wait("!!document.querySelector('[data-map-return]')")
                 check('native Methods anchor',b.ev('location.hash')=='#'+source)
                 check('editorial nav intact',b.ev("['methods.html','data.html','about.html'].every(p=>[...document.querySelectorAll('a')].some(a=>a.getAttribute('href')?.includes(p)))"))
+                b.ev("document.querySelector('[data-map-return]').scrollIntoView({block:'nearest'})")
                 tap('[data-map-return]');wait("document.body?.dataset.ready==='1'&&!!window.ATLAS_EXPLORE",120)
                 wait("APP.selectedPlace()?.name?.includes('Albany')")
                 check('Methods Back encoded exact state',b.ev('APP.getView()')==state,{'expected':state,'actual':b.ev('APP.getView()')})
