@@ -79,8 +79,10 @@ def main():
         p=OUT/(receipt.stem+'-'+label+'.png');p.write_bytes(data);r['screenshots'].append(p.name);persist()
     def target(selector):
         return b.ev("(()=>{const e=document.querySelector("+json.dumps(selector)+");if(!e)throw Error('Missing target');const r=e.getBoundingClientRect(),x=Math.round(r.x+r.width/2),y=Math.round(r.y+r.height/2),at=document.elementFromPoint(x,y);if(!at||!e.contains(at)||getComputedStyle(e).visibility==='hidden')throw Error('Obstructed target '+"+json.dumps(selector)+");return {x,y}})()")
+    def quiet():
+        wait("typeof BoundedTiles==='undefined'||(prefetchPlanTimer===null&&BoundedTiles.prefetch.job===null&&!BoundedTiles.prefetch.status().active)")
     def tap(selector):
-        t=target(selector);b.click(t['x'],t['y']);time.sleep(.15)
+        quiet();t=target(selector);b.click(t['x'],t['y']);time.sleep(.15)
     def key(k):
         code, vk = {'Escape':('Escape',27),'Enter':('Enter',13),'Backspace':('Backspace',8)}.get(k,(k,0))
         b.call('Input.dispatchKeyEvent',type='rawKeyDown',key=k,code=code,windowsVirtualKeyCode=vk);b.call('Input.dispatchKeyEvent',type='keyUp',key=k,code=code,windowsVirtualKeyCode=vk)
@@ -88,6 +90,7 @@ def main():
         tap('input[type=search]');b.call('Input.dispatchKeyEvent',type='rawKeyDown',key='a',code='KeyA',windowsVirtualKeyCode=65,modifiers=2);b.call('Input.dispatchKeyEvent',type='keyUp',key='a',code='KeyA',windowsVirtualKeyCode=65,modifiers=2);b.call('Input.insertText',text=text);time.sleep(.2)
         check('native search input '+text,b.ev("document.querySelector('input[type=search]').value")==text)
     def menu_button(text):
+        quiet()
         index=b.ev("[...document.querySelectorAll('#explore-host button')].findIndex(e=>e.textContent==="+json.dumps(text)+")")
         assert index>=0, text
         b.ev("document.querySelectorAll('#explore-host button')["+str(index)+"].scrollIntoView({block:'nearest'})")
@@ -128,7 +131,7 @@ def main():
             if w<=600:
                 check(label+' one compact row and 44px controls',b.ev("(()=>{const es=[...document.querySelectorAll('#unit button,#atlas-controls>details>summary')],rs=es.map(e=>e.getBoundingClientRect()),t=document.querySelector('#title').getBoundingClientRect();return rs.every(r=>r.height>=44&&r.width>=44&&Math.abs(r.top-rs[0].top)<2&&r.bottom<innerHeight)&&rs[0].top>=t.bottom&&rs[0].top-t.bottom<=8})()"))
             if index==0: shot('country-390x844')
-            before=b.ev('APP.camera()');pan_started=time.monotonic()
+            quiet();before=b.ev('APP.camera()');pan_started=time.monotonic()
             if mobile:
                 b.call('Input.dispatchTouchEvent',type='touchStart',touchPoints=[{'x':100,'y':h*.70,'id':0}])
                 for dx in [10,20,35]: b.call('Input.dispatchTouchEvent',type='touchMove',touchPoints=[{'x':100+dx,'y':h*.70,'id':0}]);time.sleep(.03)
@@ -138,7 +141,7 @@ def main():
             row['countryPanDriverWallMs']=(time.monotonic()-pan_started)*1000;persist()
             check(label+' native country pan',b.ev('APP.camera()')!=before)
             check(label+' removed country control and boot contract',b.ev("!document.querySelector('#home')&&window.__errs.length===0&&typeof APP.reset==='function'&&typeof APP.applyView==='function'"))
-            b.ev('APP.reset()');wait("!GESTURE.active&&!GESTURE.dirty&&!DETAIL_LOADING.pending")
+            quiet();b.ev('APP.reset()');wait("!GESTURE.active&&!GESTURE.dirty&&!DETAIL_LOADING.pending")
             check(label+' retained reset API country and tons',b.ev("APP.getView().unit==='t'&&!APP.selectedPlace()"))
             check(label+' tons national truth',b.ev("document.querySelector('#national-headline').textContent.includes('20.0')&&document.querySelector('#national-headline').textContent.includes('2024')"))
             tap('#layers-panel>summary');wait("document.querySelector('#layers-panel').open")
@@ -224,6 +227,10 @@ def main():
                 saved_state=b.ev('APP.getView()')
                 menu_button('Save current view');check('native save readback',b.ev("!![...document.querySelectorAll('.ae-saved-row button')].find(e=>e.textContent==='Restore Native QA')"))
                 check('saved state exact storage JSON',b.ev("JSON.parse(localStorage.getItem('atlas.saved-views.v1')).items.find(e=>e.name==='Native QA').view")==saved_state)
+                # Save is synchronous, but Zoom here also schedules delayed speculative
+                # fetches. Await their genuine completion before restoring the same camera;
+                # otherwise restoration cancels a request and violates our strict network gate.
+                wait("!DETAIL_LOADING.pending&&prefetchPlanTimer===null&&BoundedTiles.prefetch.job===null&&!BoundedTiles.prefetch.status().active")
                 menu_button('Restore Native QA');wait("!DETAIL_LOADING.pending")
                 restored=b.ev('APP.getView()');saved_pixels=b.ev("(()=>{const e="+json.dumps(saved_state)+",a=APP.getView(),screen=p=>proj(p).map((v,i)=>v*T.k+(i?T.y:T.x));return {camera:[screen(e.camera.center),screen(a.camera.center)],selection:[screen(e.selection.point),screen(a.selection.point)]}})()")
                 check('native save restore semantic and coordinate contract',compare_view(saved_state,restored,saved_pixels)['pass'])
@@ -243,7 +250,7 @@ def main():
             b.ev("document.querySelector('#card .x').scrollIntoView({block:'nearest'})")
             tap('#card .x');check(label+' native close',b.ev("!APP.selectedPlace()&&document.querySelector('#card').hidden"))
             before=b.ev('APP.camera()');b.ev("APP.flyLL([-87.63,41.88],3.9,0)");wait("!GESTURE.active&&!GESTURE.dirty&&!DETAIL_LOADING.pending")
-            before=b.ev('APP.camera()');pan_started=time.monotonic()
+            quiet();before=b.ev('APP.camera()');pan_started=time.monotonic()
             if mobile:
                 b.call('Input.dispatchTouchEvent',type='touchStart',touchPoints=[{'x':100,'y':h*.65,'id':0}])
                 for dx in [10,20,35]:b.call('Input.dispatchTouchEvent',type='touchMove',touchPoints=[{'x':100+dx,'y':h*.65,'id':0}]);time.sleep(.03)
