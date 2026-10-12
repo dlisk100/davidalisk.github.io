@@ -85,3 +85,7 @@
  #card{left:250px;right:252px;top:150px;bottom:max(16px,env(safe-area-inset-bottom));max-height:none}
  #atlas-controls:has(#atlas-menu[open])~#card{visibility:hidden}
 }
+/* Software keyboard-height emulation: align the collapsed dock beside unit tools. */
+@media(max-width:600px) and (max-height:400px){
+ #atlas-controls{top:calc(max(16px,env(safe-area-inset-top)) + 90px)}
+}

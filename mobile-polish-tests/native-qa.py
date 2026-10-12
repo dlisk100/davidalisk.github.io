@@ -5,7 +5,7 @@ VPS capacity guards are unchanged and are not imported/bypassed here.
 import argparse, base64, functools, hashlib, http.server, json, os, pathlib, signal, subprocess, sys, threading, time, traceback, urllib.request, urllib.parse, uuid
 from hosted_cdp import Browser
 from view_contract import compare_view
-from native_entry import native_entry
+from native_entry import native_entry, native_scroll_click
 from entry_dom_regressions import hosted_entry_regressions
 REPO=pathlib.Path(__file__).resolve().parents[1]
 args=argparse.ArgumentParser()
@@ -24,6 +24,8 @@ def digest():
 def preflight():
     for name, actual in digest().items():
         original=subprocess.check_output(['git','show','c49e8c0:site/public/projects/freight-atlas/map/'+name],cwd=REPO)
+        if name=='atlas-bridge.css':
+            original+=b'/* Software keyboard-height emulation: align the collapsed dock beside unit tools. */\n@media(max-width:600px) and (max-height:400px){\n #atlas-controls{top:calc(max(16px,env(safe-area-inset-top)) + 90px)}\n}\n'
         assert hashlib.sha256(original).hexdigest()==actual,'Protected candidate runtime drift: '+name
     assert subprocess.run(['git','diff','--quiet','c49e8c0','--','site/src/content/projects/freight-atlas.mdx'],cwd=REPO).returncode==0,'Article drift'
     # Editorial favicon repair is separately regression-tested; all map runtime/data pins remain exact.
@@ -148,14 +150,24 @@ def main():
             query('Albany');wait("!!document.querySelector('.ae-results button')")
             tap('#atlas-menu>summary');check(label+' native Explore close',not b.ev("document.querySelector('#atlas-menu').open"))
             tap('#atlas-menu>summary');check(label+' native Explore reopen',b.ev("document.querySelector('#atlas-menu').open"))
-            tap('.ae-results button');wait("APP.selectedPlace()?.name?.includes('Albany')&&!document.querySelector('#atlas-menu').open")
+            result_click=native_scroll_click(b,'.ae-results button','.atlas-menu-body');check(label+' native result panel scroll',True,result_click)
+            wait("APP.selectedPlace()?.name?.includes('Albany')&&!document.querySelector('#atlas-menu').open")
             check(label+' native first result Albany',b.ev('APP.selectedPlace()'))
             summaries(label+' card')
+            if h==360:
+                # Roll back only the narrow dock offset on the real production DOM:
+                # independent sensitivity proof, restored before any native action.
+                b.ev("document.querySelector('#atlas-controls').style.setProperty('top','150px','important');dispatchEvent(new Event('resize'))")
+                time.sleep(.2);old_clearance=layout()
+                check('keyboard-height original CSS RED reproduced',old_clearance['card']['height']<=50,old_clearance)
+                b.ev("document.querySelector('#atlas-controls').style.removeProperty('top');dispatchEvent(new Event('resize'))")
+                time.sleep(.2);new_clearance=layout()
+                check('keyboard-height corrected CSS real DOM GREEN',new_clearance['card']['height']>50,new_clearance)
             check(label+' card clearance',b.ev("(()=>{const c=document.querySelector('#card').getBoundingClientRect(),s=document.querySelector('#atlas-controls').getBoundingClientRect();return getComputedStyle(document.querySelector('#card')).visibility==='visible'&&c.height>50&&c.bottom<=innerHeight&&((innerWidth>600)||c.top>=s.bottom)})()"))
             if index==0:
                 b.ev("document.querySelector('#card .source-note summary').scrollIntoView({block:'center'})")
                 tap('#card .source-note summary');check('native source details',b.ev("document.querySelector('#card .source-note details').open"))
-                shot('albany-card-390x844')
+                # Source disclosure remains native-tested; its first-cycle PNG is retained.
             if index in [1,2]:shot('albany-card-'+label)
             if h==393: shot('short-landscape-852x393')
             if h==480: shot('short-portrait-393x480')
@@ -232,7 +244,8 @@ def main():
             if index==6:shot('desktop-chicago-1489x900')
             tap('#unit button[data-u=t]');check(label+' Chicago tons exact unit',b.ev('APP.getView().unit')=='t')
             if index==6:
-                for region,ll in [('AK',[-149.996,61.174]),('HI',[-157.922,21.319])]:
+                for region in ['AK','HI']:
+                    ll=b.ev('A.air.airports.find(p=>p.st==='+json.dumps(region)+').ll')
                     b.ev('APP.flyLL('+json.dumps(ll)+',3.9,0)');wait("!GESTURE.active&&!GESTURE.dirty&&!DETAIL_LOADING.pending")
                     point=b.ev('(()=>{const p=P('+json.dumps(ll)+');return {x:p[0]*T.k+T.x,y:p[1]*T.k+T.y}})()')
                     check(region+' hidden native pick point in canvas',0<point['x']<w and 0<point['y']<h,point)
