@@ -1,0 +1,90 @@
+✖ real preparation is the only Ready/entry gate and entering unlocks before cosmetic fade (5.358361ms)
+✔ error retry calls the real reload and never appears for ordinary pending work (5.182763ms)
+✔ country ink follows the actual current job total rather than an invented high-water percentage (2.301909ms)
+✔ detail indicator is visible only for actual pending work or error and retry is error-only (2.487337ms)
+✔ real LoadingStatus state discards stale completion/error and a retry receives a fresh token (0.88116ms)
+✔ production traveler motion has reverse tangent and endpoint easing, stays tied to visibility/reduced motion (2.308693ms)
+✔ reduced motion keeps every glyph legible; entry pause cannot be undone by status (3.468704ms)
+✔ opening plate has freight silhouettes, a real stage list and a paper-to-map exit (1.390564ms)
+✔ byte updates do not keep re-announcing the same stage; live reduced-motion changes restore static glyphs (1.240262ms)
+✔ failure and cancellation stop motion and clear active stage without leaking diagnostics (1.384531ms)
+✖ real stages are visible and completion never calls a not-yet-ready atlas ready (2.043585ms)
+✔ unknown download shows actual received bytes and completed files, not a fictional total (3.732497ms)
+✔ early network callbacks visibly advance while the overall denominator remains unknown (1.218731ms)
+✔ geometry audit does not display the previous completed index counter (18.486059ms)
+✔ completed geometry is not a completed opening scene (1.430028ms)
+✔ projection replaces stale early counters with real row completion and validates before settlement (26.811195ms)
+✔ bfcache pagehide preserves the prepared scene; retirement cancels it (1.205537ms)
+✔ hidden documents finish validation without waiting for a suspended animation frame (2.153531ms)
+✔ cancel during final paint checkpoint cannot resurrect preparation (6.474571ms)
+✖ real reader completions advance settlement without inventing a denominator or Ready (20.16927ms)
+✔ failed and stale reader jobs cannot count as successful settlement work (5.820848ms)
+ℹ tests 21
+ℹ suites 0
+ℹ pass 18
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 485.410712
+
+✖ failing tests:
+
+test at ../freight-mobile-focused-vs8zzsrv/final-polish-work/entry.test.cjs:4:1
+✖ real preparation is the only Ready/entry gate and entering unlocks before cosmetic fade (5.358361ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /Loading map data…/. Input:
+
+  '1.0 MiB received · 0 files loaded'
+
+      at TestContext.<anonymous> (/tmp/freight-mobile-focused-vs8zzsrv/final-polish-work/entry.test.cjs:4:295)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1397:25)
+      at Test.start (node:internal/test_runner/test:1257:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '1.0 MiB received · 0 files loaded',
+    expected: /Loading map data…/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at ../freight-mobile-focused-vs8zzsrv/release-loading-work/experience.test.cjs:38:1
+✖ real stages are visible and completion never calls a not-yet-ready atlas ready (2.043585ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+
+  + '4 KiB received · 0 files loaded'
+  - 'Loading map data…'
+
+      at TestContext.<anonymous> (/tmp/freight-mobile-focused-vs8zzsrv/release-loading-work/experience.test.cjs:39:259)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1397:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:969:18)
+      at Test.postRun (node:internal/test_runner/test:1537:19)
+      at Test.run (node:internal/test_runner/test:1462:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:969:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '4 KiB received · 0 files loaded',
+    expected: 'Loading map data…',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at ../freight-mobile-focused-vs8zzsrv/release-loading-work/settlement-progress.test.cjs:5:1
+✖ real reader completions advance settlement without inventing a denominator or Ready (20.16927ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /1 detail payload decoded/. Input:
+
+  'Opening the map · 1 file loaded · preparing the view…'
+
+      at TestContext.<anonymous> (/tmp/freight-mobile-focused-vs8zzsrv/release-loading-work/settlement-progress.test.cjs:12:177)
+      at async Test.run (node:internal/test_runner/test:1404:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'Opening the map · 1 file loaded · preparing the view…',
+    expected: /1 detail payload decoded/,
+    operator: 'match',
+    diff: 'simple'
+  }

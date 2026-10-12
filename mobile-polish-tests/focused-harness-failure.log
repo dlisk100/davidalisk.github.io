@@ -1,0 +1,42 @@
+✔ navigation removed only from map; article and cards retain provenance (2.760247ms)
+✔ lower48 display excludes AK HI and offshore anchors without changing facts (2.501944ms)
+✔ mobile disclosures use a flow dock and measured card clearance (0.370814ms)
+✔ national vintage and USD units remain honest (38.007556ms)
+✔ card selection closes disclosures without changing focus or hiding summaries (1.756627ms)
+✖ card Methods links retain all metric-family anchors (1.368081ms)
+✔ country loading has no caption row (0.441718ms)
+✔ production disclosure toggle/Escape/focus and clearance at 390px boundary (3.55779ms)
+✔ production disclosure toggle/Escape/focus and clearance at 393px boundary (1.471295ms)
+✔ production disclosure toggle/Escape/focus and clearance at 430px boundary (2.006006ms)
+✔ production disclosure toggle/Escape/focus and clearance at 852px boundary (0.986266ms)
+✔ production selection rejects retained AK/HI source IDs and keeps lower48 anchors (66.011744ms)
+✔ actual catalog retains lower48 search results and drops AK/HI; production result click selects (12.64897ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 12
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 282.003233
+
+✖ failing tests:
+
+test at mobile-polish-tests/final-mobile.test.cjs:9:1
+✖ card Methods links retain all metric-family anchors (1.368081ms)
+  Error: Cannot find module './clicked-place.js'
+  Require stack:
+  - /tmp/site/site/public/projects/freight-atlas/map/info-inspector.js
+      at Module._resolveFilename (node:internal/modules/cjs/loader:1564:15)
+      at wrapResolveFilename (node:internal/modules/cjs/loader:1118:27)
+      at defaultResolveImplForCJSLoading (node:internal/modules/cjs/loader:1142:10)
+      at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1169:12)
+      at Module._load (node:internal/modules/cjs/loader:1341:5)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:261:19)
+      at Module.require (node:internal/modules/cjs/loader:1674:12)
+      at require (node:internal/modules/helpers:157:16)
+      at /tmp/site/site/public/projects/freight-atlas/map/info-inspector.js:1:84
+      at Object.<anonymous> (/tmp/site/site/public/projects/freight-atlas/map/info-inspector.js:1:226) {
+    code: 'MODULE_NOT_FOUND',
+    requireStack: [ '/tmp/site/site/public/projects/freight-atlas/map/info-inspector.js' ]
+  }

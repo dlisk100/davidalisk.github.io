@@ -20,8 +20,8 @@
 [data-startup-visual]{width:100%;aspect-ratio:720/390;position:relative}
 [data-startup-visual] svg{display:block;position:absolute;inset:0;width:100%;height:100%;overflow:visible}
 .startup-ribbon{stroke:#82684c}.ribbon-guide{stroke:#d6c8aa;stroke-width:1}.ribbon-main{stroke-width:9;opacity:.65}.ribbon-branch{stroke:#5c7d5a;stroke-width:4;opacity:.5}.ribbon-thread{stroke:#466c8c;stroke-width:2;opacity:.5}
-#startup-loading[data-loading-style="country"] .startup-ribbon,#startup-loading[data-loading-style="country"] .ribbon-caption,#startup-loading[data-loading-style="ribbon"] .startup-country,#startup-loading[data-loading-style="ribbon"] .country-caption{display:none}
-.startup-figure figcaption{border-top:1px solid #c9bda4;padding-top:14px;font:11px InterA,Arial,sans-serif;color:var(--sepia);display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+#startup-loading[data-loading-style="country"] .startup-ribbon,#startup-loading[data-loading-style="ribbon"] .startup-country{display:none}
+
 .startup-figure small{font:italic 13px Garamond,Georgia,serif}
 .startup-footer{border-top:1px solid #b9aa8f;padding:18px 0;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
 .startup-footer fieldset{border:0;margin:0;padding:0;display:flex;gap:4px}
@@ -42,7 +42,7 @@
  .startup-mast{font-size:9px;letter-spacing:.08em}.startup-mast span:last-child{max-width:140px;text-align:right}
  .startup-layout{grid-template-columns:1fr;gap:22px;padding:30px 0 22px;min-height:0}
  .startup-kicker{margin-bottom:16px}#startup-loading h2{font-size:36px;max-width:none}#startup-loading p{font-size:17px;max-width:340px;min-height:0}
- .startup-actions{margin-top:18px}.startup-figure{margin:0 -8px}.startup-figure figcaption{margin:0 8px;line-height:1.5}
+ .startup-actions{margin-top:18px}.startup-figure{margin:0 -8px}
  .startup-footer{gap:12px}.startup-footer nav{margin-left:0;width:100%}.startup-footer .startup-replay{margin-left:auto}
  #startup-preview{top:154px;bottom:auto;right:16px;z-index:12}
 }
@@ -78,7 +78,7 @@
 @keyframes plate-arrival{from{opacity:.65;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
 /* Country plate: recognizable silhouettes, restrained ink, no presentation controls. */
 .startup-work-count{display:block;min-height:16px;margin-top:10px;color:var(--sepia);font:11px InterA,Arial,sans-serif;font-variant-numeric:tabular-nums}
-#startup-loading .startup-figure figcaption{justify-content:flex-start}
+
 #startup-loading .startup-sheet{transform-origin:50% 55%}
 #startup-loading.is-entering .startup-sheet{transform:translateY(-6px);transition:transform .28s cubic-bezier(.2,.7,.2,1)}
 .flow-traveler.air{fill:#494a47;stroke:#f9f4e6;stroke-width:.45}

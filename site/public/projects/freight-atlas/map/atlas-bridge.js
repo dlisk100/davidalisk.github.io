@@ -21,6 +21,7 @@ function sourceID(s){if(!s||!['truck','rail','water','pipeline'].includes(s.m)||
 function resolveSource(id,segs){if(typeof id!=='string')return null;const found=segs.filter(s=>sourceID(s)===id||(s.m==='water'&&s.graph?.waterSourceID!=null&&'water:'+s.graph.waterSourceID===id)||(s.m==='pipeline'&&s.graph?.pipelineSourceID===id));return found.length===1?found[0]:null;}
 function serializedURL(app,href){const u=new URL(href);if(u.pathname.endsWith('/'))u.pathname+='index.html';u.search='';u.hash=globalThis.AtlasExplore.serialize(app.getView());return u.href;}
 // Source totals are independent of map visibility and local link throughput.
+function inLower48(ll){return finite(ll)&&ll[0]>=-125&&ll[0]<=-66&&ll[1]>=24&&ll[1]<=50;}
 function nationalHeadline(balance,unit){
  const rows=['domestic','imports','exports'].map(k=>balance?.faf2024?.[k]),index=unit==='usd'?1:0;
  if(rows.some(r=>!Array.isArray(r)||!Number.isFinite(r[index])||r[index]<0))return null;
@@ -40,15 +41,21 @@ function lineQuantity(value,unit){
  return prefix+Math.round(value).toLocaleString('en-US')+suffix;
 }
 function chromeBounds(doc){
- const elements=['title','tools','legend','layers-panel','atlas-menu','atlas-docs','zbar'].map(id=>doc.getElementById(id));elements.push(doc.querySelector?.('#lab .insets'));
+ const elements=['title','tools','legend','layers-panel','atlas-menu','zbar'].map(id=>doc.getElementById(id));
  return elements.flatMap(el=>{const r=el?.getBoundingClientRect();return r&&r.width>0&&r.height>0?[[r.left-6,r.top-6,r.right+6,r.bottom+6]]:[];});
 }
+function closePanels(doc){for(const id of ['layers-panel','atlas-menu']){const panel=doc.getElementById(id);if(panel)panel.open=false;}}
 let chromeMounted=false;
 function compactChrome(){
  if(chromeMounted)return;
  const legend=document.getElementById('legend'),layers=document.getElementById('layers-panel'),title=document.getElementById('title');
  if(!legend||!layers||!title||typeof matchMedia!=='function')return;
  chromeMounted=true;const phone=matchMedia('(max-width:600px)');
+ const dock=document.getElementById('atlas-controls'),menu=document.getElementById('atlas-menu');
+ const measure=()=>{if(!dock)return;const r=dock.getBoundingClientRect();document.documentElement.style.setProperty('--atlas-controls-bottom',Math.ceil(r.bottom+8)+'px');};
+ for(const panel of [layers,menu]){if(!panel)continue;panel.addEventListener('toggle',()=>{if(panel.open){const other=panel===layers?menu:layers;if(other)other.open=false;}measure();});panel.addEventListener('keydown',e=>{if(e.key==='Escape'&&panel.open){e.preventDefault();panel.open=false;panel.querySelector('summary').focus();measure();}});}
+ if(dock&&typeof ResizeObserver==='function')new ResizeObserver(measure).observe(dock);
+ window.addEventListener('resize',measure);measure();
  const layout=()=>{if(phone.matches)layers.append(legend);else title.after(legend);};layout();phone.addEventListener('change',layout);
  const hint=document.getElementById('map-hint'),wrap=document.getElementById('wrap');
  if(!hint||!wrap)return;
@@ -65,12 +72,12 @@ async function boot(app){
  document.addEventListener('click',e=>{const a=e.target.closest?.('a[data-doc],a[data-method]');if(!a)return;try{a.href=globalThis.AtlasEditorial.docURL(a.dataset.doc||'methods.html',a.dataset.method||null,serializedURL(app,location.href),location.href);}catch{try{const fallback=new URL(a.href,location.href),base=new URL('.',location.href);if(fallback.origin!==base.origin||fallback.username||fallback.password||!['methods.html','about.html','guide.html','data.html'].some(n=>fallback.pathname===base.pathname+n))throw Error('Unsafe reference');a.href=fallback.href;}catch{e.preventDefault();say({status:'unavailable',message:'Reference unavailable.'});}}});
  try{
   const response=await fetch('explore-catalog.json');if(!response.ok)throw Error('Explore data unavailable');const catalog=await response.json();
-  const mounted=globalThis.AtlasExplore.mount({container:document.getElementById('explore-host'),places:catalog.places,getView:app.getView,cameraForPlace:camera=>app.framePlace(camera),applyView:app.applyView,select:async d=>{const ok=app.selectPlace(d);if(ok)document.getElementById('atlas-menu').open=false;return{status:ok?'ok':'unavailable'};},clearSelection:app.closeCard,reset:app.reset});
+  const mounted=globalThis.AtlasExplore.mount({container:document.getElementById('explore-host'),places:catalog.places.filter(p=>inLower48(p.point)), getView:app.getView,cameraForPlace:camera=>app.framePlace(camera),applyView:app.applyView,select:async d=>{const ok=app.selectPlace(d);if(ok)document.getElementById('atlas-menu').open=false;return{status:ok?'ok':'unavailable'};},clearSelection:app.closeCard,reset:app.reset});
   globalThis.ATLAS_EXPLORE=mounted;
   const initial=globalThis.AtlasExplore.parse(location.hash);
   if(initial.status==='ok'){const result=await mounted.controller.restore(initial.view);say(result);mounted.controls.status.textContent=result.message;}
   else if(initial.status==='invalid')say(initial);
  }catch(e){say({status:'unavailable',message:'Search is unavailable. You can still explore the map. Reload to try again.'});}
 }
-return{SNAPSHOT,project,rawCamera,geoCamera,frameCamera,distanceScale,sourceID,resolveSource,serializedURL,nationalHeadline,regionLabel,lineQuantity,chromeBounds,compactChrome,boot};
+return{SNAPSHOT,inLower48,closePanels,project,rawCamera,geoCamera,frameCamera,distanceScale,sourceID,resolveSource,serializedURL,nationalHeadline,regionLabel,lineQuantity,chromeBounds,compactChrome,boot};
 });

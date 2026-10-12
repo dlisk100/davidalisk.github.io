@@ -1,0 +1,22 @@
+✔ navigation removed only from map; article and cards retain provenance (2.743025ms)
+✔ lower48 display excludes AK HI and offshore anchors without changing facts (2.611418ms)
+✔ mobile disclosures use a flow dock and measured card clearance (0.394148ms)
+✔ national vintage and USD units remain honest (44.767261ms)
+✔ card selection closes disclosures without changing focus or hiding summaries (1.647804ms)
+✔ card Methods links retain all metric-family anchors (6.579598ms)
+✔ short portrait cannot leave a zero-space card under expanded Layers (0.314689ms)
+✔ country loading has no caption row (0.286366ms)
+✔ production disclosure toggle/Escape/focus and clearance at 390px boundary (3.667506ms)
+✔ production disclosure toggle/Escape/focus and clearance at 393px boundary (1.11629ms)
+✔ production disclosure toggle/Escape/focus and clearance at 430px boundary (4.822689ms)
+✔ production disclosure toggle/Escape/focus and clearance at 852px boundary (1.061496ms)
+✔ production selection rejects retained AK/HI source IDs and keeps lower48 anchors (69.095478ms)
+✔ actual catalog retains lower48 search results and drops AK/HI; production result click selects (14.003346ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 14
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 292.533908

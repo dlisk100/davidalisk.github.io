@@ -15,7 +15,7 @@ const uF = u => u >= 1e12 ? '$' + (u / 1e12).toFixed(1) + ' T' : u >= 1e9 ? '$' 
 const EST = ' <span class="est">est.</span>';
 
 // ---------------------------------------------------------------- projection + base plate (SVG, transformed)
-const L48 = { type: 'FeatureCollection', features: A.states.map(s => ({ type: 'Feature', geometry: s.g })) };
+const L48 = { type: 'FeatureCollection', features: A.states.filter(s=>!['AK','HI'].includes(s.id)).map(s => ({ type: 'Feature', geometry: s.g })) };
 const proj = window.STARTUP_PROJECTION || d3.geoConicEqualArea().parallels([29.5, 45.5]).rotate([96, 0]);
 if(!window.STARTUP_PROJECTION)proj.fitExtent([[40, 110], [W - 40, H - 50]], L48);
 const path = d3.geoPath(proj), P = ll => proj(ll);
@@ -23,7 +23,7 @@ svg.attr('width', W).attr('height', H);
 const zg = svg.append('g');
 zg.append('rect').attr('x', -9000).attr('y', -9000).attr('width', 20000).attr('height', 20000).attr('fill', '#dfe3dc');
 zg.append('g').selectAll(null).data(A.neighbors).join('path').attr('d', d => path(d)).attr('fill', '#ece5d0').attr('stroke', '#8c9a9c').attr('stroke-width', 0.5).attr('vector-effect', 'non-scaling-stroke');
-zg.append('g').selectAll(null).data(A.states).join('path').attr('d', d => path(d.g)).attr('fill', '#f8f3e4').attr('stroke', '#c2b597').attr('stroke-width', 0.7).attr('vector-effect', 'non-scaling-stroke');
+zg.append('g').selectAll(null).data(A.states.filter(s=>!['AK','HI'].includes(s.id))).join('path').attr('d', d => path(d.g)).attr('fill', '#f8f3e4').attr('stroke', '#c2b597').attr('stroke-width', 0.7).attr('vector-effect', 'non-scaling-stroke');
 zg.append('path').attr('d', path(L48)).attr('fill', 'none').attr('stroke', '#7f8e90').attr('stroke-width', 1).attr('vector-effect', 'non-scaling-stroke');
 zg.append('g').selectAll(null).data(A.lakes).join('path').attr('d', d => path(d)).attr('fill', '#dfe3dc').attr('stroke', '#8c9a9c').attr('stroke-width', 0.5).attr('vector-effect', 'non-scaling-stroke');
 
@@ -37,7 +37,7 @@ REPLACEMENT.meta.program=null;REPLACEMENT.buffers=null;
 let SEGS=[],DISPLAY=[],INHERITED_DISPLAY=[];
 function syncOwners(){SEGS=[...OWNER.segs.values()].sort((a,b)=>a.i-b.i);DISPLAY=[...OWNER.groups.values()];for(const s of SEGS)s.col=s.m==='pipeline'?MCOL[s.cls]||MCOL.gasngl:MCOL[s.m];}
 if(window.RegionFitFinish)window.RegionFitFinish.apply(PZ);
-const REG = PZ.regions.map(r => { const p2 = new Path2D(); const rings = r.rings.map(c => decode(c, r.precision ?? (r.tier ? 3 : 2)).map(P)); rings.forEach(rg => { rg.forEach((q, j) => j ? p2.lineTo(q[0], q[1]) : p2.moveTo(q[0], q[1])); p2.closePath(); }); return Object.assign({}, r, { p2, rings, xy: P(r.c) }); });
+const REG = PZ.regions.filter(r=>AtlasBridge.inLower48(r.c)).map(r => { const p2 = new Path2D(); const rings = r.rings.map(c => decode(c, r.precision ?? (r.tier ? 3 : 2)).map(P)); rings.forEach(rg => { rg.forEach((q, j) => j ? p2.lineTo(q[0], q[1]) : p2.moveTo(q[0], q[1])); p2.closePath(); }); return Object.assign({}, r, { p2, rings, xy: P(r.c) }); });
 const RBY = new Map(REG.map(r => [r.id, r]));
 const SHORT = { cacoast: 'Salinas & Imperial produce', highplains: 'High Plains feedlots', nchogs: 'NC hogs & poultry', flcitrus: 'Florida citrus & cane', gapoultry: 'Georgia poultry', nvgold: 'Nevada gold', azcopper: 'Arizona copper', utcopper: 'Bingham copper', flphosphate: 'Bone Valley phosphate', gulf: 'Gulf petrochemicals', autos: 'Auto corridor', njpharma: 'NJ chemicals & pharma', siliconvalley: 'Silicon Valley', centralvalley: 'Central Valley', appalachia: 'Marcellus–Utica' };
 // city label = the region's namesake county point (San Francisco County for the SF region), else its biggest-GDP point;
@@ -47,9 +47,9 @@ function cityPt(z, n) { const tt = PZ.term.filter(t => t[0] === z.z); if (!tt.le
 const seen = new Set();
 const CITY = PZ.zones.filter(z => !['020', '151', '159'].includes(z.z)).map(z => { const area = AtlasBridge.regionLabel(z.n), n = area.name; return { z, n, areaPriority: area.priority, v: z.o[0] + z.o[2], xy: P(area.priority ? z.ll : cityPt(z, n)) }; })
   .sort((a, b) => a.areaPriority - b.areaPriority || b.v - a.v).filter(c => !seen.has(c.n) && seen.add(c.n));
-const AIRPORTS = A.air.airports.map(p => ({p,n:p.n,xy:P(p.ll),v:p.t.reduce((a,b)=>a+b,0),a:0,r:0}));
+const AIRPORTS = A.air.airports.filter(p=>!['AK','HI'].includes(p.st)&&AtlasBridge.inLower48(p.ll)).map(p => ({p,n:p.n,xy:P(p.ll),v:p.t.reduce((a,b)=>a+b,0),a:0,r:0}));
 const SELECTION_PLACES = [{n:'Cushing, Oklahoma',ll:[-96.7617533,35.9796807]},...CITY.map(c=>({n:c.n,ll:proj.invert(c.xy)}))];
-const PORTS = PZ.ports.map(p => ({ p, v: p.v[0] + p.v[1], xy: P(p.ll), n: 'Port of ' + p.n.replace(/, [A-Z]{2}$/, '').toLowerCase().replace(/\b\w/g, c => c.toUpperCase()) })).filter(p => p.v > 2e6);
+const PORTS = PZ.ports.filter(p=>AtlasBridge.inLower48(p.ll)).map(p => ({ p, v: p.v[0] + p.v[1], xy: P(p.ll), n: 'Port of ' + p.n.replace(/, [A-Z]{2}$/, '').toLowerCase().replace(/\b\w/g, c => c.toUpperCase()) })).filter(p => p.v > 2e6);
 const RK = { oil: ['rgba(150,78,72,0.16)', 'rgb(150,78,72)'], gas: ['rgba(196,118,130,0.15)', 'rgb(170,100,106)'], coal: ['rgba(60,55,50,0.13)', '#3b342c'], industry: ['rgba(200,160,70,0.17)', 'rgb(150,115,45)'], farm: ['rgba(132,163,128,0.22)', 'rgb(92,125,90)'], minerals: ['rgba(130,88,59,0.16)', 'rgb(130,88,59)'] };
 function hatch(col) { const c = document.createElement('canvas'); c.width = c.height = 8; const x = c.getContext('2d'); x.fillStyle = col[0]; x.fillRect(0, 0, 8, 8); x.strokeStyle = col[1]; x.globalAlpha = 0.28; x.lineWidth = 0.7; x.beginPath(); x.moveTo(0, 8); x.lineTo(8, 0); x.stroke(); return ctx.createPattern(c, 'repeat'); }
 const RPAT = {}; Object.keys(RK).forEach(k => RPAT[k] = hatch(RK[k]));
@@ -259,7 +259,7 @@ function setLayer(key,on){
  LAYERS.set(key,on);layerControls.querySelectorAll('input').forEach(input=>input.checked=LAYERS.on(input.dataset.layer));
  HOV=null;tip.hidden=true;wrap.classList.remove('hot');
  if(SEL&&!LAYERS.visible(SEL))closeCard();else{draw();placeLabels();}
- refreshInsetLayers();refreshInsetSelection();zbarScale=null;zbar();
+ zbarScale=null;zbar();
  const empty=document.getElementById('layers-empty');empty.hidden=!LAYERS.none();
  if(!window.DETAIL_LOADING?.pending&&!window.DETAIL_LOADING?.error){loadingElement.hidden=true;loadingElement.querySelector('span').textContent=MODES.some(m=>LAYERS.on(m))?'No modeled network flows shown at this zoom.':'Network layers are off; place layers remain independent.';}
 }
@@ -272,7 +272,7 @@ let settleT = 0;
 const zoom = d3.zoom().scaleExtent([0.8, 60]).clickDistance(5).on('start',()=>{cancelPrefetch();GESTURE.start();DRAW_FRAME.dispose();REFRESH_FRAME.dispose();cv.style.willChange=SNAPSHOTS?'transform':'';}).on('end',()=>{GESTURE.end();}).on('zoom', ev => {
   T = ev.transform; cameraGeneration++; OWNER.generation++;if(OWNER.staging)OWNER.staging.clear();LOAD.begin('Updating network detail'); zg.attr('transform', T); GESTURE.change(T);DRAW_FRAME.request(SNAPSHOTS?presentSnapshot:draw);
   const s = T.k / LT.k; labG.attr('transform', `translate(${T.x},${T.y}) scale(${s}) translate(${-LT.x},${-LT.y})`).attr('opacity', Math.abs(Math.log2(s)) > 0.4 ? 0.25 : 1);
-  zbar(); insetFade(); document.getElementById('tip').hidden = true; clearTimeout(settleT);
+  zbar(); document.getElementById('tip').hidden = true; clearTimeout(settleT);
 });
 // Picking APIs and native hover share the settled-state gate. The underlying
 // exact hit algorithm is unchanged; never query old geometry at a new camera.
@@ -312,6 +312,7 @@ function hit(sx, sy) {
 const card = document.getElementById('card');
 function openCard(h) {
  if(!LAYERS.visible(h))return;
+ if(W<=600||H<=500)AtlasBridge.closePanels(document);
  // Native hit supplies the nearest drawn point. APP.openCard may supply map xy or screen coordinates; absent either use the object's own geometry, never a network anchor.
  if(!h.xy){if(h.screen){h.xy=[(h.screen[0]-T.x)/T.k,(h.screen[1]-T.y)/T.k];if(h.type==='seg'){let nearest=null;const pts=h.s.dp||h.s.pts;for(let j=1;j<pts.length;j++){const q=ClickedPlace.nearest(h.xy,{x:pts[j-1][0],y:pts[j-1][1],s:h.s},{x:pts[j][0],y:pts[j][1],s:h.s});if(!nearest||q.distance<nearest.distance)nearest=q;}h.xy=nearest?nearest.xy:h.xy;}}
   else h.xy=(h.type==='seg'?(h.s.dp||h.s.pts)[0]:h.type==='reg'?h.r.xy:h.c.xy).slice();
@@ -330,7 +331,7 @@ function openCard(h) {
  const id=h.type==='seg'?h.s.i:h.type==='reg'?h.r.id:h.type==='city'?h.c.z.z:h.c.p.id;
  card.innerHTML=`<button class="x" aria-label="Close">×</button><div class="kind">${esc(kind)}</div><h3>${esc(name)}</h3><div class="location">${esc(location)}</div><div class="local-quantity">${unknown}</div><div class="note">${esc(f.source)}</div>${context}${InfoInspector.sourceHTML(h,UNIT,id)}<button class="zt">Zoom here ›</button>`;
  card.hidden=false;card.querySelector('.x').onclick=closeCard;card.querySelector('.zt').onclick=()=>zoomToSel();
- draw();placeLabels();refreshInsetSelection();window.__sel=h.type+':'+id;
+ draw();placeLabels();window.__sel=h.type+':'+id;
  if(h.type==='city'){
   const target=card.querySelector('[data-metro-detail]'),requestedUnit=UNIT;
   const current=()=>SEL===h&&UNIT===requestedUnit&&target.isConnected;
@@ -338,7 +339,7 @@ function openCard(h) {
   load();
  }
 }
-function closeCard() {SEL=null;card.hidden=true;draw();placeLabels();refreshInsetSelection();window.__sel=null;}
+function closeCard() {SEL=null;card.hidden=true;draw();placeLabels();window.__sel=null;}
 function selBounds() {if(!SEL?.xy)return null;const [x,y]=SEL.xy;return[x-20,y-20,x+20,y+20];}
 function fitT(b) { const k = Math.min(60, Math.max(80,W-(W<600?80:500)) / Math.max(1,b[2]-b[0]), Math.max(80,H-260) / Math.max(1,b[3]-b[1])); return d3.zoomIdentity.translate(W/2+(W<600?0:120)-k*(b[0]+b[2])/2,H/2+(W<600?-80:20)-k*(b[1]+b[3])/2).scale(k); }
 function zoomToSel(ms = 1600) { const b = selBounds(); if (b) return wsel.transition().duration(ms).ease(d3.easeCubicInOut).call(zoom.transform, fitT(b)).end().catch(() => 0); }
@@ -370,40 +371,6 @@ async function tour() { // ~27 s: continuous named routes, in-place selection an
   setUnit('usd'); await sleep(2300); return 'done';
 }
 
-// ---------------------------------------------------------------- Alaska & Hawaii: framed atlas insets (screen space, clipped to their
-// boxes so nothing can fall outside them; they fade out once you zoom in, so they never sit fixed on a zoomed map)
-const insG = lab.append('g').attr('class', 'insets');
-function refreshInsetLayers(){insG.selectAll('.inset-airport').style('display',LAYERS.on('airports')?null:'none').style('pointer-events',LAYERS.on('airports')?null:'none');insG.selectAll('.inset-metro').style('display',LAYERS.on('metros')?null:'none').style('pointer-events',LAYERS.on('metros')?null:'none');}
-function refreshInsetSelection(){insG.selectAll('.inset-airport').attr('stroke',c=>SEL?.type==='airport'&&SEL.c===c?'#262019':'#7b6587').attr('stroke-width',c=>SEL?.type==='airport'&&SEL.c===c?2.2:1.2);}
-function buildInsets() {
-  insG.selectAll('*').remove();
-  const one = (bx, title, feat, rot, par, zs) => {
-    const id='clip-'+title.toLowerCase(),g=insG.append('g');
-    g.append('clipPath').attr('id',id).append('rect').attr('x',bx.x).attr('y',bx.y).attr('width',bx.w).attr('height',bx.h);
-    g.append('rect').attr('x',bx.x).attr('y',bx.y).attr('width',bx.w).attr('height',bx.h).attr('fill','#dfe3dc').attr('stroke','#262019').attr('stroke-width',.9);
-    const airports=AIRPORTS.filter(c=>c.p.st===(title==='Alaska'?'AK':'HI'));
-    // Keep every island and source anchor inside the same projection fit, not just the land boundary.
-    const fit={type:'FeatureCollection',features:[{type:'Feature',geometry:feat.type==='Feature'?feat.geometry:feat},...zs.map(z=>({type:'Feature',geometry:{type:'Point',coordinates:z.ll}})),...airports.map(c=>({type:'Feature',geometry:{type:'Point',coordinates:c.p.ll}}))]};
-    const pj=d3.geoConicEqualArea().rotate(rot).parallels(par).fitExtent([[bx.x+10,bx.y+25],[bx.x+bx.w-10,bx.y+bx.h-12]],fit);
-    const cg=g.append('g').attr('clip-path',`url(#${id})`);
-    cg.append('path').attr('d',d3.geoPath(pj)(feat)).attr('fill','#f8f3e4').attr('stroke','#8c9a9c').attr('stroke-width',.7);
-    const action=(node,name,fn)=>{node.attr('role','button').attr('tabindex',0).attr('aria-label',name).style('pointer-events','all').style('cursor','pointer').on('click',ev=>{ev.stopPropagation();fn();}).on('keydown',ev=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();ev.stopPropagation();fn();}});};
-    zs.forEach((z,i)=>{
-      const mg=cg.append('g').attr('class','inset-metro').datum(z),[x,y]=pj(z.ll),v=z.o[0]+z.o[2];
-      if(!AtlasBridge.regionLabel(z.n).priority) mg.append('circle').attr('cx',x).attr('cy',y).attr('r',Math.min(9,Math.max(2.5,2+Math.sqrt(v/4e6)))).attr('fill','rgba(132,163,128,0.35)').attr('stroke','rgb(92,125,90)');
-      // Long scope names use a separate compact row, so neither right edge nor airport symbols clip them.
-      label(mg,bx.x+7,bx.y+bx.h-6-i*13,AtlasBridge.regionLabel(z.n).name,{size:9,cls:'sans',weight:600,haloColor:'#f8f3e4'});
-      action(mg,z.n,()=>{if(LAYERS.on('metros'))openCard({type:'city',c:{z,n:z.n,v,xy:P(z.ll)},xy:P(z.ll)});});
-    });
-    airports.forEach(c=>{const [x,y]=pj(c.p.ll);c.insetXY=[x,y];const mark=cg.append('path').datum(c).attr('class','inset-airport').attr('d',`M${x},${y-4}l4,4l-4,4l-4,-4Z`).attr('fill','#f8f3e4').attr('stroke','#7b6587').attr('stroke-width',1.2);action(mark,c.p.n,()=>{if(LAYERS.on('airports'))openCard({type:'airport',c,xy:c.xy.slice()});});});
-    g.append('rect').attr('x',bx.x).attr('y',bx.y).attr('width',bx.w).attr('height',16).attr('fill','#f5efdd').attr('stroke','#262019').attr('stroke-width',.6);
-    label(g,bx.x+7,bx.y+11.5,title.toUpperCase(),{size:9,cls:'sans',track:'0.16em',halo:false,weight:600});g.selectAll('text').style('font-family','InterA');
-  };
-  const mobile=W<600,total=mobile?W-32:370,gap=10,akW=mobile?(total-gap)*.57:210,x=mobile?16:W-total-26,y=H-(mobile?180:220),ak={x,y,w:akW,h:mobile?124:160},hi={x:x+akW+gap,y:y+(mobile?0:50),w:total-akW-gap,h:mobile?124:110};
-  one(ak,'Alaska',A.ak,[154,0],[55,65],PZ.zones.filter(z=>z.z==='020'));
-  one(hi,'Hawaii',A.hi,[157,0],[19,22],PZ.zones.filter(z=>z.z==='151'||z.z==='159'));refreshInsetLayers();refreshInsetSelection();
-}
-function insetFade() { const z = T.k / KH, a = Math.max(0, Math.min(1, (1.6 - z) / 0.4)); insG.attr('opacity', a).style('display', a > 0.02 ? null : 'none').style('pointer-events', a > 0.5 ? null : 'none'); }
 
 function resize() { W = innerWidth; H = innerHeight; svg.attr('width', W).attr('height', H); lab.attr('width', W).attr('height', H); cv.width = W * DPR; cv.height = H * DPR; cv.style.width = W + 'px'; cv.style.height = H + 'px'; }
 function applyCamera(camera){
@@ -414,6 +381,7 @@ function selectedPlace(){
  if(!SEL)return null;return{type:SEL.type,layer:InfoLayers.key(SEL),id:SEL.type==='seg'?AtlasBridge.sourceID(SEL.s):String(SEL.r?.id??SEL.c?.p?.id??SEL.c?.z?.z),name:SEL.s?corrName(SEL.s):SEL.r?.n??SEL.c?.n,ll:(SEL.ll||proj.invert(SEL.xy)).slice(),mapXY:SEL.xy.slice()};
 }
 function selectPlace(place){
+ if(place?.point&&!AtlasBridge.inLower48(place.point))return false;
  if(!place||typeof place.id!=='string'||!['city','reg','port','airport','seg'].includes(place.type))return false;
  if(!place.point&&place.type!=='seg'){
   const rows=place.type==='city'?CITY.filter(c=>String(c.z.z)===place.id):place.type==='reg'?REG.filter(r=>String(r.id)===place.id):(place.type==='airport'?AIRPORTS:PORTS).filter(c=>String(c.p.id)===place.id);
@@ -429,10 +397,10 @@ function selectPlace(place){
   if(!nearest||nearest.distance*T.k>12)return false;h={type:'seg',s,xy,key:corrKey(s)};
  }
  if(place.type==='city'){
-  const rows=PZ.zones.filter(z=>String(z.z)===id);if(rows.length!==1)return false;const z=rows[0],c=CITY.find(c=>String(c.z.z)===id)||{z,n:z.n,v:z.o?.[0]+z.o?.[2],xy:P(z.ll)};h={type:'city',c,xy:xy||c.xy.slice()};
+  const rows=PZ.zones.filter(z=>AtlasBridge.inLower48(z.ll)&&String(z.z)===id);if(rows.length!==1)return false;const z=rows[0],c=CITY.find(c=>String(c.z.z)===id)||{z,n:z.n,v:z.o?.[0]+z.o?.[2],xy:P(z.ll)};h={type:'city',c,xy:xy||c.xy.slice()};
  }
  if(place.type==='port'){
-  const rows=PZ.ports.filter(p=>String(p.id)===id);if(rows.length!==1)return false;const p=rows[0],c=PORTS.find(c=>String(c.p.id)===id)||{p,n:p.n,v:p.v[0]+p.v[1],xy:P(p.ll)};h={type:'port',c,xy:xy||c.xy.slice()};
+  const rows=PZ.ports.filter(p=>AtlasBridge.inLower48(p.ll)&&String(p.id)===id);if(rows.length!==1)return false;const p=rows[0],c=PORTS.find(c=>String(c.p.id)===id)||{p,n:p.n,v:p.v[0]+p.v[1],xy:P(p.ll)};h={type:'port',c,xy:xy||c.xy.slice()};
  }
  if(place.type==='airport'){const rows=AIRPORTS.filter(c=>String(c.p.id)===id);if(rows.length!==1)return false;const c=rows[0];h={type:'airport',c,xy:xy||c.xy.slice()};}
  if(place.type==='reg'){const rows=REG.filter(r=>String(r.id)===id);if(rows.length!==1)return false;const r=rows[0];h={type:'reg',r,xy:xy||r.xy.slice()};}
@@ -455,7 +423,7 @@ function resetView(){
 window.APP = { getView,applyView,reset:resetView,framePlace:camera=>AtlasBridge.frameCamera(camera,proj,W,H,KH),camera:()=>({k:T.k,x:T.x,y:T.y}),applyCamera,selectedPlace,selectPlace,sourceMetadata:()=>SEL?InfoInspector.source(SEL,UNIT):null,metroFacts:()=>{const selected=SEL,unit=UNIT;return selected?.type==='city'?MetroDetails.load().then(d=>MetroDetails.card(selected.c.z,d.zones[selected.c.z.z],unit)):null;},layers:()=>LAYERS.snapshot(),setLayer,tour, setUnit, settle, regs: () => REG.filter(r => r.a > 0.5).map(r => r.id), T: () => ({ k: T.k / KH, x: T.x, y: T.y }), thr: () => thr(), flyLL, openCard, closeCard, hit, screenOf: ll => { const p = P(ll); return [p[0] * T.k + T.x, p[1] * T.k + T.y]; },
   // every drawn (opaque) stroke must be clickable at its midpoint; markers must move with the map
   probe() { let ok = 0, bad = 0; VIS.forEach(([s, a]) => { if (a < 0.9) return; const q = s.pts[Math.floor(s.pts.length / 2)], x = q[0] * T.k + T.x, y = q[1] * T.k + T.y; if (x < 0 || y < 0 || x > W || y > H) return; const h = hit(x, y); if (h && h.type === 'seg') ok++; else if (h) ok++; else bad++; }); return { ok, bad }; },
-  clickedPlace:()=>SEL?{type:SEL.type,sourceId:SEL.s?.i??SEL.r?.id??SEL.c?.p?.id??SEL.c?.z?.z,rawEdge:SEL.s?.graph?.edge??null,name:SEL.s?corrName(SEL.s):SEL.r?.n??SEL.c?.n,mapXY:SEL.xy.slice(),ll:SEL.ll.slice(),screenXY:[SEL.xy[0]*T.k+T.x,SEL.xy[1]*T.k+T.y],unit:UNIT,facts:ClickedPlace.facts(SEL,UNIT),markerRadiusPx:6,insetScreenXY:LAYERS.visible(SEL)&&SEL.c?.insetXY&&T.k/KH<1.4?SEL.c.insetXY.slice():null}:null,
+  clickedPlace:()=>SEL?{type:SEL.type,sourceId:SEL.s?.i??SEL.r?.id??SEL.c?.p?.id??SEL.c?.z?.z,rawEdge:SEL.s?.graph?.edge??null,name:SEL.s?corrName(SEL.s):SEL.r?.n??SEL.c?.n,mapXY:SEL.xy.slice(),ll:SEL.ll.slice(),screenXY:[SEL.xy[0]*T.k+T.x,SEL.xy[1]*T.k+T.y],unit:UNIT,facts:ClickedPlace.facts(SEL,UNIT),markerRadiusPx:6}:null,
   localSamples:(mode,limit=80)=>{const out=[];for(const r of RVIS)for(const g of r.pickGeom||r.geom)for(let j=1;j<g.samples.length;j++){const a=g.samples[j-1],b=g.samples[j];if(b.s.m!==mode)continue;const sx=(a.x+b.x)/2*T.k+T.x,sy=(a.y+b.y)/2*T.k+T.y;if(sx<0||sx>W||sy<0||sy>H)continue;const h=hit(sx,sy);if(h?.type==='seg'&&h.s.i===b.s.i){out.push({sourceId:h.s.i,name:corrName(h.s),screen:[sx,sy],mapXY:h.xy,ll:proj.invert(h.xy),tons:h.s.t,dollars:h.s.u});if(out.length>=limit)return out;}}return out;},
   sites:()=>({airports:AIRPORTS.map(c=>({id:c.p.id,ll:c.p.ll,xy:c.xy,a:c.a,r:c.r})),ports:PORTS.map(c=>({id:c.p.id,ll:c.p.ll,a:c.a})),metros:CITY.map(c=>({id:c.z.z,name:c.n,ll:proj.invert(c.xy)})),regions:REG.map(r=>({id:r.id,name:r.n,a:r.a}))}),
   scene:()=>({layers:LAYERS.snapshot(),camera:{k:T.k,x:T.x,y:T.y},unit:UNIT,visibleSourceIds:VIS.map(([s])=>s.i),renderGroups:RVIS.map(r=>r.id),requiredSourceIds:[...OWNER.required.ids],ownerGeneration:OWNER.generation,tileCache:TILE_READER.status?TILE_READER.status():null}),
@@ -468,7 +436,7 @@ window.addEventListener('pagehide',e=>{
   window.RAIL_GEOMETRY=null;window.RAIL_ADMISSION=null;window.ROAD_GEOMETRY=null;
 });
 Promise.all([document.fonts.load('600 12px InterA'), document.fonts.load('12px Garamond'), document.fonts.load('italic 12px Garamond')]).catch(() => 0).then(() => {
-  resize(); buildInsets(); wsel.call(zoom.transform, homeT());settle().then(()=>{insetFade();if(StartupPreparation.state.prepared){StartupPreparation.state.ready();schedulePrefetch();document.body.setAttribute('data-ready', '1');document.body.dataset.preparation='national-regional';AtlasBridge.boot(window.APP);}else{StartupPreparation.limited();document.body.dataset.preparation='limited-streamed';}}).catch(e=>{StartupPreparation.state.fail(e);if(VIS.length)StartupPreparation.limited();});
+  resize(); wsel.call(zoom.transform, homeT());settle().then(()=>{if(StartupPreparation.state.prepared){StartupPreparation.state.ready();schedulePrefetch();document.body.setAttribute('data-ready', '1');document.body.dataset.preparation='national-regional';AtlasBridge.boot(window.APP);}else{StartupPreparation.limited();document.body.dataset.preparation='limited-streamed';}}).catch(e=>{StartupPreparation.state.fail(e);if(VIS.length)StartupPreparation.limited();});
 });
 
 window.REPLACEMENT_OWNER=OWNER;

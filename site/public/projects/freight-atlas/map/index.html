@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>U.S. Freight Atlas</title>
 
 <style>
@@ -12,7 +12,7 @@ html, body { margin: 0; height: 100%; background: var(--water); font-family: Gar
 #wrap { position: fixed; inset: 0; cursor: grab; touch-action: none; }
 #wrap.hot { cursor: pointer; }
 #wrap svg, #wrap canvas { position: absolute; left: 0; top: 0; }
-#lab { pointer-events: none; } #lab .insets { pointer-events: all; }
+#lab { pointer-events: none; }
 #lab .lbl { animation: fin .45s ease-out; }
 @keyframes fin { from { opacity: 0; } to { opacity: 1; } }
 #plate { position: fixed; inset: 8px; border: 1.6px solid var(--ink); pointer-events: none; z-index: 6; }
@@ -97,7 +97,7 @@ html, body { margin: 0; height: 100%; background: var(--water); font-family: Gar
       <path class="ribbon-thread" d="M211 151 C294 252 382 322 452 213 S531 112 619 182"/>
      </svg>
     </div>
-    <figcaption><span class="country-caption">How goods move</span><span class="ribbon-caption">Freight connections</span></figcaption>
+
    </figure>
   </div>
   <!-- Hidden compatibility target for StartupPreparation; no replay surface. -->
@@ -108,9 +108,9 @@ html, body { margin: 0; height: 100%; background: var(--water); font-family: Gar
 <div id="wrap"><svg id="map"></svg><canvas id="net"></canvas><svg id="lab"></svg></div>
 <div id="plate"></div>
 <div id="title"><div class="t">U.S. Freight Atlas</div><div class="s">How goods move across America.</div><div id="national-headline" class="k"></div></div>
-<div id="legend"></div><details id="layers-panel"><summary>Layers</summary><fieldset id="layer-controls"><legend>Show on the map</legend></fieldset></details>
-<details id="atlas-menu"><summary>Explore</summary><div class="atlas-menu-body"><div id="explore-host"></div></div></details><nav id="atlas-docs" aria-label="About this atlas"><a href="methods.html" data-doc="methods.html">Methods</a><a href="data.html" data-doc="data.html">Data</a><a href="about.html" data-doc="about.html">About</a></nav><p id="atlas-link-status" role="status" hidden></p><div id="layers-empty" role="status" hidden>Choose a layer to explore.</div>
-<div id="tools"><span id="unit"><button data-u="t" class="on">Tons</button><button data-u="usd" aria-label="Freight value in dollars">$</button></span><button id="home">U.S. view</button></div>
+<div id="legend"></div><div id="atlas-controls"><details id="layers-panel"><summary>Layers</summary><fieldset id="layer-controls"><legend>Show on the map</legend></fieldset></details>
+<details id="atlas-menu"><summary>Explore</summary><div class="atlas-menu-body"><div id="explore-host"></div></div></details></div><p id="atlas-link-status" role="status" hidden></p><div id="layers-empty" role="status" hidden>Choose a layer to explore.</div>
+<div id="tools"><span id="unit"><button data-u="t" class="on">Tons</button><button data-u="usd" aria-label="Freight value in US dollars">USD</button></span><button id="home">U.S. view</button></div>
 <p id="map-hint" hidden>Click any line or place</p><div id="zbar"></div>
 <div id="card" hidden></div>
 <div id="tip" hidden></div><div id="detail-loading" role="status" aria-live="polite"><span>Loading the map…</span><button hidden>Try again</button></div>
