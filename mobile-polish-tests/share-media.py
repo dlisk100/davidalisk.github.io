@@ -58,14 +58,16 @@ class Recorder(Browser):
             entries.extend(["file '"+f['file']+"'",'duration '+str(delta)])
         entries.append("file '"+self.frames[-1]['file']+"'")
         concat=OUT/(label+'.concat');concat.write_text('\n'.join(entries)+'\n')
-        subprocess.run(['ffmpeg','-y','-loglevel','error','-f','concat','-safe','0','-i',str(concat),'-t',str(seconds),'-vf','scale=880:1100:flags=lanczos','-r','25','-c:v','libx264','-preset','medium','-crf','21','-pix_fmt','yuv420p','-an',str(OUT/(label+'.mp4'))],check=True)
+        subprocess.run(['ffmpeg','-y','-loglevel','error','-f','concat','-safe','0','-i',str(concat),'-t',str(seconds),'-vf','scale=880:1100:flags=lanczos,fps=25','-c:v','libx264','-preset','medium','-crf','21','-pix_fmt','yuv420p','-an',str(OUT/(label+'.mp4'))],check=True)
     def cleanup(self):
         self.running=False;super().cleanup()
 class Handler(http.server.SimpleHTTPRequestHandler):
     def log_message(self,*args):pass
 server=http.server.ThreadingHTTPServer(('127.0.0.1',0),functools.partial(Handler,directory=str(ROOT)));threading.Thread(target=server.serve_forever,daemon=True).start();origin=f'http://127.0.0.1:{server.server_port}'
 actions=[]
-def log(action,data=None):actions.append({'wall':time.time(),'action':action,'data':data})
+def log(action,data=None):
+    actions.append({'wall':time.time(),'action':action,'data':data})
+    (OUT/'actions.json').write_text(json.dumps(actions,indent=2))
 with_dummy=None
 b=Recorder(440,550);b.__enter__()
 try:

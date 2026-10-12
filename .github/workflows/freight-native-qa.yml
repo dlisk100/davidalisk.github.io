@@ -64,6 +64,7 @@ jobs:
             share-artifacts/probe-*.jpg
             share-artifacts/*-frames.json
             share-artifacts/media-report.json
+            share-artifacts/actions.json
           if-no-files-found: warn
           retention-days: 14
           compression-level: 6
