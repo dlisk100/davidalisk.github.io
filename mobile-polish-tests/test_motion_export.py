@@ -25,6 +25,7 @@ class ExportTests(unittest.TestCase):
         source=pathlib.Path(__file__).with_name('share-media.py').read_text()
         self.assertLess(source.index('sampling=False;sampler.join'),source.index('b.stop(label,actual)'))
         self.assertLess(source.index('b.cleanup();server.shutdown()'),source.index("for clip in clips:"))
+        self.assertIn('gesture();scene_ready();wait("document.getElementById(\'detail-loading\').hidden");time.sleep(1.1)',source)
     def test_23ms_beyond_cutoff_is_excluded_not_negative_hold(self):
         text=self.export([0,1,28.9,29.023455858])
         self.assertNotIn('/3.jpg',text)
