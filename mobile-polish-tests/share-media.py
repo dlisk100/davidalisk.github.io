@@ -120,19 +120,19 @@ try:
     b.start('freight-atlas-tour');log('continuous motion tour start',national)
     sampler=threading.Thread(target=sample,daemon=True);sampler.start()
     time.sleep(1)
-    wheel_for(4,on_canvas(point([-87.63,41.88])),-10);time.sleep(.3)
-    pan_for(3,-90,25);time.sleep(.3)
-    wheel_for(3,[220,310],10);time.sleep(.3)
+    wheel_for(3.2,on_canvas(point([-87.63,41.88])),-40);time.sleep(.6)
+    pan_for(2.4,-90,25);time.sleep(.3)
+    wheel_for(2.4,[220,310],35);time.sleep(.3)
     gulf=point([-90,30]);dx=max(-175,min(175,220-gulf[0]));dy=max(-170,min(170,310-gulf[1]))
-    pan_for(3,dx,dy);time.sleep(.3)
-    wheel_for(4,on_canvas(point([-90,30])),-9);time.sleep(.3)
-    pan_for(3,110,-25);time.sleep(.3)
-    wheel_for(2,[220,310],12);time.sleep(.25)
+    pan_for(2.4,dx,dy);time.sleep(.3)
+    wheel_for(3.2,on_canvas(point([-90,30])),-35);time.sleep(.6)
+    pan_for(2.4,110,-25);time.sleep(.3)
+    wheel_for(1.6,[220,310],40);time.sleep(.25)
     compare=b.ev('APP.camera()');tap('#unit button[data-u=usd]');assert compare==b.ev('APP.camera()');log('same-camera USD comparison',compare);time.sleep(.65)
-    remaining=28-(time.monotonic()-b.start_mono)
+    remaining=29-(time.monotonic()-b.start_mono)
     assert remaining>.2,remaining
-    wheel_for(remaining,[220,310],-8)
-    b.stop('freight-atlas-tour',28)
+    wheel_for(remaining,[220,310],-30)
+    b.stop('freight-atlas-tour',29)
     sampling=False;sampler.join(timeout=3)
     wait('!GESTURE.active&&!GESTURE.dirty&&!DETAIL_LOADING.pending')
     shot('gulf-energy')
@@ -148,19 +148,19 @@ try:
         b.drag(220,300,220+max(-175,min(175,dx)),300+max(-160,min(160,dy)));time.sleep(.3)
     wait('!GESTURE.active&&!GESTURE.dirty&&!DETAIL_LOADING.pending');shot('national-usd')
     tap('#unit button[data-u=t]')
-    wheel_for(4,on_canvas(point([-87.63,41.88])),-10)
+    wheel_for(3.2,on_canvas(point([-87.63,41.88])),-40)
     wait('!GESTURE.active&&!GESTURE.dirty&&!DETAIL_LOADING.pending');shot('midwest-threads')
     video=OUT/'freight-atlas-tour.mp4'
     probe=json.loads(subprocess.check_output(['ffprobe','-v','error','-show_format','-show_streams','-of','json',str(video)]))
-    stream=probe['streams'][0];assert len(probe['streams'])==1 and stream['codec_name']=='h264' and stream['pix_fmt']=='yuv420p' and (stream['width'],stream['height'])==(880,1100) and 27.9<=float(probe['format']['duration'])<=28.1
+    stream=probe['streams'][0];assert len(probe['streams'])==1 and stream['codec_name']=='h264' and stream['pix_fmt']=='yuv420p' and (stream['width'],stream['height'])==(880,1100) and 28.9<=float(probe['format']['duration'])<=29.1
     subprocess.run(['ffmpeg','-v','error','-i',str(video),'-f','null','-'],check=True)
-    subprocess.run(['ffmpeg','-y','-loglevel','error','-i',str(video),'-vf','fps=1,scale=220:275,tile=7x4','-frames:v','1',str(OUT/'contact-sheet.jpg')],check=True)
-    for sec in range(28):subprocess.run(['ffmpeg','-y','-loglevel','error','-ss',str(sec),'-i',str(video),'-frames:v','1','-vf','scale=440:550',str(OUT/('probe-%02d.jpg'%sec))],check=True)
+    subprocess.run(['ffmpeg','-y','-loglevel','error','-i',str(video),'-vf','fps=1,scale=220:275,tile=6x5','-frames:v','1',str(OUT/'contact-sheet.jpg')],check=True)
+    for sec in range(29):subprocess.run(['ffmpeg','-y','-loglevel','error','-ss',str(sec),'-i',str(video),'-frames:v','1','-vf','scale=440:550',str(OUT/('probe-%02d.jpg'%sec))],check=True)
     moving=0;observed=0
     for a,z in zip(movement,movement[1:]):
         dt=z['elapsed']-a['elapsed'];c=a['camera'];d=z['camera'];observed+=dt
         if abs(c['x']-d['x'])+abs(c['y']-d['y'])+abs(c['k']-d['k'])*100>.5:moving+=dt
-    assert observed>26 and moving/observed>=2/3,{'observed':observed,'moving':moving}
+    assert observed>27 and moving/observed>=2/3,{'observed':observed,'moving':moving}
     report={'revision':qa['preflight']['revision'],'hashes':qa['hashesAfter'],'actions':actions,'probe':probe,'errors':b.failures,'qaReceipt':receipts[0].name,'segments':'one uninterrupted native CDP recording; no cuts, holds added, retiming, overlays or APP camera writes','movement':{'observedSeconds':observed,'movingSeconds':moving,'fraction':moving/observed,'samples':len(movement),'threshold':'sum CSS camera translation plus scale delta*100 > 0.5 between 200ms observations; visual review separately required'},'physicalDevices':'not tested'}
     (OUT/'media-report.json').write_text(json.dumps(report,indent=2));assert sum(p.stat().st_size for p in OUT.glob('*') if p.is_file())<50*1024**2
 
