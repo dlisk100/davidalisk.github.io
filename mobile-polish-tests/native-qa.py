@@ -65,9 +65,17 @@ def main():
     def tap(selector):
         t=target(selector);b.click(t['x'],t['y']);time.sleep(.15)
     def key(k):
-        b.call('Input.dispatchKeyEvent',type='keyDown',key=k);b.call('Input.dispatchKeyEvent',type='keyUp',key=k)
+        code, vk = {'Escape':('Escape',27),'Enter':('Enter',13),'Backspace':('Backspace',8)}.get(k,(k,0))
+        b.call('Input.dispatchKeyEvent',type='rawKeyDown',key=k,code=code,windowsVirtualKeyCode=vk);b.call('Input.dispatchKeyEvent',type='keyUp',key=k,code=code,windowsVirtualKeyCode=vk)
     def query(text):
-        tap('input[type=search]');b.call('Input.dispatchKeyEvent',type='keyDown',key='a',modifiers=2);b.call('Input.dispatchKeyEvent',type='keyUp',key='a',modifiers=2);b.call('Input.insertText',text=text);time.sleep(.2)
+        tap('input[type=search]');b.call('Input.dispatchKeyEvent',type='rawKeyDown',key='a',code='KeyA',windowsVirtualKeyCode=65,modifiers=2);b.call('Input.dispatchKeyEvent',type='keyUp',key='a',code='KeyA',windowsVirtualKeyCode=65,modifiers=2);b.call('Input.insertText',text=text);time.sleep(.2)
+        check('native search input '+text,b.ev("document.querySelector('input[type=search]').value")==text)
+    def menu_button(text):
+        index=b.ev("[...document.querySelectorAll('#explore-host button')].findIndex(e=>e.textContent==="+json.dumps(text)+")")
+        assert index>=0, text
+        b.ev("document.querySelectorAll('#explore-host button')["+str(index)+"].scrollIntoView({block:'nearest'})")
+        point=b.ev("(()=>{const e=document.querySelectorAll('#explore-host button')["+str(index)+"],r=e.getBoundingClientRect(),x=Math.round(r.x+r.width/2),y=Math.round(r.y+r.height/2);if(!e.contains(document.elementFromPoint(x,y)))throw Error('Obstructed menu action');return{x,y}})()")
+        b.click(point['x'],point['y']);time.sleep(.3)
     def layout():
         return b.ev("(()=>{const rect=s=>{const a=document.querySelector(s).getBoundingClientRect();return {left:a.left,right:a.right,top:a.top,bottom:a.bottom,width:a.width,height:a.height}};return {layers:rect('#layers-panel>summary'),explore:rect('#atlas-menu>summary'),card:rect('#card'),overflow:document.documentElement.scrollWidth>innerWidth,viewport:[innerWidth,innerHeight],raster:[cv.width,cv.height,DPR],headline:document.querySelector('#national-headline').textContent}})()")
     def summaries(label):
@@ -97,9 +105,26 @@ def main():
             tap('[data-enter]');wait("document.getElementById('startup-loading').hidden")
             summaries(label+' collapsed')
             if index==0: shot('country-390x844')
+            before=b.ev('APP.camera()')
+            if mobile:
+                b.call('Input.dispatchTouchEvent',type='touchStart',touchPoints=[{'x':100,'y':h*.70,'id':0}])
+                for dx in [10,20,35]: b.call('Input.dispatchTouchEvent',type='touchMove',touchPoints=[{'x':100+dx,'y':h*.70,'id':0}]);time.sleep(.03)
+                b.call('Input.dispatchTouchEvent',type='touchEnd',touchPoints=[])
+            else: b.drag(700,500,735,515)
+            wait("!GESTURE.active&&!GESTURE.dirty&&!DETAIL_LOADING.pending")
+            check(label+' native country pan',b.ev('APP.camera()')!=before)
+            tap('#home');wait("!GESTURE.active&&!GESTURE.dirty&&!DETAIL_LOADING.pending")
+            check(label+' tons national truth',b.ev("document.querySelector('#national-headline').textContent.includes('20.0')&&document.querySelector('#national-headline').textContent.includes('2024')"))
             tap('#layers-panel>summary');wait("document.querySelector('#layers-panel').open")
             summaries(label+' layers expanded')
-            before=b.ev('APP.layers()');tap('#layer-controls input');after=b.ev('APP.layers()');check(label+' native layer toggle',before!=after);tap('#layer-controls input');check(label+' layers restored',b.ev('APP.layers()')==before)
+            before=b.ev('APP.layers()')
+            for layer_index in range(b.ev("document.querySelectorAll('#layer-controls input').length")):
+                selector=f'#layer-controls input:nth-of-type({layer_index+1})'
+                # Labels wrap inputs, so address each real retained input by its parent label.
+                selector=f'#layer-controls label:nth-of-type({layer_index+1}) input'
+                b.ev('document.querySelector('+json.dumps(selector)+').scrollIntoView({block:"nearest"})')
+                tap(selector);check(label+' native layer toggle '+str(layer_index),b.ev('APP.layers()')!=before)
+                tap(selector);check(label+' layers restored '+str(layer_index),b.ev('APP.layers()')==before)
             scroll=target('#layer-controls');b.wheel(scroll['x'],scroll['y'],250);time.sleep(.2)
             check(label+' layer scroll',b.ev("document.querySelector('#layer-controls').scrollHeight<=document.querySelector('#layer-controls').clientHeight||document.querySelector('#layer-controls').scrollTop>0"))
             if index==0: shot('layers-expanded-390x844')
@@ -134,6 +159,23 @@ def main():
                 check('Methods Back encoded exact state',b.ev('APP.getView()')==state,{'expected':state,'actual':b.ev('APP.getView()')})
                 if not b.ev("document.getElementById('startup-loading').hidden"):tap('[data-enter]')
                 check('card unit switch camera neutral',selected['camera']==state['camera'])
+                b.ev("document.querySelector('#card .zt').scrollIntoView({block:'nearest'})")
+                old_camera=b.ev('APP.camera()');tap('#card .zt');wait("!GESTURE.active&&!GESTURE.dirty&&!DETAIL_LOADING.pending")
+                check('native card Zoom here',b.ev('APP.camera()')!=old_camera)
+                tap('#atlas-menu>summary');wait("document.querySelector('#atlas-menu').open")
+                b.ev("document.querySelector('input[aria-label=\"Saved view name\"]').scrollIntoView({block:'nearest'})")
+                tap('input[aria-label="Saved view name"]');b.call('Input.insertText',text='Native QA')
+                menu_button('Save current view');check('native save readback',b.ev("!![...document.querySelectorAll('.ae-saved-row button')].find(e=>e.textContent==='Restore Native QA')"))
+                menu_button('Restore Native QA');wait("!DETAIL_LOADING.pending")
+                if not b.ev("document.querySelector('#atlas-menu').open"):tap('#atlas-menu>summary')
+                b.call('Browser.grantPermissions',origin=urllib.parse.urlsplit(url).scheme+'://'+urllib.parse.urlsplit(url).netloc,permissions=['clipboardReadWrite','clipboardSanitizedWrite'])
+                menu_button('Copy map link');check('native clipboard copy readback',b.ev("navigator.clipboard.readText().then(s=>s.startsWith(location.origin)&&s.includes('#'))"))
+                menu_button('Delete Native QA');check('native delete readback',b.ev("!document.querySelector('.ae-saved-row')"))
+                menu_button('Clear selection');check('native clear selection',not b.ev('APP.selectedPlace()'))
+                menu_button('Reset map');wait("!DETAIL_LOADING.pending")
+                if not b.ev("document.querySelector('#atlas-menu').open"):tap('#atlas-menu>summary')
+                b.ev("document.querySelector('input[type=search]').scrollIntoView({block:'nearest'})")
+                query('Albany');tap('.ae-results button');wait("APP.selectedPlace()?.name?.includes('Albany')")
             tap('#card .x');check(label+' native close',b.ev("!APP.selectedPlace()&&document.querySelector('#card').hidden"))
             before=b.ev('APP.camera()');b.ev("APP.flyLL([-87.63,41.88],3.9,0)");wait("!GESTURE.active&&!GESTURE.dirty&&!DETAIL_LOADING.pending")
             before=b.ev('APP.camera()')
@@ -147,7 +189,12 @@ def main():
             if index==6:shot('desktop-chicago-1489x900')
         r['passed']=True
     except Exception as e:
-        r['failure']={'message':str(e),'trace':traceback.format_exc()[-5000:]}
+        r['failure']={'message':str(e),'trace':traceback.format_exc()[-5000:].replace(str(REPO),'[checkout]')}
+        if b and hasattr(b,'ws'):
+            try:
+                r['failureDOM']=b.ev("({url:location.pathname,input:document.querySelector('input[type=search]')?.value,menuOpen:document.querySelector('#atlas-menu')?.open,cardText:document.querySelector('#card')?.innerText?.slice(0,1200),resultText:document.querySelector('.ae-results')?.innerText})")
+                if len(r['screenshots'])<10:shot('failure-'+r.get('phase','startup'))
+            except Exception as diagnostic:r['diagnosticFailure']=str(diagnostic)
     finally:
         r['elapsedSeconds']=time.monotonic()-start
         if b:
