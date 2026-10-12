@@ -35,6 +35,7 @@
 }
 /* One compact row below the measured masthead; only expanded bodies occupy map space. */
 #atlas-controls{display:contents}
+#atlas-controls>#tools{pointer-events:auto}
 @media(max-width:600px){
  #title{padding:6px 10px;top:max(16px,env(safe-area-inset-top));left:max(16px,env(safe-area-inset-left));right:max(16px,env(safe-area-inset-right))}
  #title .t{font-size:20px}#title .s{font-size:12px;margin-top:2px}#title .k{font-size:11px;margin-top:5px}
