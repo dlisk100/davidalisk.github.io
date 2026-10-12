@@ -90,21 +90,80 @@ try:
     b.call('Page.navigate',url=origin+'/projects/freight-atlas/map/');wait("document.body?.dataset.ready==='1'&&!!window.ATLAS_EXPLORE");native_entry(b);wait("document.getElementById('startup-loading').hidden&&!DETAIL_LOADING.pending")
     assert b.ev("document.querySelector('#national-headline').textContent.includes('2024')&&!document.querySelector('#atlas-docs')&&!document.querySelector('#lab .insets')")
     time.sleep(6.1);assert b.ev("document.querySelector('#map-hint').hidden")
-    national=b.ev('APP.camera()');shot('national-tons');b.start('national');log('national tons start',national);time.sleep(7)
-    tap('#unit button[data-u=usd]');assert b.ev('APP.camera()')==national;log('same-camera USD',b.ev('APP.camera()'));b.stop('national',14);shot('national-usd')
-    def chicago():
-        tap('#atlas-menu>summary');tap('input[type=search]');b.call('Input.dispatchKeyEvent',type='rawKeyDown',key='a',code='KeyA',windowsVirtualKeyCode=65,modifiers=2);b.call('Input.dispatchKeyEvent',type='keyUp',key='a',code='KeyA',windowsVirtualKeyCode=65,modifiers=2);b.call('Input.insertText',text='Chicago');wait("!!document.querySelector('.ae-results button')");tap('.ae-results button');wait("APP.selectedPlace()?.name?.includes('Chicago')&&!DETAIL_LOADING.pending")
-    chicago();log('Chicago native preparation',b.ev('APP.getView()'));tap('#card .x');b.start('chicago');log('Chicago segment start');time.sleep(1)
-    for _ in range(3):b.wheel(220,230,-90);log('native wheel zoom',-90);time.sleep(.4)
-    wait('!GESTURE.active&&!GESTURE.dirty&&!DETAIL_LOADING.pending');time.sleep(1);chicago();log('readable Chicago card',b.ev("document.querySelector('#card').innerText"));b.stop('chicago',14);shot('chicago-card')
-    subprocess.run(['ffmpeg','-y','-loglevel','error','-i',str(OUT/'national.mp4'),'-i',str(OUT/'chicago.mp4'),'-filter_complex','[0:v][1:v]concat=n=2:v=1:a=0[v]','-map','[v]','-c:v','libx264','-preset','medium','-crf','21','-pix_fmt','yuv420p','-an','-movflags','+faststart',str(OUT/'freight-atlas-tour.mp4')],check=True)
-    probe=json.loads(subprocess.check_output(['ffprobe','-v','error','-show_format','-show_streams','-of','json',str(OUT/'freight-atlas-tour.mp4')]))
-    stream=probe['streams'][0];assert len(probe['streams'])==1 and stream['codec_name']=='h264' and stream['pix_fmt']=='yuv420p' and (stream['width'],stream['height'])==(880,1100) and 25<=float(probe['format']['duration'])<=30
-    subprocess.run(['ffmpeg','-v','error','-i',str(OUT/'freight-atlas-tour.mp4'),'-f','null','-'],check=True)
-    subprocess.run(['ffmpeg','-y','-loglevel','error','-i',str(OUT/'freight-atlas-tour.mp4'),'-vf','fps=1/2,scale=220:275,tile=7x2','-frames:v','1',str(OUT/'contact-sheet.jpg')],check=True)
-    for sec in [0,6,8,13,15,18,21,25,27]:subprocess.run(['ffmpeg','-y','-loglevel','error','-ss',str(sec),'-i',str(OUT/'freight-atlas-tour.mp4'),'-frames:v','1',str(OUT/('probe-%02d.jpg'%sec))],check=True)
-    report={'revision':qa['preflight']['revision'],'hashes':qa['hashesAfter'],'sameNationalCamera':national,'actions':actions,'probe':probe,'errors':b.failures,'qaReceipt':receipts[0].name,'segments':'14 seconds national then deliberate cut to 14 seconds Chicago; preparation excluded, recorded waits unchanged','physicalDevices':'not tested'}
+    national=b.ev('APP.camera()')
+    movement=[];sampling=True
+    def sample():
+        while sampling:
+            try:
+                movement.append({'elapsed':time.monotonic()-b.start_mono,'camera':b.ev('APP.camera()'),'pending':b.ev('!!DETAIL_LOADING.pending')})
+                (OUT/'movement.json').write_text(json.dumps(movement,indent=2))
+            except Exception as e:log('movement sampling failure',str(e));return
+            time.sleep(.2)
+    def wheel_for(seconds,point,delta):
+        log('native paced wheel start',{'seconds':seconds,'point':point,'delta':delta})
+        end=time.monotonic()+seconds
+        while time.monotonic()<end:
+            b.wheel(point[0],point[1],delta);time.sleep(.05)
+        log('native paced wheel end',b.ev('APP.camera()'))
+    def pan_for(seconds,dx,dy):
+        # Small native movement increments, ordinary gesture speed, never APP camera writes.
+        log('native continuous pan start',{'seconds':seconds,'dx':dx,'dy':dy})
+        x,y=220,300;b.mouse('mousePressed',x,y,button='left',buttons=1,clickCount=1)
+        start=time.monotonic();end=start+seconds
+        while time.monotonic()<end:
+            t=min(1,(time.monotonic()-start)/seconds)
+            b.mouse('mouseMoved',x+dx*t,y+dy*t,button='left',buttons=1);time.sleep(.04)
+        b.mouse('mouseReleased',x+dx,y+dy,button='left',clickCount=1)
+        log('native continuous pan end',b.ev('APP.camera()'))
+    def point(ll):return b.ev('APP.screenOf('+json.dumps(ll)+')')
+    def on_canvas(p):return [max(35,min(405,p[0])),max(170,min(495,p[1]))]
+    b.start('freight-atlas-tour');log('continuous motion tour start',national)
+    sampler=threading.Thread(target=sample,daemon=True);sampler.start()
+    time.sleep(1)
+    wheel_for(4,on_canvas(point([-87.63,41.88])),-10);time.sleep(.3)
+    pan_for(3,-90,25);time.sleep(.3)
+    wheel_for(3,[220,310],10);time.sleep(.3)
+    gulf=point([-90,30]);dx=max(-175,min(175,220-gulf[0]));dy=max(-170,min(170,310-gulf[1]))
+    pan_for(3,dx,dy);time.sleep(.3)
+    wheel_for(4,on_canvas(point([-90,30])),-9);time.sleep(.3)
+    pan_for(3,110,-25);time.sleep(.3)
+    wheel_for(2,[220,310],12);time.sleep(.25)
+    compare=b.ev('APP.camera()');tap('#unit button[data-u=usd]');assert compare==b.ev('APP.camera()');log('same-camera USD comparison',compare);time.sleep(.65)
+    remaining=28-(time.monotonic()-b.start_mono)
+    assert remaining>.2,remaining
+    wheel_for(remaining,[220,310],-8)
+    b.stop('freight-atlas-tour',28)
+    sampling=False;sampler.join(timeout=3)
+    wait('!GESTURE.active&&!GESTURE.dirty&&!DETAIL_LOADING.pending')
+    shot('gulf-energy')
+    # Stills are independently composed with native input AFTER continuous recording.
+    b.ev('APP.camera()')
+    ratio=b.ev('APP.camera().k')/national['k']
+    while ratio>1.1:
+        b.wheel(220,310,70);time.sleep(.18);ratio=b.ev('APP.camera().k')/national['k']
+    wait('!GESTURE.active&&!GESTURE.dirty&&!DETAIL_LOADING.pending')
+    for _ in range(4):
+        c=b.ev('APP.camera()');dx=national['x']-c['x'];dy=national['y']-c['y']
+        if abs(dx)+abs(dy)<2:break
+        b.drag(220,300,220+max(-175,min(175,dx)),300+max(-160,min(160,dy)));time.sleep(.3)
+    wait('!GESTURE.active&&!GESTURE.dirty&&!DETAIL_LOADING.pending');shot('national-usd')
+    tap('#unit button[data-u=t]')
+    wheel_for(4,on_canvas(point([-87.63,41.88])),-10)
+    wait('!GESTURE.active&&!GESTURE.dirty&&!DETAIL_LOADING.pending');shot('midwest-threads')
+    video=OUT/'freight-atlas-tour.mp4'
+    probe=json.loads(subprocess.check_output(['ffprobe','-v','error','-show_format','-show_streams','-of','json',str(video)]))
+    stream=probe['streams'][0];assert len(probe['streams'])==1 and stream['codec_name']=='h264' and stream['pix_fmt']=='yuv420p' and (stream['width'],stream['height'])==(880,1100) and 27.9<=float(probe['format']['duration'])<=28.1
+    subprocess.run(['ffmpeg','-v','error','-i',str(video),'-f','null','-'],check=True)
+    subprocess.run(['ffmpeg','-y','-loglevel','error','-i',str(video),'-vf','fps=1,scale=220:275,tile=7x4','-frames:v','1',str(OUT/'contact-sheet.jpg')],check=True)
+    for sec in range(28):subprocess.run(['ffmpeg','-y','-loglevel','error','-ss',str(sec),'-i',str(video),'-frames:v','1','-vf','scale=440:550',str(OUT/('probe-%02d.jpg'%sec))],check=True)
+    moving=0;observed=0
+    for a,z in zip(movement,movement[1:]):
+        dt=z['elapsed']-a['elapsed'];c=a['camera'];d=z['camera'];observed+=dt
+        if abs(c['x']-d['x'])+abs(c['y']-d['y'])+abs(c['k']-d['k'])*100>.5:moving+=dt
+    assert observed>26 and moving/observed>=2/3,{'observed':observed,'moving':moving}
+    report={'revision':qa['preflight']['revision'],'hashes':qa['hashesAfter'],'actions':actions,'probe':probe,'errors':b.failures,'qaReceipt':receipts[0].name,'segments':'one uninterrupted native CDP recording; no cuts, holds added, retiming, overlays or APP camera writes','movement':{'observedSeconds':observed,'movingSeconds':moving,'fraction':moving/observed,'samples':len(movement),'threshold':'sum CSS camera translation plus scale delta*100 > 0.5 between 200ms observations; visual review separately required'},'physicalDevices':'not tested'}
     (OUT/'media-report.json').write_text(json.dumps(report,indent=2));assert sum(p.stat().st_size for p in OUT.glob('*') if p.is_file())<50*1024**2
+
 finally:
     try:b.call('Browser.close')
     except Exception:pass
