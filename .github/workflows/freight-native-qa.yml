@@ -39,8 +39,34 @@ jobs:
         run: |
           node --max-old-space-size=128 --test --test-concurrency=1 mobile-polish-tests/*.test.cjs
           python -m unittest discover -s mobile-polish-tests -p 'test_*.py' -v
+      - name: Read actual analytics integration and live deployment endpoint
+        run: python mobile-polish-tests/analytics-evidence.py
       - name: Native built-public-root Chromium acceptance
         run: '"$RUNNER_TEMP/freight-qa-venv/bin/python" mobile-polish-tests/native-qa.py --root site/dist --out qa-artifacts'
+      # Runs only AFTER all native gates pass. Protected renderer is visually
+      # reviewed in VISUAL-MEDIA-GATE.md; helper rechecks exact built QA hashes.
+      - name: Approved native share media from the same verified build
+        if: success()
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg
+          "$RUNNER_TEMP/freight-qa-venv/bin/python" mobile-polish-tests/share-media.py
+      - name: Retain downloadable bounded share media
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: freight-share-${{ github.sha }}
+          path: |
+            share-artifacts/freight-atlas-tour.mp4
+            share-artifacts/national-*.png
+            share-artifacts/chicago-card.png
+            share-artifacts/contact-sheet.jpg
+            share-artifacts/probe-*.jpg
+            share-artifacts/*-frames.json
+            share-artifacts/media-report.json
+          if-no-files-found: warn
+          retention-days: 14
+          compression-level: 6
       - name: Retain bounded UI evidence (never browser profile or environment)
         if: always()
         uses: actions/upload-artifact@v4
@@ -48,6 +74,7 @@ jobs:
           name: freight-native-${{ github.sha }}
           path: |
             qa-artifacts/receipt-*.json
+            qa-artifacts/analytics-evidence.json
             qa-artifacts/receipt-*.png
           if-no-files-found: error
           retention-days: 14

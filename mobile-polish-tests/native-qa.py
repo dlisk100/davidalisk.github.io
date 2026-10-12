@@ -53,8 +53,9 @@ def main():
             if m!='Browser.close':
                 if time.monotonic()>deadline: raise TimeoutError('browser budget')
             result=super().call(m,**kw)
+            if not hasattr(self,'expected_requests'):self.expected_requests=set()
             for e in self.events[getattr(self,'checked_events',0):]:
-                classification=assert_event(e,f'http://127.0.0.1:{server.server_port}')
+                classification=assert_event(e,f'http://127.0.0.1:{server.server_port}',self.expected_requests)
                 if classification!='ok':
                     r.setdefault('expectedLocalDeploymentServiceAbsence',[]).append({'classification':classification,'event':e})
                     persist()
@@ -262,6 +263,8 @@ def main():
             wait("document.querySelector('h1')?.textContent.includes('Freight')",20)
             check('built article three editorial links rendered',b.ev("['methods','data','about'].every(n=>[...document.querySelectorAll('a')].some(a=>a.href.includes('/map/'+n+'.html')&&a.getBoundingClientRect().height>0))"))
             shot('built-article-desktop')
+            check('built article actual Astro analytics injection',b.ev("!!document.querySelector('vercel-analytics')&&[...document.scripts].some(s=>new URL(s.src,location.href).pathname==='/_vercel/insights/script.js'&&s.dataset.sdkn==='@vercel/analytics/astro')"))
+            r['analyticsSourceRuntime']={'layout':'site/src/layouts/Layout.astro imports @vercel/analytics/astro and renders Analytics','injectedScript':b.ev("[...document.scripts].filter(s=>s.src.includes('/_vercel/insights/script.js')).map(s=>({src:s.src,dataset:{...s.dataset}}))")};persist()
             for page in ['methods','data','about']:
                 selector=f'a[href*="map/{page}.html"]';b.ev('document.querySelector('+json.dumps(selector)+').scrollIntoView({block:"center"})');tap(selector)
                 wait("location.pathname.endsWith('/"+page+".html')&&!!document.querySelector('h1')",20)
