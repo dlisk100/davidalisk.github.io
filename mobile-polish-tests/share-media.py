@@ -141,12 +141,13 @@ try:
         (OUT/'stills-report.json').write_text(json.dumps(snapshots,indent=2))
     # Complete the three independent settled photos before video production.
     still('midwest-tons',3.5)
-    still('chicago-great-lakes',7.5)
-    target_zoom(3.5);center_chicago();scene_ready();tap('[data-u="usd"]');scene_ready();shot('midwest-usd')
+    # Compare units without an intervening zoom/pan round trip: native drag
+    # rounding can otherwise shift a restored camera by a fraction of a pixel.
+    tap('[data-u="usd"]');scene_ready();shot('midwest-usd')
     snapshots['midwest-usd']={'camera':camera(),'ratio':camera()['k']/base,'chicagoScreen':point(chicago),'pending':b.ev('!!DETAIL_LOADING.pending')}
     assert all(abs(snapshots['midwest-tons']['camera'][key]-snapshots['midwest-usd']['camera'][key])<.1 for key in ('x','y','k'))
     (OUT/'stills-report.json').write_text(json.dumps(snapshots,indent=2))
-    tap('[data-u="t"]');scene_ready()
+    tap('[data-u="t"]');scene_ready();still('chicago-great-lakes',7.5)
     # Warm every view with native gestures, then each separately recorded scene
     # starts from real settled geometry. No hiding loaders or timing changes.
     target_zoom(1);center_chicago();scene_ready()
