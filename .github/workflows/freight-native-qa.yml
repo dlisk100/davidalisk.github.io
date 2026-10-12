@@ -62,6 +62,7 @@ jobs:
             share-artifacts/midwest-threads.png
             share-artifacts/gulf-energy.png
             share-artifacts/movement.json
+            share-artifacts/capture-errors.json
             share-artifacts/contact-sheet.jpg
             share-artifacts/probe-*.jpg
             share-artifacts/*-frames.json

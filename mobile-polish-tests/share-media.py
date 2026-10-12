@@ -48,7 +48,8 @@ class Recorder(Browser):
         if remaining>0:time.sleep(remaining)
         self.call('Page.stopScreencast');self.recording=False
         elapsed=time.monotonic()-self.start_mono;assert seconds<=elapsed<seconds+1,elapsed
-        assert self.frames and not self.failures,self.failures
+        assert self.frames
+        (OUT/'capture-errors.json').write_text(json.dumps(self.failures,indent=2))
         manifest=OUT/(label+'-frames.json');manifest.write_text(json.dumps({'startWall':self.start_wall,'elapsed':elapsed,'frames':self.frames},indent=2))
         # Source timestamps determine frame holds: no speedup or interpolation.
         entries=[]
@@ -117,6 +118,32 @@ try:
         log('native continuous pan end',b.ev('APP.camera()'))
     def point(ll):return b.ev('APP.screenOf('+json.dumps(ll)+')')
     def on_canvas(p):return [max(35,min(405,p[0])),max(170,min(495,p[1]))]
+    def scene_ready():
+        wait('!GESTURE.active&&!GESTURE.dirty&&!DETAIL_LOADING.pending')
+        wait('prefetchPlanTimer===null&&BoundedTiles.prefetch.job===null&&!BoundedTiles.prefetch.status().active')
+    def warm_zoom(target,ll,closer):
+        for _ in range(22):
+            k=b.ev('APP.camera().k')/national['k']
+            if (closer and k>=target) or (not closer and k<=target):break
+            scene_ready();b.wheel(*on_canvas(point(ll)),-100 if closer else 100);time.sleep(.2);scene_ready()
+        log('native warm zoom settled',{'ll':ll,'camera':b.ev('APP.camera()')})
+    log('native pre-record route warming starts; excluded from recording')
+    warm_zoom(5,[-87.63,41.88],True)
+    b.drag(220,300,130,325);scene_ready()
+    warm_zoom(1.5,[-87.63,41.88],False)
+    for _ in range(3):
+        scene_ready();g=point([-90,30]);dx=max(-175,min(175,220-g[0]));dy=max(-160,min(160,310-g[1]))
+        b.drag(220,300,220+dx,300+dy);scene_ready()
+        if abs(dx)+abs(dy)<2:break
+    warm_zoom(5,[-90,30],True)
+    b.drag(220,300,330,275);scene_ready()
+    warm_zoom(1,[ -90,30],False)
+    for _ in range(5):
+        c=b.ev('APP.camera()');dx=max(-175,min(175,national['x']-c['x']));dy=max(-160,min(160,national['y']-c['y']))
+        if abs(dx)+abs(dy)<2:break
+        b.drag(220,300,220+dx,300+dy);scene_ready()
+    scene_ready();national=b.ev('APP.camera()');assert not b.failures,b.failures
+    log('native pre-record route warming complete',national)
     b.start('freight-atlas-tour');log('continuous motion tour start',national)
     sampler=threading.Thread(target=sample,daemon=True);sampler.start()
     time.sleep(1)
@@ -162,7 +189,8 @@ try:
         if abs(c['x']-d['x'])+abs(c['y']-d['y'])+abs(c['k']-d['k'])*100>.5:moving+=dt
     assert observed>27 and moving/observed>=2/3,{'observed':observed,'moving':moving}
     report={'revision':qa['preflight']['revision'],'hashes':qa['hashesAfter'],'actions':actions,'probe':probe,'errors':b.failures,'qaReceipt':receipts[0].name,'segments':'one uninterrupted native CDP recording; no cuts, holds added, retiming, overlays or APP camera writes','movement':{'observedSeconds':observed,'movingSeconds':moving,'fraction':moving/observed,'samples':len(movement),'threshold':'sum CSS camera translation plus scale delta*100 > 0.5 between 200ms observations; visual review separately required'},'physicalDevices':'not tested'}
-    (OUT/'media-report.json').write_text(json.dumps(report,indent=2));assert sum(p.stat().st_size for p in OUT.glob('*') if p.is_file())<50*1024**2
+    (OUT/'media-report.json').write_text(json.dumps(report,indent=2));assert not b.failures,b.failures
+    assert sum(p.stat().st_size for p in OUT.glob('*') if p.is_file())<50*1024**2
 
 finally:
     try:b.call('Browser.close')
