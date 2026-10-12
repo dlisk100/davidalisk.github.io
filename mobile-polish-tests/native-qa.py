@@ -1,19 +1,17 @@
-"""Final released-renderer QA: real public root, one retained browser, no copies.
-Run ONLY via unchanged gateway-resource-repair/worker.py (900s isolation).
---preflight imports and verifies delivery without launching Chrome.
+"""Hosted-only released-renderer QA; actual public root, no overlays or copies.
+--preflight verifies source pins without launching a browser.
+VPS capacity guards are unchanged and are not imported/bypassed here.
 """
-import argparse, base64, functools, hashlib, http.server, json, pathlib, signal, subprocess, sys, threading, time, traceback, urllib.request, urllib.parse, uuid
-ROOT=pathlib.Path('/tmp/site/site/public'); MAP=ROOT/'projects/freight-atlas/map'
-OUT=pathlib.Path('/home/hermes/workspace/freight-final-mobile-native'); OUT.mkdir(exist_ok=True)
-sys.path.insert(0,'/home/hermes/workspace/metro-flows-offscreen/spikes/001-offscreen-exact')
-from cdp_websocket import install_transport
-install_transport()
-sys.path.insert(0,'/home/hermes/workspace/metro-flows/performance-work/harness')
-from cdp_isolated import Browser
-import cdp
-sys.path.insert(0,'/home/hermes/workspace/gateway-resource-repair')
-from worker import boundary, capacity, running_capacity
-PROFILE='/dev/shm/tmp8gbe9g1c'
+import argparse, base64, functools, hashlib, http.server, json, os, pathlib, signal, subprocess, sys, threading, time, traceback, urllib.request, urllib.parse, uuid
+from hosted_cdp import Browser
+REPO=pathlib.Path(__file__).resolve().parents[1]
+args=argparse.ArgumentParser()
+args.add_argument('--root',type=pathlib.Path,default=REPO/'site/public')
+args.add_argument('--out',type=pathlib.Path,default=REPO/'qa-artifacts')
+args.add_argument('--preflight',action='store_true')
+options=args.parse_args()
+ROOT=options.root.resolve(); MAP=ROOT/'projects/freight-atlas/map'
+OUT=options.out.resolve(); OUT.mkdir(parents=True,exist_ok=True)
 class Handler(http.server.SimpleHTTPRequestHandler):
     def log_message(self,*args): pass
 
@@ -21,16 +19,16 @@ def digest():
     return {n:hashlib.sha256((MAP/n).read_bytes()).hexdigest() for n in ['core.js.gz','plate.json.gz','pz-sys.js.gz','explore-catalog.json','route-render.js','info-inspector.js','proto.js','atlas-bridge.css','atlas-bridge.js','index.html']}
 
 def preflight():
-    assert pathlib.Path(PROFILE).is_dir()
-    assert subprocess.run(['pgrep','-x','chrome'],capture_output=True).returncode!=0
-    assert subprocess.check_output(['systemctl','show','hermes-gateway.service','-p','MainPID','--value'],text=True).strip()=='3451149'
-    assert subprocess.run(['git','diff','--quiet','c49e8c0','--','site/public','site/src/content/projects/freight-atlas.mdx'],cwd='/tmp/site').returncode==0,'Candidate runtime/source article drift'
-    return {'candidate':'c49e8c0','revision':subprocess.check_output(['git','rev-parse','HEAD'],cwd='/tmp/site',text=True).strip(),'imports':'exact installed venv; tested four-method websockets adapter; isolated driver imported once','hashes':digest(),'gateway':3451149,'profile':PROFILE}
+    assert subprocess.run(['git','diff','--quiet','c49e8c0','--','site/public','site/src/content/projects/freight-atlas.mdx'],cwd=REPO).returncode==0,'Candidate runtime/source article drift'
+    article=(REPO/'site/src/content/projects/freight-atlas.mdx').read_text()
+    assert all('map/'+name+'.html' in article for name in ['methods','data','about'])
+    return {'candidate':'c49e8c0','revision':subprocess.check_output(['git','rev-parse','HEAD'],cwd=REPO,text=True).strip(),'articleLinks':'source MDX verified; static map QA does not claim Astro build','runtime':'hosted Chrome; isolated runner Python venv; stdlib plus websockets','hashes':digest()}
 
 def main():
     r={'preflight':preflight(),'checks':[],'screenshots':[],'rows':[],'passed':False,'scope':'localhost Chromium viewport/native input; not physical iPhone Safari or public CDN'}
     if '--preflight' in sys.argv: print(json.dumps(r)); return
-    r['boundary']=boundary();capacity()
+    if os.environ.get('GITHUB_ACTIONS')!='true': raise RuntimeError('Run browser QA on hosted GitHub Actions only; VPS protections remain mandatory')
+    r['runtime']='GitHub Actions hosted Ubuntu; no VPS browser or service changes'
     start=time.monotonic(); deadline=start+875; lastguard=0; b=None; server=None
     receipt=OUT/('receipt-'+uuid.uuid4().hex+'.json');receipt.touch(exist_ok=False)
     def persist(): receipt.write_text(json.dumps(r,indent=2))
@@ -44,8 +42,6 @@ def main():
             nonlocal lastguard
             if m!='Browser.close':
                 if time.monotonic()>deadline: raise TimeoutError('browser budget')
-                if time.monotonic()-lastguard>2: running_capacity();lastguard=time.monotonic()
-            if hasattr(self,'ws'): self.ws.settimeout(5 if m=='Browser.close' else min(90,max(1,deadline-time.monotonic())))
             result=super().call(m,**kw)
             for e in self.events:
                 if e.get('method')=='Network.responseReceived' and e['params']['response']['status']==404: raise RuntimeError('Actual public-root 404 '+e['params']['response']['url'])
@@ -63,7 +59,7 @@ def main():
     def shot(label):
         assert len(r['screenshots'])<10
         data=base64.b64decode(b.call('Page.captureScreenshot',format='png',captureBeyondViewport=False)['data']);assert len(data)<5*1024**2
-        p=OUT/(receipt.stem+'-'+label+'.png');p.write_bytes(data);r['screenshots'].append(str(p));persist()
+        p=OUT/(receipt.stem+'-'+label+'.png');p.write_bytes(data);r['screenshots'].append(p.name);persist()
     def target(selector):
         return b.ev("(()=>{const e=document.querySelector("+json.dumps(selector)+");if(!e)throw Error('Missing target');const r=e.getBoundingClientRect(),x=Math.round(r.x+r.width/2),y=Math.round(r.y+r.height/2),at=document.elementFromPoint(x,y);if(!at||!e.contains(at)||getComputedStyle(e).visibility==='hidden')throw Error('Obstructed target '+"+json.dumps(selector)+");return {x,y}})()")
     def tap(selector):
@@ -82,7 +78,6 @@ def main():
         url=f'http://127.0.0.1:{server.server_port}/projects/freight-atlas/map/'
         for name in ['index.html','proto.js','../numeric.bundle','../directory.json.gz']:
             with urllib.request.urlopen(urllib.parse.urljoin(url,name),timeout=10) as response: assert response.status==200
-        cdp.tempfile.mkdtemp=lambda:PROFILE
         b=Bounded(390,844);b.__enter__()
         for method in ['Page.enable','Runtime.enable','Network.enable']: b.call(method)
         b.call('Page.addScriptToEvaluateOnNewDocument',source="window.__qaReady=null;function q(){if(document.body?.dataset.ready==='1'){window.__qaReady=performance.now();return}requestAnimationFrame(q)}requestAnimationFrame(q)")
@@ -159,7 +154,7 @@ def main():
             r['errors']=[e for e in b.events if e.get('method') in ['Runtime.exceptionThrown','Network.loadingFailed']][-30:]
             try:b.call('Browser.close')
             except Exception as e:r['closeNote']=str(e)
-            try:b.ws.close();b.p.wait(timeout=15)
+            try:b.cleanup()
             except Exception as e:r['exitFailure']=str(e)
         if server:server.shutdown();server.server_close()
         r['hashesAfter']=digest();r['protectedUnchanged']=r['hashesAfter']==r['preflight']['hashes'];persist()
