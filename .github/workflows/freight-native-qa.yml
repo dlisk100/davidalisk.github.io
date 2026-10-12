@@ -2,7 +2,7 @@ name: Freight native browser QA
 on:
   workflow_dispatch:
   push:
-    branches: [fix/freight-final-mobile]
+    branches: [fix/freight-mobile-toolbar]
     paths: ['mobile-polish-tests/**', '.github/workflows/freight-native-qa.yml', 'site/public/projects/freight-atlas/**', 'site/src/content/projects/freight-atlas.mdx']
   pull_request:
     branches: [main]

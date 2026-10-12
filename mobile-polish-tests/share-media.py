@@ -89,6 +89,7 @@ try:
         (OUT/(name+'.png')).write_bytes(base64.b64decode(b.call('Page.captureScreenshot',format='png',captureBeyondViewport=False)['data']))
     b.call('Page.navigate',url=origin+'/projects/freight-atlas/map/');wait("document.body?.dataset.ready==='1'&&!!window.ATLAS_EXPLORE");native_entry(b);wait("document.getElementById('startup-loading').hidden&&!DETAIL_LOADING.pending")
     assert b.ev("document.querySelector('#national-headline').textContent.includes('2024')&&!document.querySelector('#atlas-docs')&&!document.querySelector('#lab .insets')")
+    time.sleep(6.1);assert b.ev("document.querySelector('#map-hint').hidden")
     national=b.ev('APP.camera()');shot('national-tons');b.start('national');log('national tons start',national);time.sleep(7)
     tap('#unit button[data-u=usd]');assert b.ev('APP.camera()')==national;log('same-camera USD',b.ev('APP.camera()'));b.stop('national',14);shot('national-usd')
     def chicago():

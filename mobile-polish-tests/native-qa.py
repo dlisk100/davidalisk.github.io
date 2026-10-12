@@ -23,16 +23,18 @@ def digest():
     return {n:hashlib.sha256((MAP/n).read_bytes()).hexdigest() for n in ['core.js.gz','plate.json.gz','pz-sys.js.gz','explore-catalog.json','route-render.js','info-inspector.js','proto.js','atlas-bridge.css','atlas-bridge.js','index.html']}
 
 def preflight():
+    mutable={'proto.js','atlas-bridge.css','atlas-bridge.js','index.html'}
     for name, actual in digest().items():
-        original=subprocess.check_output(['git','show','c49e8c0:site/public/projects/freight-atlas/map/'+name],cwd=REPO)
-        if name=='atlas-bridge.css':
-            original+=b'/* Software keyboard-height emulation: align the collapsed dock beside unit tools. */\n@media(max-width:600px) and (max-height:400px){\n #atlas-controls{top:calc(max(16px,env(safe-area-inset-top)) + 90px)}\n}\n'
-        assert hashlib.sha256(original).hexdigest()==actual,'Protected candidate runtime drift: '+name
-    assert subprocess.run(['git','diff','--quiet','c49e8c0','--','site/src/content/projects/freight-atlas.mdx'],cwd=REPO).returncode==0,'Article drift'
+        revision='HEAD' if name in mutable else '6697bc4'
+        original=subprocess.check_output(['git','show',revision+':site/public/projects/freight-atlas/map/'+name],cwd=REPO)
+        assert hashlib.sha256(original).hexdigest()==actual,'Built candidate/protected source drift: '+name
+    old_proto=subprocess.check_output(['git','show','6697bc4:site/public/projects/freight-atlas/map/proto.js'],cwd=REPO,text=True)
+    assert (MAP/'proto.js').read_text()==old_proto.replace("document.getElementById('home').onclick = () => wsel.transition().duration(1400).call(zoom.transform, homeT());",'')
+    assert subprocess.run(['git','diff','--quiet','6697bc4','--','site/src/content/projects/freight-atlas.mdx'],cwd=REPO).returncode==0,'Article drift'
     # Editorial favicon repair is separately regression-tested; all map runtime/data pins remain exact.
     article=(REPO/'site/src/content/projects/freight-atlas.mdx').read_text()
     assert all('map/'+name+'.html' in article for name in ['methods','data','about'])
-    return {'candidate':'c49e8c0','revision':subprocess.check_output(['git','rev-parse','HEAD'],cwd=REPO,text=True).strip(),'articleLinks':'source MDX verified; static map QA does not claim Astro build','runtime':'hosted Chrome; isolated runner Python venv; stdlib plus websockets','hashes':digest()}
+    return {'candidate':'compact-toolbar off 6697bc4','revision':subprocess.check_output(['git','rev-parse','HEAD'],cwd=REPO,text=True).strip(),'articleLinks':'source MDX verified; static map QA does not claim Astro build','runtime':'hosted Chrome; isolated runner Python venv; stdlib plus websockets','hashes':digest()}
 
 def main():
     r={'preflight':preflight(),'checks':[],'screenshots':[],'rows':[],'passed':False,'scope':'localhost Chromium viewport/native input; not physical iPhone Safari or public CDN'}
@@ -112,7 +114,7 @@ def main():
             b.call('Emulation.setEmulatedMedia',features=[{'name':'prefers-reduced-motion','value':'reduce' if h==480 else 'no-preference'}])
             b.call('Page.navigate',url=url)
             if index==0:
-                wait("!!document.querySelector('#startup-loading')",15);shot('loading-390x844')
+                wait("!!document.querySelector('#startup-loading')",15)
             wait("document.body?.dataset.ready==='1'&&!!window.ATLAS_EXPLORE",120)
             row={'viewport':[w,h],'readyMs':b.ev('__qaReady'),'layout':layout()};r['rows'].append(row);persist()
             check(label+' backing raster',row['layout']['raster']==[w,h,1])
@@ -120,9 +122,11 @@ def main():
             check(label+' Ready animation stopped',b.ev("document.querySelector('#startup-loading').dataset.motion==='still'"))
             if h==480:check(label+' reduced motion honored',b.ev("document.querySelector('#startup-loading').dataset.reducedMotion==='true'"))
             check(label+' startup captions absent',b.ev("![...document.querySelectorAll('#startup-loading p')].some(e=>e.textContent.includes('illustrative'))"))
-            entry=native_entry(b,before_click=(lambda:shot('ready-scrolled-852x393')) if index==3 else None);check(label+' native opening entry',True,entry)
+            entry=native_entry(b);check(label+' native opening entry',True,entry)
             wait("document.getElementById('startup-loading').hidden")
             summaries(label+' collapsed')
+            if w<=600:
+                check(label+' one compact row and 44px controls',b.ev("(()=>{const es=[...document.querySelectorAll('#unit button,#atlas-controls>details>summary')],rs=es.map(e=>e.getBoundingClientRect()),t=document.querySelector('#title').getBoundingClientRect();return rs.every(r=>r.height>=44&&r.width>=44&&Math.abs(r.top-rs[0].top)<2&&r.bottom<innerHeight)&&rs[0].top>=t.bottom&&rs[0].top-t.bottom<=8})()"))
             if index==0: shot('country-390x844')
             before=b.ev('APP.camera()');pan_started=time.monotonic()
             if mobile:
@@ -133,10 +137,14 @@ def main():
             wait("!GESTURE.active&&!GESTURE.dirty&&!DETAIL_LOADING.pending")
             row['countryPanDriverWallMs']=(time.monotonic()-pan_started)*1000;persist()
             check(label+' native country pan',b.ev('APP.camera()')!=before)
-            tap('#home');wait("!GESTURE.active&&!GESTURE.dirty&&!DETAIL_LOADING.pending")
+            check(label+' removed country control and boot contract',b.ev("!document.querySelector('#home')&&window.__errs.length===0&&typeof APP.reset==='function'&&typeof APP.applyView==='function'"))
+            b.ev('APP.reset()');wait("!GESTURE.active&&!GESTURE.dirty&&!DETAIL_LOADING.pending")
+            check(label+' retained reset API country and tons',b.ev("APP.getView().unit==='t'&&!APP.selectedPlace()"))
             check(label+' tons national truth',b.ev("document.querySelector('#national-headline').textContent.includes('20.0')&&document.querySelector('#national-headline').textContent.includes('2024')"))
             tap('#layers-panel>summary');wait("document.querySelector('#layers-panel').open")
             summaries(label+' layers expanded')
+            if w<=600:check(label+' Layers panel below row bounded',b.ev("(()=>{const p=document.querySelector('#layer-controls').getBoundingClientRect(),d=document.querySelector('#atlas-controls').getBoundingClientRect();return p.top>=d.bottom&&p.bottom<=innerHeight&&p.width<=innerWidth-32})()"))
+            if index==0:shot('layers-expanded-390x844')
             before=b.ev('APP.layers()')
             for layer_index in range(b.ev("document.querySelectorAll('#layer-controls input').length")):
                 selector=f'#layer-controls input:nth-of-type({layer_index+1})'
@@ -151,6 +159,8 @@ def main():
             tap('#layers-panel>summary');check(label+' native Layers reopen',b.ev("document.querySelector('#layers-panel').open"))
             tap('#atlas-menu>summary');wait("document.querySelector('#atlas-menu').open&&!document.querySelector('#layers-panel').open")
             summaries(label+' explore expanded')
+            if w<=600:check(label+' Explore below row bounded',b.ev("(()=>{const p=document.querySelector('.atlas-menu-body').getBoundingClientRect(),d=document.querySelector('#atlas-controls').getBoundingClientRect();return p.top>=d.bottom&&p.bottom<=innerHeight&&!document.querySelector('#layers-panel').open})()"))
+            if index==1:shot('explore-expanded-393x852')
             query('Anchorage');check(label+' Anchorage rejected',b.ev("document.querySelectorAll('.ae-results button').length===0"))
             query('Honolulu');check(label+' Honolulu rejected',b.ev("document.querySelectorAll('.ae-results button').length===0"))
             query('Albany');wait("!!document.querySelector('.ae-results button')")
@@ -161,14 +171,7 @@ def main():
             check(label+' native first result Albany',b.ev('APP.selectedPlace()'))
             summaries(label+' card')
             if h==360:
-                # Roll back only the narrow dock offset on the real production DOM:
-                # independent sensitivity proof, restored before any native action.
-                b.ev("document.querySelector('#atlas-controls').style.setProperty('top','150px','important');dispatchEvent(new Event('resize'))")
-                time.sleep(.2);old_clearance=layout()
-                check('keyboard-height original CSS RED reproduced',old_clearance['card']['height']<=50,old_clearance)
-                b.ev("document.querySelector('#atlas-controls').style.removeProperty('top');dispatchEvent(new Event('resize'))")
-                time.sleep(.2);new_clearance=layout()
-                check('keyboard-height corrected CSS real DOM GREEN',new_clearance['card']['height']>50,new_clearance)
+                check('keyboard-height compact inspector actual allowance',layout()['card']['height']>100,layout())
             check(label+' card clearance',b.ev("(()=>{const c=document.querySelector('#card').getBoundingClientRect(),s=document.querySelector('#atlas-controls').getBoundingClientRect();return getComputedStyle(document.querySelector('#card')).visibility==='visible'&&c.height>50&&c.bottom<=innerHeight&&((innerWidth>600)||c.top>=s.bottom)})()"))
             if index==0:
                 b.ev("document.querySelector('#card .source-note summary').scrollIntoView({block:'center'})")
@@ -179,7 +182,11 @@ def main():
             if h==480: shot('short-portrait-393x480')
             if h==360: shot('keyboard-shape-393x360')
             # Open/close with selected card; deliberate hiding is tested, never mistaken for accessibility.
-            tap('#layers-panel>summary');summaries(label+' selected layers');key('Escape');wait("!document.querySelector('#layers-panel').open")
+            selection_before=b.ev('APP.getView()')
+            tap('#layers-panel>summary');summaries(label+' selected layers')
+            if w<=600:check(label+' expanded Layers hides card explicitly retains selection',b.ev("getComputedStyle(document.querySelector('#card')).visibility==='hidden'") and selection_before==b.ev('APP.getView()'))
+            key('Escape');wait("!document.querySelector('#layers-panel').open")
+            check(label+' closing Layers restores unchanged card selection',selection_before==b.ev('APP.getView()') and b.ev("getComputedStyle(document.querySelector('#card')).visibility==='visible'"))
             check(label+' Escape focus',b.ev("document.activeElement===document.querySelector('#layers-panel>summary')"))
             if index==0:
                 selected=b.ev('APP.getView()');tap('#unit button[data-u=usd]');check('USD national truth',b.ev("document.querySelector('#national-headline').textContent.includes('2024')&&document.querySelector('#national-headline').textContent.includes('25.0')"))

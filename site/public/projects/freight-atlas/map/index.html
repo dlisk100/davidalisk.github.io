@@ -108,9 +108,9 @@ html, body { margin: 0; height: 100%; background: var(--water); font-family: Gar
 <div id="wrap"><svg id="map"></svg><canvas id="net"></canvas><svg id="lab"></svg></div>
 <div id="plate"></div>
 <div id="title"><div class="t">U.S. Freight Atlas</div><div class="s">How goods move across America.</div><div id="national-headline" class="k"></div></div>
-<div id="legend"></div><div id="atlas-controls"><details id="layers-panel"><summary>Layers</summary><fieldset id="layer-controls"><legend>Show on the map</legend></fieldset></details>
+<div id="legend"></div><div id="atlas-controls"><div id="tools"><span id="unit"><button data-u="t" class="on">Tons</button><button data-u="usd" aria-label="Freight value in US dollars">USD</button></span></div><details id="layers-panel"><summary>Layers</summary><div class="atlas-layers-body"><fieldset id="layer-controls"><legend>Show on the map</legend></fieldset></div></details>
 <details id="atlas-menu"><summary>Explore</summary><div class="atlas-menu-body"><div id="explore-host"></div></div></details></div><p id="atlas-link-status" role="status" hidden></p><div id="layers-empty" role="status" hidden>Choose a layer to explore.</div>
-<div id="tools"><span id="unit"><button data-u="t" class="on">Tons</button><button data-u="usd" aria-label="Freight value in US dollars">USD</button></span><button id="home">U.S. view</button></div>
+
 <p id="map-hint" hidden>Click any line or place</p><div id="zbar"></div>
 <div id="card" hidden></div>
 <div id="tip" hidden></div><div id="detail-loading" role="status" aria-live="polite"><span>Loading the map…</span><button hidden>Try again</button></div>

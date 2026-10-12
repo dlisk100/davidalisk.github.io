@@ -344,7 +344,7 @@ function selBounds() {if(!SEL?.xy)return null;const [x,y]=SEL.xy;return[x-20,y-2
 function fitT(b) { const k = Math.min(60, Math.max(80,W-(W<600?80:500)) / Math.max(1,b[2]-b[0]), Math.max(80,H-260) / Math.max(1,b[3]-b[1])); return d3.zoomIdentity.translate(W/2+(W<600?0:120)-k*(b[0]+b[2])/2,H/2+(W<600?-80:20)-k*(b[1]+b[3])/2).scale(k); }
 function zoomToSel(ms = 1600) { const b = selBounds(); if (b) return wsel.transition().duration(ms).ease(d3.easeCubicInOut).call(zoom.transform, fitT(b)).end().catch(() => 0); }
 wrap.addEventListener('click', e => { if (e.defaultPrevented) return; const h = hit(e.clientX, e.clientY); if (h) openCard(h); else if (SEL) closeCard(); });
-document.getElementById('home').onclick = () => wsel.transition().duration(1400).call(zoom.transform, homeT());
+
 const tip = document.getElementById('tip');
 wrap.addEventListener('pointermove', e => { if (e.buttons) return; const h = hit(e.clientX, e.clientY); wrap.classList.toggle('hot', !!h); if (!h) { tip.hidden = true; return; }
   const f=ClickedPlace.facts(h,UNIT),name=h.type==='seg'?corrName(h.s)||MNAME[h.s.m]:h.type==='reg'?h.r.n:h.c.n;

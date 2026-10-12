@@ -1,13 +1,10 @@
-const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
-const css=fs.readFileSync(path.join(__dirname,'../site/public/projects/freight-atlas/map/atlas-bridge.css'),'utf8');
-test('software keyboard-height viewport reserves a readable collapsed inspector',()=>{
- // Source box model independently cross-checked with the actual 393x360 hosted receipt:
- // safe top 16 + dock 134 + two 46px disclosures + gap 6 + border/clearance 10 = 256.
- const ordinary=Number(css.match(/top:calc\(max\(16px,env\(safe-area-inset-top\)\) \+ (\d+)px\);z-index:10/)[1]);
- const override=css.match(/@media\(max-width:600px\) and \(max-height:400px\)\{\s*#atlas-controls\{top:calc\(max\(16px,env\(safe-area-inset-top\)\) \+ (\d+)px\)/);
- const offset=override?Number(override[1]):ordinary;
- const top=16+offset+46+6+46+8;
- const height=360-top-76;
- assert.ok(height>50,`actual CSS inspector allowance ${height}px at 393x360 (dock top ${16+offset})`);
- assert.ok(16+offset>=102,'dock remains below header and aligned alongside tools, not over the masthead');
+const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
+const base=__dirname+'/../site/public/projects/freight-atlas/map/',css=fs.readFileSync(base+'atlas-bridge.css','utf8');
+test('software keyboard-height viewport reserves readable collapsed inspector and hides expanded card',()=>{
+ const m={exports:{}};vm.runInNewContext(fs.readFileSync(base+'atlas-bridge.js','utf8'),{module:m});
+ const bottom=m.exports.controlsBottom({getBoundingClientRect:()=>({bottom:146}),querySelectorAll:()=>[]});
+ assert.ok(360-bottom-76>100,'single-row inspector allowance at keyboard height');
+ assert.ok(css.includes('max-height:calc(100dvh - var(--atlas-controls-bottom,154px) - 76px'));
+ assert.ok(css.includes('#atlas-controls:has(#layers-panel[open])~#card{visibility:hidden}'));
+ assert.ok(css.includes('#atlas-controls:has(#atlas-menu[open])~#card{visibility:hidden}'));
 });

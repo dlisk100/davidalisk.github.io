@@ -33,44 +33,29 @@
  #card{left:250px;right:190px;top:170px;bottom:24px;width:auto;max-height:none}
  #atlas-menu[open]~#card{visibility:hidden}
 }
-@media(max-width:600px){
- #title{padding:6px 10px;top:16px}#title .t{font-size:20px}#title .s{font-size:12px;margin-top:2px}#title .k{font-size:11px;margin-top:5px}
- #tools{top:98px!important;left:16px!important;gap:4px}#tools button{padding:4px 7px}#tools #unit{margin-right:0}
- #layers-panel{left:auto;right:16px;top:98px;width:90px;max-height:calc(100dvh - 160px)}
- #layers-panel[open]{width:220px}#layers-panel>summary{padding:0 9px}
- #legend{display:none}#layers-panel #legend{display:block;position:static;font-size:11px;line-height:1.5;border:0;border-top:1px solid #b9aa8f;padding:8px 10px;margin:0}
- #atlas-menu{right:16px;left:auto;top:144px;max-width:calc(100vw - 32px)}
- #atlas-menu[open]{left:16px}#atlas-menu[open] .atlas-menu-body{width:100%;max-height:calc(100dvh - 210px)}
- #atlas-docs{left:16px;right:auto;top:144px;padding:0}
- #atlas-link-status{left:16px;right:16px;top:auto;bottom:18px;max-width:none}
- #zbar{left:auto!important;right:16px!important;bottom:16px;max-width:144px}
- #card{top:196px;bottom:auto!important;max-height:calc(100dvh - 260px);width:auto}
- #atlas-menu[open]~#card{visibility:hidden}
- #detail-loading{top:auto!important;bottom:24px!important;left:16px!important;transform:none!important;width:auto!important;max-width:calc(100vw - 182px)!important}
- #map-hint{bottom:180px;font-size:11px}
-}
-
-/* Disclosures share document flow: opening Layers moves Explore rather than covering it. */
+/* One compact row below the measured masthead; only expanded bodies occupy map space. */
 #atlas-controls{display:contents}
 @media(max-width:600px){
- #title{top:max(16px,env(safe-area-inset-top));left:max(16px,env(safe-area-inset-left));right:max(16px,env(safe-area-inset-right))}
- #tools{top:calc(max(16px,env(safe-area-inset-top)) + 86px)!important}
- #atlas-controls{display:flex;flex-direction:column;align-items:flex-end;gap:6px;position:fixed;right:max(16px,env(safe-area-inset-right));top:calc(max(16px,env(safe-area-inset-top)) + 134px);z-index:10;pointer-events:none;max-width:calc(100vw - 32px)}
- #atlas-controls>#layers-panel,#atlas-controls>#atlas-menu{position:static;pointer-events:auto;margin:0;width:90px;max-width:100%;max-height:none;overflow:visible}
- #atlas-controls>#layers-panel[open],#atlas-controls>#atlas-menu[open]{width:calc(100vw - 32px)}
- #atlas-controls summary{min-height:44px;line-height:44px}
- #atlas-controls>#layers-panel[open]{max-height:calc(100dvh - 220px - env(safe-area-inset-top) - env(safe-area-inset-bottom));overflow:auto}
- #layers-panel>summary{position:sticky;top:0;background:var(--paper);z-index:1}
- #layer-controls{max-height:min(32dvh,240px)!important;overflow:auto;overscroll-behavior:contain}
+ #title{padding:6px 10px;top:max(16px,env(safe-area-inset-top));left:max(16px,env(safe-area-inset-left));right:max(16px,env(safe-area-inset-right))}
+ #title .t{font-size:20px}#title .s{font-size:12px;margin-top:2px}#title .k{font-size:11px;margin-top:5px}
+ #atlas-controls{display:flex;flex-direction:row;align-items:center;gap:8px;position:fixed;left:max(16px,env(safe-area-inset-left));right:max(16px,env(safe-area-inset-right));top:var(--atlas-toolbar-top,102px);z-index:10;pointer-events:none}
+ #atlas-controls>#tools{position:static;pointer-events:auto;gap:0;margin:0;flex:0 0 auto}
+ #tools #unit{margin-right:0}#tools button{min-height:44px;min-width:44px;padding:4px 9px}
+ #atlas-controls>#layers-panel,#atlas-controls>#atlas-menu{position:static;pointer-events:auto;margin:0;width:auto;max-width:none;max-height:none;overflow:visible;background:var(--paper);flex:0 0 auto}
+ #atlas-controls summary{min-height:44px;line-height:44px;padding:0 10px;box-sizing:border-box;white-space:nowrap}
+ #atlas-controls .atlas-menu-body,#layers-panel>.atlas-layers-body{position:absolute;left:0;right:0;top:100%;margin-top:6px;width:100%;max-width:none;max-height:calc(100dvh - var(--atlas-toolbar-top,102px) - 60px - env(safe-area-inset-bottom));overflow:auto;overscroll-behavior:contain;background:var(--paper);border:1px solid var(--ink);box-sizing:border-box}
+ #layers-panel>.atlas-layers-body{padding:4px 10px 10px}
+ #layer-controls{max-height:calc(100dvh - var(--atlas-toolbar-top,102px) - 160px - env(safe-area-inset-bottom))!important;overflow:auto;overscroll-behavior:contain}
  #layer-controls label{min-height:44px}
- #layers-panel #legend{max-height:72px;overflow:auto}
- #atlas-controls .atlas-menu-body{width:100%;max-height:calc(100dvh - 260px - env(safe-area-inset-bottom));min-height:44px}
- #card{top:var(--atlas-controls-bottom,252px);max-height:calc(100dvh - var(--atlas-controls-bottom,252px) - 76px - env(safe-area-inset-bottom));bottom:auto!important}
+ #legend{display:none}#layers-panel #legend{display:block;position:static;font-size:11px;line-height:1.5;border:0;border-top:1px solid #b9aa8f;padding:8px 0;margin:0}
+ #card{top:var(--atlas-controls-bottom,154px);bottom:auto!important;max-height:calc(100dvh - var(--atlas-controls-bottom,154px) - 76px - env(safe-area-inset-bottom));width:auto}
  #atlas-controls:has(#atlas-menu[open])~#card{visibility:hidden}
- #zbar{bottom:max(16px,env(safe-area-inset-bottom))}
- #detail-loading{bottom:calc(max(16px,env(safe-area-inset-bottom)) + 8px)!important}
- #card a[data-method],#card button,#tools button{min-height:44px}
- .atlas-explore input{font-size:16px}
+ #atlas-controls:has(#layers-panel[open])~#card{visibility:hidden}
+ #atlas-link-status{left:16px;right:16px;top:auto;bottom:18px;max-width:none}
+ #zbar{left:auto!important;right:16px!important;bottom:max(16px,env(safe-area-inset-bottom));max-width:144px}
+ #detail-loading{top:auto!important;bottom:calc(max(16px,env(safe-area-inset-bottom)) + 8px)!important;left:16px!important;transform:none!important;width:auto!important;max-width:calc(100vw - 182px)!important}
+ #map-hint{bottom:180px;font-size:11px}
+ #card a[data-method],#card button{min-height:44px}.atlas-explore input{font-size:16px}
 }
 @media(max-width:600px) and (max-height:500px){
  #atlas-controls:has(#layers-panel[open])~#card{visibility:hidden}
@@ -84,8 +69,4 @@
  #atlas-controls .atlas-menu-body{width:220px;max-height:calc(100dvh - 210px)}
  #card{left:250px;right:252px;top:150px;bottom:max(16px,env(safe-area-inset-bottom));max-height:none}
  #atlas-controls:has(#atlas-menu[open])~#card{visibility:hidden}
-}
-/* Software keyboard-height emulation: align the collapsed dock beside unit tools. */
-@media(max-width:600px) and (max-height:400px){
- #atlas-controls{top:calc(max(16px,env(safe-area-inset-top)) + 90px)}
 }

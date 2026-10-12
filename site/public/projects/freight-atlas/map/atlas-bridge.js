@@ -45,6 +45,7 @@ function chromeBounds(doc){
  return elements.flatMap(el=>{const r=el?.getBoundingClientRect();return r&&r.width>0&&r.height>0?[[r.left-6,r.top-6,r.right+6,r.bottom+6]]:[];});
 }
 function closePanels(doc){for(const id of ['layers-panel','atlas-menu']){const panel=doc.getElementById(id);if(panel)panel.open=false;}}
+function controlsBottom(dock){let bottom=dock.getBoundingClientRect().bottom;for(const panel of dock.querySelectorAll('details'))if(panel.open)for(const body of panel.querySelectorAll('.atlas-menu-body,.atlas-layers-body'))bottom=Math.max(bottom,body.getBoundingClientRect().bottom);return Math.ceil(bottom+8);}
 let chromeMounted=false;
 function compactChrome(){
  if(chromeMounted)return;
@@ -52,11 +53,11 @@ function compactChrome(){
  if(!legend||!layers||!title||typeof matchMedia!=='function')return;
  chromeMounted=true;const phone=matchMedia('(max-width:600px)');
  const dock=document.getElementById('atlas-controls'),menu=document.getElementById('atlas-menu');
- const measure=()=>{if(!dock)return;const r=dock.getBoundingClientRect();document.documentElement.style.setProperty('--atlas-controls-bottom',Math.ceil(r.bottom+8)+'px');};
+ const measure=()=>{if(!dock)return;const top=title.getBoundingClientRect().bottom+6;document.documentElement.style.setProperty('--atlas-toolbar-top',Math.ceil(top)+'px');document.documentElement.style.setProperty('--atlas-controls-bottom',controlsBottom(dock)+'px');};
  for(const panel of [layers,menu]){if(!panel)continue;panel.addEventListener('toggle',()=>{if(panel.open){const other=panel===layers?menu:layers;if(other)other.open=false;}measure();});panel.addEventListener('keydown',e=>{if(e.key==='Escape'&&panel.open){e.preventDefault();panel.open=false;panel.querySelector('summary').focus();measure();}});}
- if(dock&&typeof ResizeObserver==='function')new ResizeObserver(measure).observe(dock);
+ if(dock&&typeof ResizeObserver==='function'){const observer=new ResizeObserver(measure);for(const el of [dock,title,...dock.querySelectorAll('.atlas-menu-body,.atlas-layers-body')])observer.observe(el);}
  window.addEventListener('resize',measure);measure();
- const layout=()=>{if(phone.matches)layers.append(legend);else title.after(legend);};layout();phone.addEventListener('change',layout);
+ const layout=()=>{if(phone.matches)layers.querySelector('.atlas-layers-body').append(legend);else title.after(legend);};layout();phone.addEventListener('change',layout);
  const hint=document.getElementById('map-hint'),wrap=document.getElementById('wrap');
  if(!hint||!wrap)return;
  let shown=false,timer;
@@ -79,5 +80,5 @@ async function boot(app){
   else if(initial.status==='invalid')say(initial);
  }catch(e){say({status:'unavailable',message:'Search is unavailable. You can still explore the map. Reload to try again.'});}
 }
-return{SNAPSHOT,inLower48,closePanels,project,rawCamera,geoCamera,frameCamera,distanceScale,sourceID,resolveSource,serializedURL,nationalHeadline,regionLabel,lineQuantity,chromeBounds,compactChrome,boot};
+return{SNAPSHOT,inLower48,closePanels,controlsBottom,project,rawCamera,geoCamera,frameCamera,distanceScale,sourceID,resolveSource,serializedURL,nationalHeadline,regionLabel,lineQuantity,chromeBounds,compactChrome,boot};
 });
