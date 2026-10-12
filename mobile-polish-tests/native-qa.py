@@ -1,0 +1,169 @@
+"""Final released-renderer QA: real public root, one retained browser, no copies.
+Run ONLY via unchanged gateway-resource-repair/worker.py (900s isolation).
+--preflight imports and verifies delivery without launching Chrome.
+"""
+import argparse, base64, functools, hashlib, http.server, json, pathlib, signal, subprocess, sys, threading, time, traceback, urllib.request, urllib.parse, uuid
+ROOT=pathlib.Path('/tmp/site/site/public'); MAP=ROOT/'projects/freight-atlas/map'
+OUT=pathlib.Path('/home/hermes/workspace/freight-final-mobile-native'); OUT.mkdir(exist_ok=True)
+sys.path.insert(0,'/home/hermes/workspace/metro-flows-offscreen/spikes/001-offscreen-exact')
+from cdp_websocket import install_transport
+install_transport()
+sys.path.insert(0,'/home/hermes/workspace/metro-flows/performance-work/harness')
+from cdp_isolated import Browser
+import cdp
+sys.path.insert(0,'/home/hermes/workspace/gateway-resource-repair')
+from worker import boundary, capacity, running_capacity
+PROFILE='/dev/shm/tmp8gbe9g1c'
+class Handler(http.server.SimpleHTTPRequestHandler):
+    def log_message(self,*args): pass
+
+def digest():
+    return {n:hashlib.sha256((MAP/n).read_bytes()).hexdigest() for n in ['core.js.gz','plate.json.gz','pz-sys.js.gz','explore-catalog.json','route-render.js','info-inspector.js','proto.js','atlas-bridge.css','atlas-bridge.js','index.html']}
+
+def preflight():
+    assert pathlib.Path(PROFILE).is_dir()
+    assert subprocess.run(['pgrep','-x','chrome'],capture_output=True).returncode!=0
+    assert subprocess.check_output(['systemctl','show','hermes-gateway.service','-p','MainPID','--value'],text=True).strip()=='3451149'
+    assert subprocess.run(['git','diff','--quiet','c49e8c0','--','site/public','site/src/content/projects/freight-atlas.mdx'],cwd='/tmp/site').returncode==0,'Candidate runtime/source article drift'
+    return {'candidate':'c49e8c0','revision':subprocess.check_output(['git','rev-parse','HEAD'],cwd='/tmp/site',text=True).strip(),'imports':'exact installed venv; tested four-method websockets adapter; isolated driver imported once','hashes':digest(),'gateway':3451149,'profile':PROFILE}
+
+def main():
+    r={'preflight':preflight(),'checks':[],'screenshots':[],'rows':[],'passed':False,'scope':'localhost Chromium viewport/native input; not physical iPhone Safari or public CDN'}
+    if '--preflight' in sys.argv: print(json.dumps(r)); return
+    r['boundary']=boundary();capacity()
+    start=time.monotonic(); deadline=start+875; lastguard=0; b=None; server=None
+    receipt=OUT/('receipt-'+uuid.uuid4().hex+'.json');receipt.touch(exist_ok=False)
+    def persist(): receipt.write_text(json.dumps(r,indent=2))
+    def check(name,ok,data=None):
+        r['checks'].append({'name':name,'pass':bool(ok),'data':data});persist()
+        if not ok: raise AssertionError(name)
+    def cancel(*args): raise TimeoutError('875s inner browser window')
+    signal.signal(signal.SIGALRM,cancel);signal.signal(signal.SIGTERM,cancel);signal.setitimer(signal.ITIMER_REAL,875)
+    class Bounded(Browser):
+        def call(self,m,**kw):
+            nonlocal lastguard
+            if m!='Browser.close':
+                if time.monotonic()>deadline: raise TimeoutError('browser budget')
+                if time.monotonic()-lastguard>2: running_capacity();lastguard=time.monotonic()
+            if hasattr(self,'ws'): self.ws.settimeout(5 if m=='Browser.close' else min(90,max(1,deadline-time.monotonic())))
+            result=super().call(m,**kw)
+            for e in self.events:
+                if e.get('method')=='Network.responseReceived' and e['params']['response']['status']==404: raise RuntimeError('Actual public-root 404 '+e['params']['response']['url'])
+            return result
+        def ev(self,e):
+            v=super().ev(e)
+            if isinstance(v,str) and v.startswith('EXC '): raise RuntimeError(v)
+            return v
+    def wait(expr,seconds=90):
+        end=min(deadline,time.monotonic()+seconds)
+        while time.monotonic()<end:
+            if b.ev(expr): return
+            time.sleep(.2)
+        raise TimeoutError(expr)
+    def shot(label):
+        assert len(r['screenshots'])<10
+        data=base64.b64decode(b.call('Page.captureScreenshot',format='png',captureBeyondViewport=False)['data']);assert len(data)<5*1024**2
+        p=OUT/(receipt.stem+'-'+label+'.png');p.write_bytes(data);r['screenshots'].append(str(p));persist()
+    def target(selector):
+        return b.ev("(()=>{const e=document.querySelector("+json.dumps(selector)+");if(!e)throw Error('Missing target');const r=e.getBoundingClientRect(),x=Math.round(r.x+r.width/2),y=Math.round(r.y+r.height/2),at=document.elementFromPoint(x,y);if(!at||!e.contains(at)||getComputedStyle(e).visibility==='hidden')throw Error('Obstructed target '+"+json.dumps(selector)+");return {x,y}})()")
+    def tap(selector):
+        t=target(selector);b.click(t['x'],t['y']);time.sleep(.15)
+    def key(k):
+        b.call('Input.dispatchKeyEvent',type='keyDown',key=k);b.call('Input.dispatchKeyEvent',type='keyUp',key=k)
+    def query(text):
+        tap('input[type=search]');b.call('Input.dispatchKeyEvent',type='keyDown',key='a',modifiers=2);b.call('Input.dispatchKeyEvent',type='keyUp',key='a',modifiers=2);b.call('Input.insertText',text=text);time.sleep(.2)
+    def layout():
+        return b.ev("(()=>{const rect=s=>{const a=document.querySelector(s).getBoundingClientRect();return {left:a.left,right:a.right,top:a.top,bottom:a.bottom,width:a.width,height:a.height}};return {layers:rect('#layers-panel>summary'),explore:rect('#atlas-menu>summary'),card:rect('#card'),overflow:document.documentElement.scrollWidth>innerWidth,viewport:[innerWidth,innerHeight],raster:[cv.width,cv.height,DPR],headline:document.querySelector('#national-headline').textContent}})()")
+    def summaries(label):
+        a=layout();l=a['layers'];e=a['explore'];disjoint=l['bottom']<=e['top'] or e['bottom']<=l['top'] or l['right']<=e['left'] or e['right']<=l['left']
+        target('#layers-panel>summary');target('#atlas-menu>summary');check(label+' disjoint and accessible',disjoint and not a['overflow'],a)
+    try:
+        server=http.server.ThreadingHTTPServer(('127.0.0.1',0),functools.partial(Handler,directory=str(ROOT)));threading.Thread(target=server.serve_forever,daemon=True).start()
+        url=f'http://127.0.0.1:{server.server_port}/projects/freight-atlas/map/'
+        for name in ['index.html','proto.js','../numeric.bundle','../directory.json.gz']:
+            with urllib.request.urlopen(urllib.parse.urljoin(url,name),timeout=10) as response: assert response.status==200
+        cdp.tempfile.mkdtemp=lambda:PROFILE
+        b=Bounded(390,844);b.__enter__()
+        for method in ['Page.enable','Runtime.enable','Network.enable']: b.call(method)
+        b.call('Page.addScriptToEvaluateOnNewDocument',source="window.__qaReady=null;function q(){if(document.body?.dataset.ready==='1'){window.__qaReady=performance.now();return}requestAnimationFrame(q)}requestAnimationFrame(q)")
+        for index,(w,h) in enumerate([(390,844),(393,852),(430,932),(852,393),(393,480),(393,360),(1489,900)]):
+            mobile=w<=600;label=f'{w}x{h}';r['phase']=label;persist()
+            b.call('Emulation.setDeviceMetricsOverride',width=w,height=h,deviceScaleFactor=1,mobile=mobile)
+            b.call('Emulation.setTouchEmulationEnabled',enabled=mobile,maxTouchPoints=2)
+            b.call('Emulation.setEmulatedMedia',features=[{'name':'prefers-reduced-motion','value':'reduce' if h==480 else 'no-preference'}])
+            b.call('Page.navigate',url=url)
+            if index==0:
+                wait("!!document.querySelector('#startup-loading')",15);shot('loading-390x844')
+            wait("document.body?.dataset.ready==='1'&&!!window.ATLAS_EXPLORE",120)
+            row={'viewport':[w,h],'readyMs':b.ev('__qaReady'),'layout':layout()};r['rows'].append(row);persist()
+            check(label+' backing raster',row['layout']['raster']==[w,h,1])
+            check(label+' released renderer and removed chrome',b.ev("typeof ExactSpike==='undefined'&&typeof ROUTE_WORKER==='undefined'&&!document.querySelector('#lab .insets')&&!document.querySelector('#atlas-docs')&&!document.querySelector('figcaption')"))
+            if index==0: shot('ready-390x844')
+            tap('[data-enter]');wait("document.getElementById('startup-loading').hidden")
+            summaries(label+' collapsed')
+            if index==0: shot('country-390x844')
+            tap('#layers-panel>summary');wait("document.querySelector('#layers-panel').open")
+            summaries(label+' layers expanded')
+            before=b.ev('APP.layers()');tap('#layer-controls input');after=b.ev('APP.layers()');check(label+' native layer toggle',before!=after);tap('#layer-controls input');check(label+' layers restored',b.ev('APP.layers()')==before)
+            scroll=target('#layer-controls');b.wheel(scroll['x'],scroll['y'],250);time.sleep(.2)
+            check(label+' layer scroll',b.ev("document.querySelector('#layer-controls').scrollHeight<=document.querySelector('#layer-controls').clientHeight||document.querySelector('#layer-controls').scrollTop>0"))
+            if index==0: shot('layers-expanded-390x844')
+            tap('#atlas-menu>summary');wait("document.querySelector('#atlas-menu').open&&!document.querySelector('#layers-panel').open")
+            summaries(label+' explore expanded')
+            query('Anchorage');check(label+' Anchorage rejected',b.ev("document.querySelectorAll('.ae-results button').length===0"))
+            query('Honolulu');check(label+' Honolulu rejected',b.ev("document.querySelectorAll('.ae-results button').length===0"))
+            query('Albany');wait("!!document.querySelector('.ae-results button')")
+            if index==0: shot('explore-390x844')
+            tap('.ae-results button');wait("APP.selectedPlace()?.name?.includes('Albany')&&!document.querySelector('#atlas-menu').open")
+            check(label+' native first result Albany',b.ev('APP.selectedPlace()'))
+            summaries(label+' card')
+            check(label+' card clearance',b.ev("(()=>{const c=document.querySelector('#card').getBoundingClientRect(),s=document.querySelector('#atlas-controls').getBoundingClientRect();return getComputedStyle(document.querySelector('#card')).visibility==='visible'&&c.height>50&&c.bottom<=innerHeight&&((innerWidth>600)||c.top>=s.bottom)})()"))
+            if index==0:
+                b.ev("document.querySelector('#card .source-note summary').scrollIntoView({block:'center'})")
+                tap('#card .source-note summary');check('native source details',b.ev("document.querySelector('#card .source-note details').open"))
+                shot('albany-card-390x844')
+            if h==393: shot('short-landscape-852x393')
+            if h==480: shot('short-portrait-393x480')
+            if h==360: shot('keyboard-shape-393x360')
+            # Open/close with selected card; deliberate hiding is tested, never mistaken for accessibility.
+            tap('#layers-panel>summary');summaries(label+' selected layers');key('Escape');wait("!document.querySelector('#layers-panel').open")
+            check(label+' Escape focus',b.ev("document.activeElement===document.querySelector('#layers-panel>summary')"))
+            if index==0:
+                selected=b.ev('APP.getView()');tap('#unit button[data-u=usd]');check('USD national truth',b.ev("document.querySelector('#national-headline').textContent.includes('2024')&&document.querySelector('#national-headline').textContent.includes('25.0')"))
+                source=b.ev("(()=>{const a=document.querySelector('#card a[data-method]');a.scrollIntoView({block:'center'});return a.dataset.method})()")
+                state=b.ev('APP.getView()');tap('#card a[data-method]');wait("!!document.querySelector('[data-map-return]')")
+                check('native Methods anchor',b.ev('location.hash')=='#'+source)
+                check('editorial nav intact',b.ev("['methods.html','data.html','about.html'].every(p=>[...document.querySelectorAll('a')].some(a=>a.getAttribute('href')?.includes(p)))"))
+                tap('[data-map-return]');wait("document.body?.dataset.ready==='1'&&!!window.ATLAS_EXPLORE",120)
+                wait("APP.selectedPlace()?.name?.includes('Albany')")
+                check('Methods Back encoded exact state',b.ev('APP.getView()')==state,{'expected':state,'actual':b.ev('APP.getView()')})
+                if not b.ev("document.getElementById('startup-loading').hidden"):tap('[data-enter]')
+                check('card unit switch camera neutral',selected['camera']==state['camera'])
+            tap('#card .x');check(label+' native close',b.ev("!APP.selectedPlace()&&document.querySelector('#card').hidden"))
+            before=b.ev('APP.camera()');b.ev("APP.flyLL([-87.63,41.88],3.9,0)");wait("!GESTURE.active&&!GESTURE.dirty&&!DETAIL_LOADING.pending")
+            before=b.ev('APP.camera()')
+            if mobile:
+                b.call('Input.dispatchTouchEvent',type='touchStart',touchPoints=[{'x':100,'y':h*.65,'id':0}])
+                for dx in [10,20,35]:b.call('Input.dispatchTouchEvent',type='touchMove',touchPoints=[{'x':100+dx,'y':h*.65,'id':0}]);time.sleep(.03)
+                b.call('Input.dispatchTouchEvent',type='touchEnd',touchPoints=[])
+            else:b.drag(700,500,735,515)
+            wait("!GESTURE.active&&!GESTURE.dirty&&!DETAIL_LOADING.pending")
+            check(label+' native Chicago pan',b.ev('APP.camera()')!=before)
+            if index==6:shot('desktop-chicago-1489x900')
+        r['passed']=True
+    except Exception as e:
+        r['failure']={'message':str(e),'trace':traceback.format_exc()[-5000:]}
+    finally:
+        r['elapsedSeconds']=time.monotonic()-start
+        if b:
+            r['errors']=[e for e in b.events if e.get('method') in ['Runtime.exceptionThrown','Network.loadingFailed']][-30:]
+            try:b.call('Browser.close')
+            except Exception as e:r['closeNote']=str(e)
+            try:b.ws.close();b.p.wait(timeout=15)
+            except Exception as e:r['exitFailure']=str(e)
+        if server:server.shutdown();server.server_close()
+        r['hashesAfter']=digest();r['protectedUnchanged']=r['hashesAfter']==r['preflight']['hashes'];persist()
+        signal.setitimer(signal.ITIMER_REAL,0)
+        print(json.dumps({'receipt':str(receipt),'passed':r['passed'],'failure':r.get('failure'),'screenshots':r['screenshots']}))
+    if not r['passed']:sys.exit(1)
+if __name__=='__main__':main()
