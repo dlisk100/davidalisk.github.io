@@ -3,6 +3,7 @@
 VPS capacity guards are unchanged and are not imported/bypassed here.
 """
 import argparse, base64, functools, hashlib, http.server, json, os, pathlib, signal, subprocess, sys, threading, time, traceback, urllib.request, urllib.parse, uuid
+from network_contract import assert_event
 from hosted_cdp import Browser
 from view_contract import compare_view
 from native_entry import native_entry, native_scroll_click
@@ -52,8 +53,12 @@ def main():
             if m!='Browser.close':
                 if time.monotonic()>deadline: raise TimeoutError('browser budget')
             result=super().call(m,**kw)
-            for e in self.events:
-                if e.get('method')=='Network.responseReceived' and e['params']['response']['status']==404: raise RuntimeError('Actual public-root 404 '+e['params']['response']['url'])
+            for e in self.events[getattr(self,'checked_events',0):]:
+                classification=assert_event(e,f'http://127.0.0.1:{server.server_port}')
+                if classification!='ok':
+                    r.setdefault('expectedLocalDeploymentServiceAbsence',[]).append({'classification':classification,'event':e})
+                    persist()
+            self.checked_events=len(self.events)
             return result
         def ev(self,e):
             v=super().ev(e)
@@ -260,7 +265,12 @@ def main():
             for page in ['methods','data','about']:
                 selector=f'a[href*="map/{page}.html"]';b.ev('document.querySelector('+json.dumps(selector)+').scrollIntoView({block:"center"})');tap(selector)
                 wait("location.pathname.endsWith('/"+page+".html')&&!!document.querySelector('h1')",20)
-                check('built article native '+page+' navigation',b.ev('location.pathname').endswith('/'+page+'.html'))
+                check('built article native '+page+' navigation',b.ev('location.pathname').endswith('/'+page+'.html') and b.ev('document.title')==page.capitalize()+' · Goods atlas' and b.ev("document.querySelector('h1').textContent")==page.capitalize())
+                history=b.call('Page.getNavigationHistory');previous=history['entries'][history['currentIndex']-1]
+                b.call('Page.navigateToHistoryEntry',entryId=previous['id']);wait("document.querySelector('h1')?.textContent.includes('Freight')",20)
+                check('built article '+page+' native history Back',b.ev('location.pathname')=='/projects/freight-atlas/')
+                b.ev('document.querySelector('+json.dumps(selector)+').scrollIntoView({block:"center"})');tap(selector)
+                wait("location.pathname.endsWith('/"+page+".html')&&!!document.querySelector('[data-map-return]')",20)
                 b.ev("document.querySelector('[data-map-return]').scrollIntoView({block:'center'})");tap('[data-map-return]')
                 wait("document.body?.dataset.ready==='1'&&!!window.ATLAS_EXPLORE",120)
                 check('built article '+page+' native returned map',b.ev("location.pathname.endsWith('/map/')||location.pathname.endsWith('/map/index.html')"))
