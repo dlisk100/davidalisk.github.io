@@ -38,7 +38,7 @@ jobs:
       - name: Focused production seams
         run: |
           node --max-old-space-size=128 --test --test-concurrency=1 mobile-polish-tests/*.test.cjs
-          python -m unittest discover -s mobile-polish-tests -p test_view_contract.py -v
+          python -m unittest discover -s mobile-polish-tests -p 'test_*.py' -v
       - name: Native built-public-root Chromium acceptance
         run: '"$RUNNER_TEMP/freight-qa-venv/bin/python" mobile-polish-tests/native-qa.py --root site/dist --out qa-artifacts'
       - name: Retain bounded UI evidence (never browser profile or environment)

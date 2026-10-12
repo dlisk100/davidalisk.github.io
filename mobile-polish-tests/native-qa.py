@@ -5,6 +5,8 @@ VPS capacity guards are unchanged and are not imported/bypassed here.
 import argparse, base64, functools, hashlib, http.server, json, os, pathlib, signal, subprocess, sys, threading, time, traceback, urllib.request, urllib.parse, uuid
 from hosted_cdp import Browser
 from view_contract import compare_view
+from native_entry import native_entry
+from entry_dom_regressions import hosted_entry_regressions
 REPO=pathlib.Path(__file__).resolve().parents[1]
 args=argparse.ArgumentParser()
 args.add_argument('--root',type=pathlib.Path,default=REPO/'site/public')
@@ -93,6 +95,7 @@ def main():
             with urllib.request.urlopen(urllib.parse.urljoin(url,name),timeout=10) as response: assert response.status==200
         b=Bounded(390,844);b.__enter__()
         for method in ['Page.enable','Runtime.enable','Network.enable']: b.call(method)
+        check('production DOM entry scroll and abort sensitivity',True,hosted_entry_regressions(b,MAP))
         b.call('Page.addScriptToEvaluateOnNewDocument',source="window.__qaReady=null;function q(){if(document.body?.dataset.ready==='1'){window.__qaReady=performance.now();return}requestAnimationFrame(q)}requestAnimationFrame(q)")
         for index,(w,h) in enumerate([(390,844),(393,852),(430,932),(852,393),(393,480),(393,360),(1489,900)]):
             mobile=w<1000;label=f'{w}x{h}';r['phase']=label;persist()
@@ -109,7 +112,8 @@ def main():
             check(label+' Ready animation stopped',b.ev("document.querySelector('#startup-loading').dataset.motion==='still'"))
             if h==480:check(label+' reduced motion honored',b.ev("document.querySelector('#startup-loading').dataset.reducedMotion==='true'"))
             check(label+' startup captions absent',b.ev("![...document.querySelectorAll('#startup-loading p')].some(e=>e.textContent.includes('illustrative'))"))
-            tap('[data-enter]');wait("document.getElementById('startup-loading').hidden")
+            entry=native_entry(b,before_click=(lambda:shot('ready-scrolled-852x393')) if index==3 else None);check(label+' native opening entry',True,entry)
+            wait("document.getElementById('startup-loading').hidden")
             summaries(label+' collapsed')
             if index==0: shot('country-390x844')
             before=b.ev('APP.camera()');pan_started=time.monotonic()
@@ -184,7 +188,7 @@ def main():
                 check('Methods Back exact source facts',facts_before==b.ev('APP.metroFacts()') and source_before==b.ev('APP.sourceMetadata()'))
                 check('Methods Back literal encoded hash',b.ev('location.hash')==encoded_return and b.ev('AtlasExplore.parse(location.hash).view')==state)
 
-                if not b.ev("document.getElementById('startup-loading').hidden"):tap('[data-enter]')
+                if not b.ev("document.getElementById('startup-loading').hidden"):native_entry(b)
                 check('card unit switch camera neutral',selected['camera']==state['camera'])
                 b.ev("document.querySelector('#card .zt').scrollIntoView({block:'nearest'})")
                 old_camera=b.ev('APP.camera()');tap('#card .zt');wait("!GESTURE.active&&!GESTURE.dirty&&!DETAIL_LOADING.pending")
@@ -227,6 +231,13 @@ def main():
             check(label+' Chicago USD source national',b.ev("document.querySelector('#national-headline').textContent.includes('25.0')&&document.querySelector('#national-headline').textContent.includes('2024')"))
             if index==6:shot('desktop-chicago-1489x900')
             tap('#unit button[data-u=t]');check(label+' Chicago tons exact unit',b.ev('APP.getView().unit')=='t')
+            if index==6:
+                for region,ll in [('AK',[-149.996,61.174]),('HI',[-157.922,21.319])]:
+                    b.ev('APP.flyLL('+json.dumps(ll)+',3.9,0)');wait("!GESTURE.active&&!GESTURE.dirty&&!DETAIL_LOADING.pending")
+                    point=b.ev('(()=>{const p=P('+json.dumps(ll)+');return {x:p[0]*T.k+T.x,y:p[1]*T.k+T.y}})()')
+                    check(region+' hidden native pick point in canvas',0<point['x']<w and 0<point['y']<h,point)
+                    b.click(point['x'],point['y']);time.sleep(.3)
+                    check(region+' invisible native map picking rejected',not b.ev('APP.selectedPlace()') and b.ev("document.querySelector('#card').hidden"))
         article=ROOT/'projects/freight-atlas/index.html'
         if article.exists():
             b.call('Page.navigate',url=f'http://127.0.0.1:{server.server_port}/projects/freight-atlas/')
@@ -237,6 +248,10 @@ def main():
                 selector=f'a[href*="map/{page}.html"]';b.ev('document.querySelector('+json.dumps(selector)+').scrollIntoView({block:"center"})');tap(selector)
                 wait("location.pathname.endsWith('/"+page+".html')&&!!document.querySelector('h1')",20)
                 check('built article native '+page+' navigation',b.ev('location.pathname').endswith('/'+page+'.html'))
+                b.ev("document.querySelector('[data-map-return]').scrollIntoView({block:'center'})");tap('[data-map-return]')
+                wait("document.body?.dataset.ready==='1'&&!!window.ATLAS_EXPLORE",120)
+                check('built article '+page+' native returned map',b.ev("location.pathname.endsWith('/map/')||location.pathname.endsWith('/map/index.html')"))
+                if not b.ev("document.getElementById('startup-loading').hidden"):native_entry(b)
                 b.call('Page.navigate',url=f'http://127.0.0.1:{server.server_port}/projects/freight-atlas/');wait("document.querySelector('h1')?.textContent.includes('Freight')",20)
         else:check('built article available',False)
         r['passed']=True
