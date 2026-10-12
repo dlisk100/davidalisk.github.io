@@ -1,0 +1,4463 @@
+{
+  "preflight": {
+    "candidate": "compact-toolbar off 6697bc4",
+    "revision": "5d772b48024a62f2d08aa4fed8b0b0505de5a125",
+    "articleLinks": "source MDX verified; static map QA does not claim Astro build",
+    "runtime": "hosted Chrome; isolated runner Python venv; stdlib plus websockets",
+    "hashes": {
+      "core.js.gz": "f9c8de4915bcf11b6f390bc5c733931d69f782a685101008cf3fed5aa3616bc0",
+      "plate.json.gz": "6c2e765940d59daa43a3e13788423b01eaedb0995c9eb9cee53d89d7fc55ed69",
+      "pz-sys.js.gz": "7374b695c9e581aa9ad857b9ffb0cbd166b2b2e7acb7e9008e61c463cdf51ba9",
+      "explore-catalog.json": "d0c5aa68eeb4cb8ee6aa970ed4a4767f6495e6ddc17a48e531de13c34eeec237",
+      "route-render.js": "f5c6e8b90bed36e260480facf63de7bf1da2c48d5d522c0c3f39f112034ba7e4",
+      "info-inspector.js": "a0544c6b79c2031c3348d0caa412374371913506b7265705fa72fafe024a0dcb",
+      "proto.js": "ea99874f97f5cb0a4ebd497348a6f01fdfc3d074f49b2c27dbff7c8f262c73c9",
+      "atlas-bridge.css": "4ef2b4a9f9abba84f8cf0cd0ee2eda3368470413bb6dbc1115a9a5bdd948fca8",
+      "atlas-bridge.js": "3e9b476aaac3445cb6161f6a60984afe7d64b0afacd424bbf2544ec112b351e9",
+      "index.html": "ad1aea05743e7eb1795ff7068e1da52619bd8482c0e1b3f09faa8616f1de0bbb"
+    }
+  },
+  "checks": [
+    {
+      "name": "production DOM entry scroll and abort sensitivity",
+      "pass": true,
+      "data": {
+        "initial": {
+          "x": 142,
+          "y": 484,
+          "inside": false,
+          "visible": true,
+          "clear": false,
+          "scrollable": true,
+          "scrollTop": 0,
+          "px": 490,
+          "py": 227,
+          "height": 453
+        },
+        "nativeScroll": {
+          "attempts": 1,
+          "measurements": [
+            {
+              "x": 142,
+              "y": 484,
+              "inside": false,
+              "visible": true,
+              "clear": false,
+              "scrollable": true,
+              "scrollTop": 0,
+              "px": 490,
+              "py": 227,
+              "height": 453
+            },
+            {
+              "x": 142,
+              "y": 324,
+              "inside": true,
+              "visible": true,
+              "clear": true,
+              "scrollable": true,
+              "scrollTop": 160,
+              "px": 490,
+              "py": 227,
+              "height": 453
+            }
+          ]
+        },
+        "unscrollableRejected": true,
+        "obstructedRejected": true
+      }
+    },
+    {
+      "name": "390x844 backing raster",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "390x844 released renderer and removed chrome",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "390x844 Ready animation stopped",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "390x844 startup captions absent",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "390x844 native opening entry",
+      "pass": true,
+      "data": {
+        "attempts": 0,
+        "measurements": [
+          {
+            "x": 115,
+            "y": 444,
+            "inside": true,
+            "visible": true,
+            "clear": true,
+            "scrollable": false,
+            "scrollTop": 0,
+            "px": 195,
+            "py": 422,
+            "height": 844
+          }
+        ]
+      }
+    },
+    {
+      "name": "390x844 collapsed disjoint and accessible",
+      "pass": true,
+      "data": {
+        "layers": {
+          "left": 117.546875,
+          "right": 189.03125,
+          "top": 98,
+          "bottom": 142,
+          "width": 71.484375,
+          "height": 44
+        },
+        "explore": {
+          "left": 199.03125,
+          "right": 278.875,
+          "top": 98,
+          "bottom": 142,
+          "width": 79.84375,
+          "height": 44
+        },
+        "card": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "height": 0
+        },
+        "overflow": false,
+        "viewport": [
+          390,
+          844
+        ],
+        "raster": [
+          390,
+          844,
+          1
+        ],
+        "headline": "20.0 billion tons of freight \u00b7 2024"
+      }
+    },
+    {
+      "name": "390x844 one compact row and 44px controls",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "390x844 native country pan",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "390x844 removed country control and boot contract",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "390x844 retained reset API country and tons",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "390x844 tons national truth",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "390x844 layers expanded disjoint and accessible",
+      "pass": true,
+      "data": {
+        "layers": {
+          "left": 117.546875,
+          "right": 189.03125,
+          "top": 98,
+          "bottom": 142,
+          "width": 71.484375,
+          "height": 44
+        },
+        "explore": {
+          "left": 199.03125,
+          "right": 278.875,
+          "top": 98,
+          "bottom": 142,
+          "width": 79.84375,
+          "height": 44
+        },
+        "card": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "height": 0
+        },
+        "overflow": false,
+        "viewport": [
+          390,
+          844
+        ],
+        "raster": [
+          390,
+          844,
+          1
+        ],
+        "headline": "20.0 billion tons of freight \u00b7 2024"
+      }
+    },
+    {
+      "name": "390x844 Layers panel below row bounded",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "390x844 native layer toggle 0",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "390x844 layers restored 0",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "390x844 native layer toggle 1",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "390x844 layers restored 1",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "390x844 native layer toggle 2",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "390x844 layers restored 2",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "390x844 native layer toggle 3",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "390x844 layers restored 3",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "390x844 native layer toggle 4",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "390x844 layers restored 4",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "390x844 native layer toggle 5",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "390x844 layers restored 5",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "390x844 native layer toggle 6",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "390x844 layers restored 6",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "390x844 native layer toggle 7",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "390x844 layers restored 7",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "390x844 layer scroll",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "390x844 native Layers close",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "390x844 native Layers reopen",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "390x844 explore expanded disjoint and accessible",
+      "pass": true,
+      "data": {
+        "layers": {
+          "left": 117.546875,
+          "right": 189.03125,
+          "top": 98,
+          "bottom": 142,
+          "width": 71.484375,
+          "height": 44
+        },
+        "explore": {
+          "left": 199.03125,
+          "right": 278.875,
+          "top": 98,
+          "bottom": 142,
+          "width": 79.84375,
+          "height": 44
+        },
+        "card": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "height": 0
+        },
+        "overflow": false,
+        "viewport": [
+          390,
+          844
+        ],
+        "raster": [
+          390,
+          844,
+          1
+        ],
+        "headline": "20.0 billion tons of freight \u00b7 2024"
+      }
+    },
+    {
+      "name": "390x844 Explore below row bounded",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "native search input Anchorage",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "390x844 Anchorage rejected",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "native search input Honolulu",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "390x844 Honolulu rejected",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "native search input Albany",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "390x844 native Explore close",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "390x844 native Explore reopen",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "390x844 native result panel scroll",
+      "pass": true,
+      "data": {
+        "attempts": 0,
+        "measurements": [
+          {
+            "x": 195,
+            "y": 264,
+            "inside": true,
+            "visible": true,
+            "clear": true,
+            "scrollable": false,
+            "scrollTop": 0,
+            "px": 19,
+            "py": 380,
+            "height": 844
+          }
+        ]
+      }
+    },
+    {
+      "name": "390x844 native first result Albany",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "390x844 card disjoint and accessible",
+      "pass": true,
+      "data": {
+        "layers": {
+          "left": 117.546875,
+          "right": 189.03125,
+          "top": 98,
+          "bottom": 142,
+          "width": 71.484375,
+          "height": 44
+        },
+        "explore": {
+          "left": 199.03125,
+          "right": 278.875,
+          "top": 98,
+          "bottom": 142,
+          "width": 79.84375,
+          "height": 44
+        },
+        "card": {
+          "left": 16,
+          "right": 374,
+          "top": 151,
+          "bottom": 661.828125,
+          "width": 358,
+          "height": 510.828125
+        },
+        "overflow": false,
+        "viewport": [
+          390,
+          844
+        ],
+        "raster": [
+          390,
+          844,
+          1
+        ],
+        "headline": "20.0 billion tons of freight \u00b7 2024"
+      }
+    },
+    {
+      "name": "390x844 card clearance",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "native source details",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "390x844 selected layers disjoint and accessible",
+      "pass": true,
+      "data": {
+        "layers": {
+          "left": 117.546875,
+          "right": 189.03125,
+          "top": 98,
+          "bottom": 142,
+          "width": 71.484375,
+          "height": 44
+        },
+        "explore": {
+          "left": 199.03125,
+          "right": 278.875,
+          "top": 98,
+          "bottom": 142,
+          "width": 79.84375,
+          "height": 44
+        },
+        "card": {
+          "left": 16,
+          "right": 374,
+          "top": 469,
+          "bottom": 768,
+          "width": 358,
+          "height": 299
+        },
+        "overflow": false,
+        "viewport": [
+          390,
+          844
+        ],
+        "raster": [
+          390,
+          844,
+          1
+        ],
+        "headline": "20.0 billion tons of freight \u00b7 2024"
+      }
+    },
+    {
+      "name": "390x844 expanded Layers hides card explicitly retains selection",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "390x844 closing Layers restores unchanged card selection",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "390x844 Escape focus",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "USD national truth",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "native Methods anchor",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "editorial nav intact",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "Methods Back coordinate and exact semantic state",
+      "pass": true,
+      "data": {
+        "expected": {
+          "v": 1,
+          "camera": {
+            "center": [
+              -74.65978508561727,
+              40.409803993324275
+            ],
+            "zoom": 6
+          },
+          "unit": "usd",
+          "layers": [
+            "truck",
+            "rail",
+            "water",
+            "pipeline",
+            "airports",
+            "ports",
+            "cities",
+            "regions"
+          ],
+          "selection": {
+            "type": "city",
+            "id": "361",
+            "point": [
+              -73.974,
+              42.58820000000001
+            ]
+          }
+        },
+        "actual": {
+          "v": 1,
+          "camera": {
+            "center": [
+              -74.65978508561727,
+              40.40980399332429
+            ],
+            "zoom": 6
+          },
+          "unit": "usd",
+          "layers": [
+            "truck",
+            "rail",
+            "water",
+            "pipeline",
+            "airports",
+            "ports",
+            "cities",
+            "regions"
+          ],
+          "selection": {
+            "type": "city",
+            "id": "361",
+            "point": [
+              -73.974,
+              42.588200000000015
+            ]
+          }
+        },
+        "comparison": {
+          "pass": true,
+          "measurements": {
+            "camera": {
+              "degreeDelta": [
+                0.0,
+                1.4210854715202004e-14
+              ],
+              "cssPixelDelta": 4.547473508864641e-13
+            },
+            "selection": {
+              "degreeDelta": [
+                0.0,
+                7.105427357601002e-15
+              ],
+              "cssPixelDelta": 0.0
+            }
+          },
+          "projected": {
+            "camera": [
+              [
+                195,
+                422
+              ],
+              [
+                195,
+                421.99999999999955
+              ]
+            ],
+            "selection": [
+              [
+                195,
+                320.72000000000025
+              ],
+              [
+                195,
+                320.72000000000025
+              ]
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "Methods Back actual screen positions preserved",
+      "pass": true,
+      "data": {
+        "before": {
+          "camera": [
+            195,
+            421.99999999999955
+          ],
+          "selection": [
+            195,
+            320.7199999999998
+          ]
+        },
+        "after": {
+          "camera": [
+            195,
+            421.99999999999955
+          ],
+          "selection": [
+            195,
+            320.72000000000025
+          ]
+        },
+        "rawBefore": {
+          "k": 6,
+          "x": -1712.6419341763606,
+          "y": -2120.844947372107
+        },
+        "rawAfter": {
+          "k": 6,
+          "x": -1712.6419341763606,
+          "y": -2120.8449473721066
+        }
+      }
+    },
+    {
+      "name": "Methods Back exact source facts",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "Methods Back literal encoded hash",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "card unit switch camera neutral",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "native card Zoom here",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "native save readback",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "saved state exact storage JSON",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "native save restore semantic and coordinate contract",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "native clipboard copy readback",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "native share exact state and query stripping",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "native delete readback",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "native clear selection",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "native search input Albany",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "390x844 native close",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "390x844 native Chicago pan",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "390x844 Chicago USD exact unit",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "390x844 Chicago USD source national",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "390x844 Chicago tons exact unit",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x852 backing raster",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x852 released renderer and removed chrome",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x852 Ready animation stopped",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x852 startup captions absent",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x852 native opening entry",
+      "pass": true,
+      "data": {
+        "attempts": 0,
+        "measurements": [
+          {
+            "x": 115,
+            "y": 447,
+            "inside": true,
+            "visible": true,
+            "clear": true,
+            "scrollable": false,
+            "scrollTop": 0,
+            "px": 197,
+            "py": 426,
+            "height": 852
+          }
+        ]
+      }
+    },
+    {
+      "name": "393x852 collapsed disjoint and accessible",
+      "pass": true,
+      "data": {
+        "layers": {
+          "left": 117.546875,
+          "right": 189.03125,
+          "top": 98,
+          "bottom": 142,
+          "width": 71.484375,
+          "height": 44
+        },
+        "explore": {
+          "left": 199.03125,
+          "right": 278.875,
+          "top": 98,
+          "bottom": 142,
+          "width": 79.84375,
+          "height": 44
+        },
+        "card": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "height": 0
+        },
+        "overflow": false,
+        "viewport": [
+          393,
+          852
+        ],
+        "raster": [
+          393,
+          852,
+          1
+        ],
+        "headline": "20.0 billion tons of freight \u00b7 2024"
+      }
+    },
+    {
+      "name": "393x852 one compact row and 44px controls",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x852 native country pan",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x852 removed country control and boot contract",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x852 retained reset API country and tons",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x852 tons national truth",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x852 layers expanded disjoint and accessible",
+      "pass": true,
+      "data": {
+        "layers": {
+          "left": 117.546875,
+          "right": 189.03125,
+          "top": 98,
+          "bottom": 142,
+          "width": 71.484375,
+          "height": 44
+        },
+        "explore": {
+          "left": 199.03125,
+          "right": 278.875,
+          "top": 98,
+          "bottom": 142,
+          "width": 79.84375,
+          "height": 44
+        },
+        "card": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "height": 0
+        },
+        "overflow": false,
+        "viewport": [
+          393,
+          852
+        ],
+        "raster": [
+          393,
+          852,
+          1
+        ],
+        "headline": "20.0 billion tons of freight \u00b7 2024"
+      }
+    },
+    {
+      "name": "393x852 Layers panel below row bounded",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x852 native layer toggle 0",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x852 layers restored 0",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x852 native layer toggle 1",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x852 layers restored 1",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x852 native layer toggle 2",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x852 layers restored 2",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x852 native layer toggle 3",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x852 layers restored 3",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x852 native layer toggle 4",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x852 layers restored 4",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x852 native layer toggle 5",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x852 layers restored 5",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x852 native layer toggle 6",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x852 layers restored 6",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x852 native layer toggle 7",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x852 layers restored 7",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x852 layer scroll",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x852 native Layers close",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x852 native Layers reopen",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x852 explore expanded disjoint and accessible",
+      "pass": true,
+      "data": {
+        "layers": {
+          "left": 117.546875,
+          "right": 189.03125,
+          "top": 98,
+          "bottom": 142,
+          "width": 71.484375,
+          "height": 44
+        },
+        "explore": {
+          "left": 199.03125,
+          "right": 278.875,
+          "top": 98,
+          "bottom": 142,
+          "width": 79.84375,
+          "height": 44
+        },
+        "card": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "height": 0
+        },
+        "overflow": false,
+        "viewport": [
+          393,
+          852
+        ],
+        "raster": [
+          393,
+          852,
+          1
+        ],
+        "headline": "20.0 billion tons of freight \u00b7 2024"
+      }
+    },
+    {
+      "name": "393x852 Explore below row bounded",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "native search input Anchorage",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x852 Anchorage rejected",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "native search input Honolulu",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x852 Honolulu rejected",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "native search input Albany",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x852 native Explore close",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x852 native Explore reopen",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x852 native result panel scroll",
+      "pass": true,
+      "data": {
+        "attempts": 0,
+        "measurements": [
+          {
+            "x": 197,
+            "y": 264,
+            "inside": true,
+            "visible": true,
+            "clear": true,
+            "scrollable": false,
+            "scrollTop": 0,
+            "px": 19,
+            "py": 380,
+            "height": 852
+          }
+        ]
+      }
+    },
+    {
+      "name": "393x852 native first result Albany",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x852 card disjoint and accessible",
+      "pass": true,
+      "data": {
+        "layers": {
+          "left": 117.546875,
+          "right": 189.03125,
+          "top": 98,
+          "bottom": 142,
+          "width": 71.484375,
+          "height": 44
+        },
+        "explore": {
+          "left": 199.03125,
+          "right": 278.875,
+          "top": 98,
+          "bottom": 142,
+          "width": 79.84375,
+          "height": 44
+        },
+        "card": {
+          "left": 16,
+          "right": 377,
+          "top": 151,
+          "bottom": 661.828125,
+          "width": 361,
+          "height": 510.828125
+        },
+        "overflow": false,
+        "viewport": [
+          393,
+          852
+        ],
+        "raster": [
+          393,
+          852,
+          1
+        ],
+        "headline": "20.0 billion tons of freight \u00b7 2024"
+      }
+    },
+    {
+      "name": "393x852 card clearance",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x852 selected layers disjoint and accessible",
+      "pass": true,
+      "data": {
+        "layers": {
+          "left": 117.546875,
+          "right": 189.03125,
+          "top": 98,
+          "bottom": 142,
+          "width": 71.484375,
+          "height": 44
+        },
+        "explore": {
+          "left": 199.03125,
+          "right": 278.875,
+          "top": 98,
+          "bottom": 142,
+          "width": 79.84375,
+          "height": 44
+        },
+        "card": {
+          "left": 16,
+          "right": 377,
+          "top": 469,
+          "bottom": 776,
+          "width": 361,
+          "height": 307
+        },
+        "overflow": false,
+        "viewport": [
+          393,
+          852
+        ],
+        "raster": [
+          393,
+          852,
+          1
+        ],
+        "headline": "20.0 billion tons of freight \u00b7 2024"
+      }
+    },
+    {
+      "name": "393x852 expanded Layers hides card explicitly retains selection",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x852 closing Layers restores unchanged card selection",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x852 Escape focus",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x852 native close",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x852 native Chicago pan",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x852 Chicago USD exact unit",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x852 Chicago USD source national",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x852 Chicago tons exact unit",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "430x932 backing raster",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "430x932 released renderer and removed chrome",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "430x932 Ready animation stopped",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "430x932 startup captions absent",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "430x932 native opening entry",
+      "pass": true,
+      "data": {
+        "attempts": 0,
+        "measurements": [
+          {
+            "x": 115,
+            "y": 477,
+            "inside": true,
+            "visible": true,
+            "clear": true,
+            "scrollable": false,
+            "scrollTop": 0,
+            "px": 215,
+            "py": 466,
+            "height": 932
+          }
+        ]
+      }
+    },
+    {
+      "name": "430x932 collapsed disjoint and accessible",
+      "pass": true,
+      "data": {
+        "layers": {
+          "left": 117.546875,
+          "right": 189.03125,
+          "top": 98,
+          "bottom": 142,
+          "width": 71.484375,
+          "height": 44
+        },
+        "explore": {
+          "left": 199.03125,
+          "right": 278.875,
+          "top": 98,
+          "bottom": 142,
+          "width": 79.84375,
+          "height": 44
+        },
+        "card": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "height": 0
+        },
+        "overflow": false,
+        "viewport": [
+          430,
+          932
+        ],
+        "raster": [
+          430,
+          932,
+          1
+        ],
+        "headline": "20.0 billion tons of freight \u00b7 2024"
+      }
+    },
+    {
+      "name": "430x932 one compact row and 44px controls",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "430x932 native country pan",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "430x932 removed country control and boot contract",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "430x932 retained reset API country and tons",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "430x932 tons national truth",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "430x932 layers expanded disjoint and accessible",
+      "pass": true,
+      "data": {
+        "layers": {
+          "left": 117.546875,
+          "right": 189.03125,
+          "top": 98,
+          "bottom": 142,
+          "width": 71.484375,
+          "height": 44
+        },
+        "explore": {
+          "left": 199.03125,
+          "right": 278.875,
+          "top": 98,
+          "bottom": 142,
+          "width": 79.84375,
+          "height": 44
+        },
+        "card": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "height": 0
+        },
+        "overflow": false,
+        "viewport": [
+          430,
+          932
+        ],
+        "raster": [
+          430,
+          932,
+          1
+        ],
+        "headline": "20.0 billion tons of freight \u00b7 2024"
+      }
+    },
+    {
+      "name": "430x932 Layers panel below row bounded",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "430x932 native layer toggle 0",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "430x932 layers restored 0",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "430x932 native layer toggle 1",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "430x932 layers restored 1",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "430x932 native layer toggle 2",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "430x932 layers restored 2",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "430x932 native layer toggle 3",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "430x932 layers restored 3",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "430x932 native layer toggle 4",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "430x932 layers restored 4",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "430x932 native layer toggle 5",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "430x932 layers restored 5",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "430x932 native layer toggle 6",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "430x932 layers restored 6",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "430x932 native layer toggle 7",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "430x932 layers restored 7",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "430x932 layer scroll",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "430x932 native Layers close",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "430x932 native Layers reopen",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "430x932 explore expanded disjoint and accessible",
+      "pass": true,
+      "data": {
+        "layers": {
+          "left": 117.546875,
+          "right": 189.03125,
+          "top": 98,
+          "bottom": 142,
+          "width": 71.484375,
+          "height": 44
+        },
+        "explore": {
+          "left": 199.03125,
+          "right": 278.875,
+          "top": 98,
+          "bottom": 142,
+          "width": 79.84375,
+          "height": 44
+        },
+        "card": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "height": 0
+        },
+        "overflow": false,
+        "viewport": [
+          430,
+          932
+        ],
+        "raster": [
+          430,
+          932,
+          1
+        ],
+        "headline": "20.0 billion tons of freight \u00b7 2024"
+      }
+    },
+    {
+      "name": "430x932 Explore below row bounded",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "native search input Anchorage",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "430x932 Anchorage rejected",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "native search input Honolulu",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "430x932 Honolulu rejected",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "native search input Albany",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "430x932 native Explore close",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "430x932 native Explore reopen",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "430x932 native result panel scroll",
+      "pass": true,
+      "data": {
+        "attempts": 0,
+        "measurements": [
+          {
+            "x": 215,
+            "y": 264,
+            "inside": true,
+            "visible": true,
+            "clear": true,
+            "scrollable": false,
+            "scrollTop": 0,
+            "px": 19,
+            "py": 380,
+            "height": 932
+          }
+        ]
+      }
+    },
+    {
+      "name": "430x932 native first result Albany",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "430x932 card disjoint and accessible",
+      "pass": true,
+      "data": {
+        "layers": {
+          "left": 117.546875,
+          "right": 189.03125,
+          "top": 98,
+          "bottom": 142,
+          "width": 71.484375,
+          "height": 44
+        },
+        "explore": {
+          "left": 199.03125,
+          "right": 278.875,
+          "top": 98,
+          "bottom": 142,
+          "width": 79.84375,
+          "height": 44
+        },
+        "card": {
+          "left": 16,
+          "right": 414,
+          "top": 151,
+          "bottom": 661.828125,
+          "width": 398,
+          "height": 510.828125
+        },
+        "overflow": false,
+        "viewport": [
+          430,
+          932
+        ],
+        "raster": [
+          430,
+          932,
+          1
+        ],
+        "headline": "20.0 billion tons of freight \u00b7 2024"
+      }
+    },
+    {
+      "name": "430x932 card clearance",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "430x932 selected layers disjoint and accessible",
+      "pass": true,
+      "data": {
+        "layers": {
+          "left": 117.546875,
+          "right": 189.03125,
+          "top": 98,
+          "bottom": 142,
+          "width": 71.484375,
+          "height": 44
+        },
+        "explore": {
+          "left": 199.03125,
+          "right": 278.875,
+          "top": 98,
+          "bottom": 142,
+          "width": 79.84375,
+          "height": 44
+        },
+        "card": {
+          "left": 16,
+          "right": 414,
+          "top": 469,
+          "bottom": 856,
+          "width": 398,
+          "height": 387
+        },
+        "overflow": false,
+        "viewport": [
+          430,
+          932
+        ],
+        "raster": [
+          430,
+          932,
+          1
+        ],
+        "headline": "20.0 billion tons of freight \u00b7 2024"
+      }
+    },
+    {
+      "name": "430x932 expanded Layers hides card explicitly retains selection",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "430x932 closing Layers restores unchanged card selection",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "430x932 Escape focus",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "430x932 native close",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "430x932 native Chicago pan",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "430x932 Chicago USD exact unit",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "430x932 Chicago USD source national",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "430x932 Chicago tons exact unit",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "852x393 backing raster",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "852x393 released renderer and removed chrome",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "852x393 Ready animation stopped",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "852x393 startup captions absent",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "852x393 native opening entry",
+      "pass": true,
+      "data": {
+        "attempts": 1,
+        "measurements": [
+          {
+            "x": 135,
+            "y": 453,
+            "inside": false,
+            "visible": true,
+            "clear": false,
+            "scrollable": true,
+            "scrollTop": 0,
+            "px": 426,
+            "py": 197,
+            "height": 393
+          },
+          {
+            "x": 135,
+            "y": 245,
+            "inside": true,
+            "visible": true,
+            "clear": true,
+            "scrollable": true,
+            "scrollTop": 208,
+            "px": 426,
+            "py": 197,
+            "height": 393
+          }
+        ]
+      }
+    },
+    {
+      "name": "852x393 collapsed disjoint and accessible",
+      "pass": true,
+      "data": {
+        "layers": {
+          "left": 747,
+          "right": 835,
+          "top": 77,
+          "bottom": 117,
+          "width": 88,
+          "height": 40
+        },
+        "explore": {
+          "left": 747,
+          "right": 835,
+          "top": 125,
+          "bottom": 165,
+          "width": 88,
+          "height": 40
+        },
+        "card": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "height": 0
+        },
+        "overflow": false,
+        "viewport": [
+          852,
+          393
+        ],
+        "raster": [
+          852,
+          393,
+          1
+        ],
+        "headline": "20.0 billion tons of freight \u00b7 2024"
+      }
+    },
+    {
+      "name": "852x393 native country pan",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "852x393 removed country control and boot contract",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "852x393 retained reset API country and tons",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "852x393 tons national truth",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "852x393 layers expanded disjoint and accessible",
+      "pass": true,
+      "data": {
+        "layers": {
+          "left": 617,
+          "right": 835,
+          "top": 77,
+          "bottom": 117,
+          "width": 218,
+          "height": 40
+        },
+        "explore": {
+          "left": 747,
+          "right": 835,
+          "top": 305,
+          "bottom": 345,
+          "width": 88,
+          "height": 40
+        },
+        "card": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "height": 0
+        },
+        "overflow": false,
+        "viewport": [
+          852,
+          393
+        ],
+        "raster": [
+          852,
+          393,
+          1
+        ],
+        "headline": "20.0 billion tons of freight \u00b7 2024"
+      }
+    },
+    {
+      "name": "852x393 native layer toggle 0",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "852x393 layers restored 0",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "852x393 native layer toggle 1",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "852x393 layers restored 1",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "852x393 native layer toggle 2",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "852x393 layers restored 2",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "852x393 native layer toggle 3",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "852x393 layers restored 3",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "852x393 native layer toggle 4",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "852x393 layers restored 4",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "852x393 native layer toggle 5",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "852x393 layers restored 5",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "852x393 native layer toggle 6",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "852x393 layers restored 6",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "852x393 native layer toggle 7",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "852x393 layers restored 7",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "852x393 layer scroll",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "852x393 native Layers close",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "852x393 native Layers reopen",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "852x393 explore expanded disjoint and accessible",
+      "pass": true,
+      "data": {
+        "layers": {
+          "left": 747,
+          "right": 835,
+          "top": 77,
+          "bottom": 117,
+          "width": 88,
+          "height": 40
+        },
+        "explore": {
+          "left": 617,
+          "right": 835,
+          "top": 125,
+          "bottom": 165,
+          "width": 218,
+          "height": 40
+        },
+        "card": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "height": 0
+        },
+        "overflow": false,
+        "viewport": [
+          852,
+          393
+        ],
+        "raster": [
+          852,
+          393,
+          1
+        ],
+        "headline": "20.0 billion tons of freight \u00b7 2024"
+      }
+    },
+    {
+      "name": "native search input Anchorage",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "852x393 Anchorage rejected",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "native search input Honolulu",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "852x393 Honolulu rejected",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "native search input Albany",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "852x393 native Explore close",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "852x393 native Explore reopen",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "852x393 native result panel scroll",
+      "pass": true,
+      "data": {
+        "attempts": 0,
+        "measurements": [
+          {
+            "x": 727,
+            "y": 277,
+            "inside": true,
+            "visible": true,
+            "clear": true,
+            "scrollable": true,
+            "scrollTop": 0,
+            "px": 620,
+            "py": 257,
+            "height": 393
+          }
+        ]
+      }
+    },
+    {
+      "name": "852x393 native first result Albany",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "852x393 card disjoint and accessible",
+      "pass": true,
+      "data": {
+        "layers": {
+          "left": 747,
+          "right": 835,
+          "top": 77,
+          "bottom": 117,
+          "width": 88,
+          "height": 40
+        },
+        "explore": {
+          "left": 747,
+          "right": 835,
+          "top": 125,
+          "bottom": 165,
+          "width": 88,
+          "height": 40
+        },
+        "card": {
+          "left": 250,
+          "right": 600,
+          "top": 150,
+          "bottom": 377,
+          "width": 350,
+          "height": 227
+        },
+        "overflow": false,
+        "viewport": [
+          852,
+          393
+        ],
+        "raster": [
+          852,
+          393,
+          1
+        ],
+        "headline": "20.0 billion tons of freight \u00b7 2024"
+      }
+    },
+    {
+      "name": "852x393 card clearance",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "852x393 selected layers disjoint and accessible",
+      "pass": true,
+      "data": {
+        "layers": {
+          "left": 617,
+          "right": 835,
+          "top": 77,
+          "bottom": 117,
+          "width": 218,
+          "height": 40
+        },
+        "explore": {
+          "left": 747,
+          "right": 835,
+          "top": 305,
+          "bottom": 345,
+          "width": 88,
+          "height": 40
+        },
+        "card": {
+          "left": 250,
+          "right": 600,
+          "top": 150,
+          "bottom": 377,
+          "width": 350,
+          "height": 227
+        },
+        "overflow": false,
+        "viewport": [
+          852,
+          393
+        ],
+        "raster": [
+          852,
+          393,
+          1
+        ],
+        "headline": "20.0 billion tons of freight \u00b7 2024"
+      }
+    },
+    {
+      "name": "852x393 closing Layers restores unchanged card selection",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "852x393 Escape focus",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "852x393 native close",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "852x393 native Chicago pan",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "852x393 Chicago USD exact unit",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "852x393 Chicago USD source national",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "852x393 Chicago tons exact unit",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x480 backing raster",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x480 released renderer and removed chrome",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x480 Ready animation stopped",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x480 reduced motion honored",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x480 startup captions absent",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x480 native opening entry",
+      "pass": true,
+      "data": {
+        "attempts": 0,
+        "measurements": [
+          {
+            "x": 115,
+            "y": 325,
+            "inside": true,
+            "visible": true,
+            "clear": true,
+            "scrollable": true,
+            "scrollTop": 0,
+            "px": 197,
+            "py": 240,
+            "height": 480
+          }
+        ]
+      }
+    },
+    {
+      "name": "393x480 collapsed disjoint and accessible",
+      "pass": true,
+      "data": {
+        "layers": {
+          "left": 117.546875,
+          "right": 189.03125,
+          "top": 98,
+          "bottom": 142,
+          "width": 71.484375,
+          "height": 44
+        },
+        "explore": {
+          "left": 199.03125,
+          "right": 278.875,
+          "top": 98,
+          "bottom": 142,
+          "width": 79.84375,
+          "height": 44
+        },
+        "card": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "height": 0
+        },
+        "overflow": false,
+        "viewport": [
+          393,
+          480
+        ],
+        "raster": [
+          393,
+          480,
+          1
+        ],
+        "headline": "20.0 billion tons of freight \u00b7 2024"
+      }
+    },
+    {
+      "name": "393x480 one compact row and 44px controls",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x480 native country pan",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x480 removed country control and boot contract",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x480 retained reset API country and tons",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x480 tons national truth",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x480 layers expanded disjoint and accessible",
+      "pass": true,
+      "data": {
+        "layers": {
+          "left": 117.546875,
+          "right": 189.03125,
+          "top": 98,
+          "bottom": 142,
+          "width": 71.484375,
+          "height": 44
+        },
+        "explore": {
+          "left": 199.03125,
+          "right": 278.875,
+          "top": 98,
+          "bottom": 142,
+          "width": 79.84375,
+          "height": 44
+        },
+        "card": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "height": 0
+        },
+        "overflow": false,
+        "viewport": [
+          393,
+          480
+        ],
+        "raster": [
+          393,
+          480,
+          1
+        ],
+        "headline": "20.0 billion tons of freight \u00b7 2024"
+      }
+    },
+    {
+      "name": "393x480 Layers panel below row bounded",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x480 native layer toggle 0",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x480 layers restored 0",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x480 native layer toggle 1",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x480 layers restored 1",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x480 native layer toggle 2",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x480 layers restored 2",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x480 native layer toggle 3",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x480 layers restored 3",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x480 native layer toggle 4",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x480 layers restored 4",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x480 native layer toggle 5",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x480 layers restored 5",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x480 native layer toggle 6",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x480 layers restored 6",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x480 native layer toggle 7",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x480 layers restored 7",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x480 layer scroll",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x480 native Layers close",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x480 native Layers reopen",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x480 explore expanded disjoint and accessible",
+      "pass": true,
+      "data": {
+        "layers": {
+          "left": 117.546875,
+          "right": 189.03125,
+          "top": 98,
+          "bottom": 142,
+          "width": 71.484375,
+          "height": 44
+        },
+        "explore": {
+          "left": 199.03125,
+          "right": 278.875,
+          "top": 98,
+          "bottom": 142,
+          "width": 79.84375,
+          "height": 44
+        },
+        "card": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "height": 0
+        },
+        "overflow": false,
+        "viewport": [
+          393,
+          480
+        ],
+        "raster": [
+          393,
+          480,
+          1
+        ],
+        "headline": "20.0 billion tons of freight \u00b7 2024"
+      }
+    },
+    {
+      "name": "393x480 Explore below row bounded",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "native search input Anchorage",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x480 Anchorage rejected",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "native search input Honolulu",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x480 Honolulu rejected",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "native search input Albany",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x480 native Explore close",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x480 native Explore reopen",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x480 native result panel scroll",
+      "pass": true,
+      "data": {
+        "attempts": 0,
+        "measurements": [
+          {
+            "x": 197,
+            "y": 264,
+            "inside": true,
+            "visible": true,
+            "clear": true,
+            "scrollable": true,
+            "scrollTop": 0,
+            "px": 19,
+            "py": 311,
+            "height": 480
+          }
+        ]
+      }
+    },
+    {
+      "name": "393x480 native first result Albany",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x480 card disjoint and accessible",
+      "pass": true,
+      "data": {
+        "layers": {
+          "left": 117.546875,
+          "right": 189.03125,
+          "top": 98,
+          "bottom": 142,
+          "width": 71.484375,
+          "height": 44
+        },
+        "explore": {
+          "left": 199.03125,
+          "right": 278.875,
+          "top": 98,
+          "bottom": 142,
+          "width": 79.84375,
+          "height": 44
+        },
+        "card": {
+          "left": 16,
+          "right": 377,
+          "top": 151,
+          "bottom": 404,
+          "width": 361,
+          "height": 253
+        },
+        "overflow": false,
+        "viewport": [
+          393,
+          480
+        ],
+        "raster": [
+          393,
+          480,
+          1
+        ],
+        "headline": "20.0 billion tons of freight \u00b7 2024"
+      }
+    },
+    {
+      "name": "393x480 card clearance",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x480 selected layers disjoint and accessible",
+      "pass": true,
+      "data": {
+        "layers": {
+          "left": 117.546875,
+          "right": 189.03125,
+          "top": 98,
+          "bottom": 142,
+          "width": 71.484375,
+          "height": 44
+        },
+        "explore": {
+          "left": 199.03125,
+          "right": 278.875,
+          "top": 98,
+          "bottom": 142,
+          "width": 79.84375,
+          "height": 44
+        },
+        "card": {
+          "left": 16,
+          "right": 377,
+          "top": 469,
+          "bottom": 495,
+          "width": 361,
+          "height": 26
+        },
+        "overflow": false,
+        "viewport": [
+          393,
+          480
+        ],
+        "raster": [
+          393,
+          480,
+          1
+        ],
+        "headline": "20.0 billion tons of freight \u00b7 2024"
+      }
+    },
+    {
+      "name": "393x480 expanded Layers hides card explicitly retains selection",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x480 closing Layers restores unchanged card selection",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x480 Escape focus",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x480 native close",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x480 native Chicago pan",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x480 Chicago USD exact unit",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x480 Chicago USD source national",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x480 Chicago tons exact unit",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x360 backing raster",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x360 released renderer and removed chrome",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x360 Ready animation stopped",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x360 startup captions absent",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x360 native opening entry",
+      "pass": true,
+      "data": {
+        "attempts": 0,
+        "measurements": [
+          {
+            "x": 115,
+            "y": 325,
+            "inside": true,
+            "visible": true,
+            "clear": true,
+            "scrollable": true,
+            "scrollTop": 0,
+            "px": 197,
+            "py": 180,
+            "height": 360
+          }
+        ]
+      }
+    },
+    {
+      "name": "393x360 collapsed disjoint and accessible",
+      "pass": true,
+      "data": {
+        "layers": {
+          "left": 117.546875,
+          "right": 189.03125,
+          "top": 98,
+          "bottom": 142,
+          "width": 71.484375,
+          "height": 44
+        },
+        "explore": {
+          "left": 199.03125,
+          "right": 278.875,
+          "top": 98,
+          "bottom": 142,
+          "width": 79.84375,
+          "height": 44
+        },
+        "card": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "height": 0
+        },
+        "overflow": false,
+        "viewport": [
+          393,
+          360
+        ],
+        "raster": [
+          393,
+          360,
+          1
+        ],
+        "headline": "20.0 billion tons of freight \u00b7 2024"
+      }
+    },
+    {
+      "name": "393x360 one compact row and 44px controls",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x360 native country pan",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x360 removed country control and boot contract",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x360 retained reset API country and tons",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x360 tons national truth",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x360 layers expanded disjoint and accessible",
+      "pass": true,
+      "data": {
+        "layers": {
+          "left": 117.546875,
+          "right": 189.03125,
+          "top": 98,
+          "bottom": 142,
+          "width": 71.484375,
+          "height": 44
+        },
+        "explore": {
+          "left": 199.03125,
+          "right": 278.875,
+          "top": 98,
+          "bottom": 142,
+          "width": 79.84375,
+          "height": 44
+        },
+        "card": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "height": 0
+        },
+        "overflow": false,
+        "viewport": [
+          393,
+          360
+        ],
+        "raster": [
+          393,
+          360,
+          1
+        ],
+        "headline": "20.0 billion tons of freight \u00b7 2024"
+      }
+    },
+    {
+      "name": "393x360 Layers panel below row bounded",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x360 native layer toggle 0",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x360 layers restored 0",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x360 native layer toggle 1",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x360 layers restored 1",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x360 native layer toggle 2",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x360 layers restored 2",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x360 native layer toggle 3",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x360 layers restored 3",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x360 native layer toggle 4",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x360 layers restored 4",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x360 native layer toggle 5",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x360 layers restored 5",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x360 native layer toggle 6",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x360 layers restored 6",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x360 native layer toggle 7",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x360 layers restored 7",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x360 layer scroll",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x360 native Layers close",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x360 native Layers reopen",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x360 explore expanded disjoint and accessible",
+      "pass": true,
+      "data": {
+        "layers": {
+          "left": 117.546875,
+          "right": 189.03125,
+          "top": 98,
+          "bottom": 142,
+          "width": 71.484375,
+          "height": 44
+        },
+        "explore": {
+          "left": 199.03125,
+          "right": 278.875,
+          "top": 98,
+          "bottom": 142,
+          "width": 79.84375,
+          "height": 44
+        },
+        "card": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "height": 0
+        },
+        "overflow": false,
+        "viewport": [
+          393,
+          360
+        ],
+        "raster": [
+          393,
+          360,
+          1
+        ],
+        "headline": "20.0 billion tons of freight \u00b7 2024"
+      }
+    },
+    {
+      "name": "393x360 Explore below row bounded",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "native search input Anchorage",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x360 Anchorage rejected",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "native search input Honolulu",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x360 Honolulu rejected",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "native search input Albany",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x360 native Explore close",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x360 native Explore reopen",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x360 native result panel scroll",
+      "pass": true,
+      "data": {
+        "attempts": 0,
+        "measurements": [
+          {
+            "x": 197,
+            "y": 264,
+            "inside": true,
+            "visible": true,
+            "clear": true,
+            "scrollable": true,
+            "scrollTop": 0,
+            "px": 19,
+            "py": 251,
+            "height": 360
+          }
+        ]
+      }
+    },
+    {
+      "name": "393x360 native first result Albany",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x360 card disjoint and accessible",
+      "pass": true,
+      "data": {
+        "layers": {
+          "left": 117.546875,
+          "right": 189.03125,
+          "top": 98,
+          "bottom": 142,
+          "width": 71.484375,
+          "height": 44
+        },
+        "explore": {
+          "left": 199.03125,
+          "right": 278.875,
+          "top": 98,
+          "bottom": 142,
+          "width": 79.84375,
+          "height": 44
+        },
+        "card": {
+          "left": 16,
+          "right": 377,
+          "top": 151,
+          "bottom": 284,
+          "width": 361,
+          "height": 133
+        },
+        "overflow": false,
+        "viewport": [
+          393,
+          360
+        ],
+        "raster": [
+          393,
+          360,
+          1
+        ],
+        "headline": "20.0 billion tons of freight \u00b7 2024"
+      }
+    },
+    {
+      "name": "keyboard-height compact inspector actual allowance",
+      "pass": true,
+      "data": {
+        "layers": {
+          "left": 117.546875,
+          "right": 189.03125,
+          "top": 98,
+          "bottom": 142,
+          "width": 71.484375,
+          "height": 44
+        },
+        "explore": {
+          "left": 199.03125,
+          "right": 278.875,
+          "top": 98,
+          "bottom": 142,
+          "width": 79.84375,
+          "height": 44
+        },
+        "card": {
+          "left": 16,
+          "right": 377,
+          "top": 151,
+          "bottom": 284,
+          "width": 361,
+          "height": 133
+        },
+        "overflow": false,
+        "viewport": [
+          393,
+          360
+        ],
+        "raster": [
+          393,
+          360,
+          1
+        ],
+        "headline": "20.0 billion tons of freight \u00b7 2024"
+      }
+    },
+    {
+      "name": "393x360 card clearance",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x360 selected layers disjoint and accessible",
+      "pass": true,
+      "data": {
+        "layers": {
+          "left": 117.546875,
+          "right": 189.03125,
+          "top": 98,
+          "bottom": 142,
+          "width": 71.484375,
+          "height": 44
+        },
+        "explore": {
+          "left": 199.03125,
+          "right": 278.875,
+          "top": 98,
+          "bottom": 142,
+          "width": 79.84375,
+          "height": 44
+        },
+        "card": {
+          "left": 16,
+          "right": 377,
+          "top": 360,
+          "bottom": 386,
+          "width": 361,
+          "height": 26
+        },
+        "overflow": false,
+        "viewport": [
+          393,
+          360
+        ],
+        "raster": [
+          393,
+          360,
+          1
+        ],
+        "headline": "20.0 billion tons of freight \u00b7 2024"
+      }
+    },
+    {
+      "name": "393x360 expanded Layers hides card explicitly retains selection",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x360 closing Layers restores unchanged card selection",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x360 Escape focus",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x360 native close",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x360 native Chicago pan",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x360 Chicago USD exact unit",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x360 Chicago USD source national",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "393x360 Chicago tons exact unit",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "1489x900 backing raster",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "1489x900 released renderer and removed chrome",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "1489x900 Ready animation stopped",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "1489x900 startup captions absent",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "1489x900 native opening entry",
+      "pass": true,
+      "data": {
+        "attempts": 0,
+        "measurements": [
+          {
+            "x": 257,
+            "y": 610,
+            "inside": true,
+            "visible": true,
+            "clear": true,
+            "scrollable": false,
+            "scrollTop": 0,
+            "px": 745,
+            "py": 450,
+            "height": 900
+          }
+        ]
+      }
+    },
+    {
+      "name": "1489x900 collapsed disjoint and accessible",
+      "pass": true,
+      "data": {
+        "layers": {
+          "left": 27,
+          "right": 235,
+          "top": 265,
+          "bottom": 305,
+          "width": 208,
+          "height": 40
+        },
+        "explore": {
+          "left": 1378.15625,
+          "right": 1462,
+          "top": 77,
+          "bottom": 117,
+          "width": 83.84375,
+          "height": 40
+        },
+        "card": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "height": 0
+        },
+        "overflow": false,
+        "viewport": [
+          1489,
+          900
+        ],
+        "raster": [
+          1489,
+          900,
+          1
+        ],
+        "headline": "20.0 billion tons of freight \u00b7 2024"
+      }
+    },
+    {
+      "name": "1489x900 native country pan",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "1489x900 removed country control and boot contract",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "1489x900 retained reset API country and tons",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "1489x900 tons national truth",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "1489x900 layers expanded disjoint and accessible",
+      "pass": true,
+      "data": {
+        "layers": {
+          "left": 27,
+          "right": 235,
+          "top": 265,
+          "bottom": 305,
+          "width": 208,
+          "height": 40
+        },
+        "explore": {
+          "left": 1378.15625,
+          "right": 1462,
+          "top": 77,
+          "bottom": 117,
+          "width": 83.84375,
+          "height": 40
+        },
+        "card": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "height": 0
+        },
+        "overflow": false,
+        "viewport": [
+          1489,
+          900
+        ],
+        "raster": [
+          1489,
+          900,
+          1
+        ],
+        "headline": "20.0 billion tons of freight \u00b7 2024"
+      }
+    },
+    {
+      "name": "1489x900 native layer toggle 0",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "1489x900 layers restored 0",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "1489x900 native layer toggle 1",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "1489x900 layers restored 1",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "1489x900 native layer toggle 2",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "1489x900 layers restored 2",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "1489x900 native layer toggle 3",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "1489x900 layers restored 3",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "1489x900 native layer toggle 4",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "1489x900 layers restored 4",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "1489x900 native layer toggle 5",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "1489x900 layers restored 5",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "1489x900 native layer toggle 6",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "1489x900 layers restored 6",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "1489x900 native layer toggle 7",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "1489x900 layers restored 7",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "1489x900 layer scroll",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "1489x900 native Layers close",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "1489x900 native Layers reopen",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "1489x900 explore expanded disjoint and accessible",
+      "pass": true,
+      "data": {
+        "layers": {
+          "left": 27,
+          "right": 235,
+          "top": 265,
+          "bottom": 305,
+          "width": 208,
+          "height": 40
+        },
+        "explore": {
+          "left": 1152,
+          "right": 1462,
+          "top": 77,
+          "bottom": 117,
+          "width": 310,
+          "height": 40
+        },
+        "card": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "height": 0
+        },
+        "overflow": false,
+        "viewport": [
+          1489,
+          900
+        ],
+        "raster": [
+          1489,
+          900,
+          1
+        ],
+        "headline": "20.0 billion tons of freight \u00b7 2024"
+      }
+    },
+    {
+      "name": "native search input Anchorage",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "1489x900 Anchorage rejected",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "native search input Honolulu",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "1489x900 Honolulu rejected",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "native search input Albany",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "1489x900 native Explore close",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "1489x900 native Explore reopen",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "1489x900 native result panel scroll",
+      "pass": true,
+      "data": {
+        "attempts": 0,
+        "measurements": [
+          {
+            "x": 1307,
+            "y": 225,
+            "inside": true,
+            "visible": true,
+            "clear": true,
+            "scrollable": false,
+            "scrollTop": 0,
+            "px": 1155,
+            "py": 333,
+            "height": 900
+          }
+        ]
+      }
+    },
+    {
+      "name": "1489x900 native first result Albany",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "1489x900 card disjoint and accessible",
+      "pass": true,
+      "data": {
+        "layers": {
+          "left": 27,
+          "right": 235,
+          "top": 265,
+          "bottom": 305,
+          "width": 208,
+          "height": 40
+        },
+        "explore": {
+          "left": 1378.15625,
+          "right": 1462,
+          "top": 77,
+          "bottom": 117,
+          "width": 83.84375,
+          "height": 40
+        },
+        "card": {
+          "left": 26,
+          "right": 376,
+          "top": 374.96875,
+          "bottom": 876,
+          "width": 350,
+          "height": 501.03125
+        },
+        "overflow": false,
+        "viewport": [
+          1489,
+          900
+        ],
+        "raster": [
+          1489,
+          900,
+          1
+        ],
+        "headline": "20.0 billion tons of freight \u00b7 2024"
+      }
+    },
+    {
+      "name": "1489x900 card clearance",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "1489x900 selected layers disjoint and accessible",
+      "pass": true,
+      "data": {
+        "layers": {
+          "left": 27,
+          "right": 235,
+          "top": 265,
+          "bottom": 305,
+          "width": 208,
+          "height": 40
+        },
+        "explore": {
+          "left": 1378.15625,
+          "right": 1462,
+          "top": 77,
+          "bottom": 117,
+          "width": 83.84375,
+          "height": 40
+        },
+        "card": {
+          "left": 26,
+          "right": 376,
+          "top": 327.265625,
+          "bottom": 876,
+          "width": 350,
+          "height": 548.734375
+        },
+        "overflow": false,
+        "viewport": [
+          1489,
+          900
+        ],
+        "raster": [
+          1489,
+          900,
+          1
+        ],
+        "headline": "20.0 billion tons of freight \u00b7 2024"
+      }
+    },
+    {
+      "name": "1489x900 closing Layers restores unchanged card selection",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "1489x900 Escape focus",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "1489x900 native close",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "1489x900 native Chicago pan",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "1489x900 Chicago USD exact unit",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "1489x900 Chicago USD source national",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "1489x900 Chicago tons exact unit",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "AK hidden native pick point in canvas",
+      "pass": true,
+      "data": {
+        "x": 804.5,
+        "y": 480
+      }
+    },
+    {
+      "name": "AK invisible native map picking rejected",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "HI hidden native pick point in canvas",
+      "pass": true,
+      "data": {
+        "x": 804.5,
+        "y": 480
+      }
+    },
+    {
+      "name": "HI invisible native map picking rejected",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "built article three editorial links rendered",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "built article actual Astro analytics injection",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "built article native methods navigation",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "built article methods native history Back",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "built article methods native returned map",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "built article native data navigation",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "built article data native history Back",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "built article data native returned map",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "built article native about navigation",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "built article about native history Back",
+      "pass": true,
+      "data": null
+    },
+    {
+      "name": "built article about native returned map",
+      "pass": true,
+      "data": null
+    }
+  ],
+  "screenshots": [
+    "receipt-02bad43773564f10ab131bd91337b9b8-country-390x844.png",
+    "receipt-02bad43773564f10ab131bd91337b9b8-layers-expanded-390x844.png",
+    "receipt-02bad43773564f10ab131bd91337b9b8-explore-expanded-393x852.png",
+    "receipt-02bad43773564f10ab131bd91337b9b8-albany-card-393x852.png",
+    "receipt-02bad43773564f10ab131bd91337b9b8-albany-card-430x932.png",
+    "receipt-02bad43773564f10ab131bd91337b9b8-short-landscape-852x393.png",
+    "receipt-02bad43773564f10ab131bd91337b9b8-short-portrait-393x480.png",
+    "receipt-02bad43773564f10ab131bd91337b9b8-keyboard-shape-393x360.png",
+    "receipt-02bad43773564f10ab131bd91337b9b8-desktop-chicago-1489x900.png",
+    "receipt-02bad43773564f10ab131bd91337b9b8-built-article-desktop.png"
+  ],
+  "rows": [
+    {
+      "viewport": [
+        390,
+        844
+      ],
+      "readyMs": 4701.5,
+      "layout": {
+        "layers": {
+          "left": 117.546875,
+          "right": 189.03125,
+          "top": 98,
+          "bottom": 142,
+          "width": 71.484375,
+          "height": 44
+        },
+        "explore": {
+          "left": 199.03125,
+          "right": 278.875,
+          "top": 98,
+          "bottom": 142,
+          "width": 79.84375,
+          "height": 44
+        },
+        "card": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "height": 0
+        },
+        "overflow": false,
+        "viewport": [
+          390,
+          844
+        ],
+        "raster": [
+          390,
+          844,
+          1
+        ],
+        "headline": "20.0 billion tons of freight \u00b7 2024"
+      },
+      "countryPanDriverWallMs": 1237.6988850000002,
+      "chicagoPanDriverWallMs": 1692.7280570000107
+    },
+    {
+      "viewport": [
+        393,
+        852
+      ],
+      "readyMs": 4005.7999999999884,
+      "layout": {
+        "layers": {
+          "left": 117.546875,
+          "right": 189.03125,
+          "top": 98,
+          "bottom": 142,
+          "width": 71.484375,
+          "height": 44
+        },
+        "explore": {
+          "left": 199.03125,
+          "right": 278.875,
+          "top": 98,
+          "bottom": 142,
+          "width": 79.84375,
+          "height": 44
+        },
+        "card": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "height": 0
+        },
+        "overflow": false,
+        "viewport": [
+          393,
+          852
+        ],
+        "raster": [
+          393,
+          852,
+          1
+        ],
+        "headline": "20.0 billion tons of freight \u00b7 2024"
+      },
+      "countryPanDriverWallMs": 1145.8629340000073,
+      "chicagoPanDriverWallMs": 1700.1638030000095
+    },
+    {
+      "viewport": [
+        430,
+        932
+      ],
+      "readyMs": 3866.600000000006,
+      "layout": {
+        "layers": {
+          "left": 117.546875,
+          "right": 189.03125,
+          "top": 98,
+          "bottom": 142,
+          "width": 71.484375,
+          "height": 44
+        },
+        "explore": {
+          "left": 199.03125,
+          "right": 278.875,
+          "top": 98,
+          "bottom": 142,
+          "width": 79.84375,
+          "height": 44
+        },
+        "card": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "height": 0
+        },
+        "overflow": false,
+        "viewport": [
+          430,
+          932
+        ],
+        "raster": [
+          430,
+          932,
+          1
+        ],
+        "headline": "20.0 billion tons of freight \u00b7 2024"
+      },
+      "countryPanDriverWallMs": 1084.8201499999846,
+      "chicagoPanDriverWallMs": 1651.0328760000164
+    },
+    {
+      "viewport": [
+        852,
+        393
+      ],
+      "readyMs": 4371.200000000012,
+      "layout": {
+        "layers": {
+          "left": 747,
+          "right": 835,
+          "top": 77,
+          "bottom": 117,
+          "width": 88,
+          "height": 40
+        },
+        "explore": {
+          "left": 747,
+          "right": 835,
+          "top": 125,
+          "bottom": 165,
+          "width": 88,
+          "height": 40
+        },
+        "card": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "height": 0
+        },
+        "overflow": false,
+        "viewport": [
+          852,
+          393
+        ],
+        "raster": [
+          852,
+          393,
+          1
+        ],
+        "headline": "20.0 billion tons of freight \u00b7 2024"
+      },
+      "countryPanDriverWallMs": 1120.1967609999883,
+      "chicagoPanDriverWallMs": 1548.8584430000003
+    },
+    {
+      "viewport": [
+        393,
+        480
+      ],
+      "readyMs": 10320.100000000006,
+      "layout": {
+        "layers": {
+          "left": 117.546875,
+          "right": 189.03125,
+          "top": 98,
+          "bottom": 142,
+          "width": 71.484375,
+          "height": 44
+        },
+        "explore": {
+          "left": 199.03125,
+          "right": 278.875,
+          "top": 98,
+          "bottom": 142,
+          "width": 79.84375,
+          "height": 44
+        },
+        "card": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "height": 0
+        },
+        "overflow": false,
+        "viewport": [
+          393,
+          480
+        ],
+        "raster": [
+          393,
+          480,
+          1
+        ],
+        "headline": "20.0 billion tons of freight \u00b7 2024"
+      },
+      "countryPanDriverWallMs": 1097.2608499999978,
+      "chicagoPanDriverWallMs": 1351.3622169999735
+    },
+    {
+      "viewport": [
+        393,
+        360
+      ],
+      "readyMs": 4214.600000000035,
+      "layout": {
+        "layers": {
+          "left": 117.546875,
+          "right": 189.03125,
+          "top": 98,
+          "bottom": 142,
+          "width": 71.484375,
+          "height": 44
+        },
+        "explore": {
+          "left": 199.03125,
+          "right": 278.875,
+          "top": 98,
+          "bottom": 142,
+          "width": 79.84375,
+          "height": 44
+        },
+        "card": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "height": 0
+        },
+        "overflow": false,
+        "viewport": [
+          393,
+          360
+        ],
+        "raster": [
+          393,
+          360,
+          1
+        ],
+        "headline": "20.0 billion tons of freight \u00b7 2024"
+      },
+      "countryPanDriverWallMs": 1122.2574219999615,
+      "chicagoPanDriverWallMs": 1131.6627740000058
+    },
+    {
+      "viewport": [
+        1489,
+        900
+      ],
+      "readyMs": 4386.800000000047,
+      "layout": {
+        "layers": {
+          "left": 27,
+          "right": 235,
+          "top": 265,
+          "bottom": 305,
+          "width": 208,
+          "height": 40
+        },
+        "explore": {
+          "left": 1378.15625,
+          "right": 1462,
+          "top": 77,
+          "bottom": 117,
+          "width": 83.84375,
+          "height": 40
+        },
+        "card": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "height": 0
+        },
+        "overflow": false,
+        "viewport": [
+          1489,
+          900
+        ],
+        "raster": [
+          1489,
+          900,
+          1
+        ],
+        "headline": "20.0 billion tons of freight \u00b7 2024"
+      },
+      "countryPanDriverWallMs": 1701.2718210000344,
+      "chicagoPanDriverWallMs": 2072.4128850000056
+    }
+  ],
+  "passed": true,
+  "scope": "localhost Chromium viewport/native input; not physical iPhone Safari or public CDN",
+  "runtime": "GitHub Actions hosted Ubuntu; no VPS browser or service changes",
+  "phase": "1489x900",
+  "methodsReturnHash": "#atlas=%7B%22v%22%3A1%2C%22camera%22%3A%7B%22center%22%3A%5B-74.65978508561727%2C40.409803993324275%5D%2C%22zoom%22%3A6%7D%2C%22unit%22%3A%22usd%22%2C%22layers%22%3A%5B%22truck%22%2C%22rail%22%2C%22water%22%2C%22pipeline%22%2C%22airports%22%2C%22ports%22%2C%22cities%22%2C%22regions%22%5D%2C%22selection%22%3A%7B%22type%22%3A%22city%22%2C%22id%22%3A%22361%22%2C%22point%22%3A%5B-73.974%2C42.58820000000001%5D%7D%7D",
+  "expectedLocalDeploymentServiceAbsence": [
+    {
+      "classification": "expected-local-missing-deployment-service",
+      "event": {
+        "method": "Network.responseReceived",
+        "params": {
+          "requestId": "2907.6997",
+          "loaderId": "F260D75FBB53F13FEFB807446BF29CCC",
+          "timestamp": 328.104454,
+          "type": "Script",
+          "response": {
+            "url": "http://127.0.0.1:38883/_vercel/insights/script.js",
+            "status": 404,
+            "statusText": "File not found",
+            "headers": {
+              "Content-Length": "335",
+              "Date": "Mon, 12 Oct 2026 22:12:25 GMT",
+              "Content-Type": "text/html;charset=utf-8",
+              "Server": "SimpleHTTP/0.6 Python/3.11.17",
+              "Connection": "close"
+            },
+            "mimeType": "text/html",
+            "charset": "utf-8",
+            "connectionReused": false,
+            "connectionId": 36472,
+            "remoteIPAddress": "127.0.0.1",
+            "remotePort": 38883,
+            "fromDiskCache": false,
+            "fromServiceWorker": false,
+            "fromPrefetchCache": false,
+            "encodedDataLength": 186,
+            "timing": {
+              "requestTime": 328.083824,
+              "proxyStart": -1,
+              "proxyEnd": -1,
+              "dnsStart": 0.108,
+              "dnsEnd": 0.147,
+              "connectStart": 0.147,
+              "connectEnd": 0.424,
+              "sslStart": -1,
+              "sslEnd": -1,
+              "workerStart": -1,
+              "workerReady": -1,
+              "workerFetchStart": -1,
+              "workerRespondWithSettled": -1,
+              "sendStart": 0.488,
+              "sendEnd": 0.577,
+              "pushStart": 0,
+              "pushEnd": 0,
+              "receiveHeadersStart": 1.146,
+              "receiveHeadersEnd": 1.221
+            },
+            "responseTime": 1791843145087.876,
+            "protocol": "http/1.0",
+            "alternateProtocolUsage": "unspecifiedReason",
+            "securityState": "secure"
+          },
+          "hasExtraInfo": true,
+          "frameId": "EAA14E2F899A4CB4153B5C8680390574"
+        }
+      }
+    },
+    {
+      "classification": "expected-local-404-correlated-script-abort",
+      "event": {
+        "method": "Network.loadingFailed",
+        "params": {
+          "requestId": "2907.6997",
+          "timestamp": 328.104509,
+          "type": "Script",
+          "errorText": "net::ERR_ABORTED",
+          "canceled": true
+        }
+      }
+    },
+    {
+      "classification": "expected-local-missing-deployment-service",
+      "event": {
+        "method": "Network.responseReceived",
+        "params": {
+          "requestId": "2907.7434",
+          "loaderId": "B758D3AB7C494C5825DDE5E5954D8D0A",
+          "timestamp": 333.768473,
+          "type": "Script",
+          "response": {
+            "url": "http://127.0.0.1:38883/_vercel/insights/script.js",
+            "status": 404,
+            "statusText": "File not found",
+            "headers": {
+              "Content-Length": "335",
+              "Date": "Mon, 12 Oct 2026 22:12:30 GMT",
+              "Content-Type": "text/html;charset=utf-8",
+              "Server": "SimpleHTTP/0.6 Python/3.11.17",
+              "Connection": "close"
+            },
+            "mimeType": "text/html",
+            "charset": "utf-8",
+            "connectionReused": true,
+            "connectionId": 38193,
+            "remoteIPAddress": "127.0.0.1",
+            "remotePort": 38883,
+            "fromDiskCache": false,
+            "fromServiceWorker": false,
+            "fromPrefetchCache": false,
+            "encodedDataLength": 186,
+            "timing": {
+              "requestTime": 333.763524,
+              "proxyStart": -1,
+              "proxyEnd": -1,
+              "dnsStart": -1,
+              "dnsEnd": -1,
+              "connectStart": -1,
+              "connectEnd": -1,
+              "sslStart": -1,
+              "sslEnd": -1,
+              "workerStart": -1,
+              "workerReady": -1,
+              "workerFetchStart": -1,
+              "workerRespondWithSettled": -1,
+              "sendStart": 0.286,
+              "sendEnd": 0.371,
+              "pushStart": 0,
+              "pushEnd": 0,
+              "receiveHeadersStart": 0.927,
+              "receiveHeadersEnd": 0.969
+            },
+            "responseTime": 1791843150767.357,
+            "protocol": "http/1.0",
+            "alternateProtocolUsage": "unspecifiedReason",
+            "securityState": "secure"
+          },
+          "hasExtraInfo": true,
+          "frameId": "EAA14E2F899A4CB4153B5C8680390574"
+        }
+      }
+    },
+    {
+      "classification": "expected-local-404-correlated-script-abort",
+      "event": {
+        "method": "Network.loadingFailed",
+        "params": {
+          "requestId": "2907.7434",
+          "timestamp": 333.768536,
+          "type": "Script",
+          "errorText": "net::ERR_ABORTED",
+          "canceled": true
+        }
+      }
+    },
+    {
+      "classification": "expected-local-missing-deployment-service",
+      "event": {
+        "method": "Network.responseReceived",
+        "params": {
+          "requestId": "2907.7870",
+          "loaderId": "88E130544B96B19874283BFE34A66403",
+          "timestamp": 338.946343,
+          "type": "Script",
+          "response": {
+            "url": "http://127.0.0.1:38883/_vercel/insights/script.js",
+            "status": 404,
+            "statusText": "File not found",
+            "headers": {
+              "Content-Length": "335",
+              "Date": "Mon, 12 Oct 2026 22:12:35 GMT",
+              "Content-Type": "text/html;charset=utf-8",
+              "Server": "SimpleHTTP/0.6 Python/3.11.17",
+              "Connection": "close"
+            },
+            "mimeType": "text/html",
+            "charset": "utf-8",
+            "connectionReused": true,
+            "connectionId": 38224,
+            "remoteIPAddress": "127.0.0.1",
+            "remotePort": 38883,
+            "fromDiskCache": false,
+            "fromServiceWorker": false,
+            "fromPrefetchCache": false,
+            "encodedDataLength": 186,
+            "timing": {
+              "requestTime": 338.94187,
+              "proxyStart": -1,
+              "proxyEnd": -1,
+              "dnsStart": -1,
+              "dnsEnd": -1,
+              "connectStart": -1,
+              "connectEnd": -1,
+              "sslStart": -1,
+              "sslEnd": -1,
+              "workerStart": -1,
+              "workerReady": -1,
+              "workerFetchStart": -1,
+              "workerRespondWithSettled": -1,
+              "sendStart": 0.259,
+              "sendEnd": 0.362,
+              "pushStart": 0,
+              "pushEnd": 0,
+              "receiveHeadersStart": 1.333,
+              "receiveHeadersEnd": 1.396
+            },
+            "responseTime": 1791843155946.108,
+            "protocol": "http/1.0",
+            "alternateProtocolUsage": "unspecifiedReason",
+            "securityState": "secure"
+          },
+          "hasExtraInfo": true,
+          "frameId": "EAA14E2F899A4CB4153B5C8680390574"
+        }
+      }
+    },
+    {
+      "classification": "expected-local-404-correlated-script-abort",
+      "event": {
+        "method": "Network.loadingFailed",
+        "params": {
+          "requestId": "2907.7870",
+          "timestamp": 338.946405,
+          "type": "Script",
+          "errorText": "net::ERR_ABORTED",
+          "canceled": true
+        }
+      }
+    },
+    {
+      "classification": "expected-local-missing-deployment-service",
+      "event": {
+        "method": "Network.responseReceived",
+        "params": {
+          "requestId": "2907.8306",
+          "loaderId": "1A8E3569D080B9B30548719DB7B3345F",
+          "timestamp": 343.929537,
+          "type": "Script",
+          "response": {
+            "url": "http://127.0.0.1:38883/_vercel/insights/script.js",
+            "status": 404,
+            "statusText": "File not found",
+            "headers": {
+              "Content-Length": "335",
+              "Date": "Mon, 12 Oct 2026 22:12:40 GMT",
+              "Content-Type": "text/html;charset=utf-8",
+              "Server": "SimpleHTTP/0.6 Python/3.11.17",
+              "Connection": "close"
+            },
+            "mimeType": "text/html",
+            "charset": "utf-8",
+            "connectionReused": true,
+            "connectionId": 38863,
+            "remoteIPAddress": "127.0.0.1",
+            "remotePort": 38883,
+            "fromDiskCache": false,
+            "fromServiceWorker": false,
+            "fromPrefetchCache": false,
+            "encodedDataLength": 186,
+            "timing": {
+              "requestTime": 343.923274,
+              "proxyStart": -1,
+              "proxyEnd": -1,
+              "dnsStart": -1,
+              "dnsEnd": -1,
+              "connectStart": -1,
+              "connectEnd": -1,
+              "sslStart": -1,
+              "sslEnd": -1,
+              "workerStart": -1,
+              "workerReady": -1,
+              "workerFetchStart": -1,
+              "workerRespondWithSettled": -1,
+              "sendStart": 0.338,
+              "sendEnd": 0.433,
+              "pushStart": 0,
+              "pushEnd": 0,
+              "receiveHeadersStart": 2.795,
+              "receiveHeadersEnd": 2.859
+            },
+            "responseTime": 1791843160928.975,
+            "protocol": "http/1.0",
+            "alternateProtocolUsage": "unspecifiedReason",
+            "securityState": "secure"
+          },
+          "hasExtraInfo": true,
+          "frameId": "EAA14E2F899A4CB4153B5C8680390574"
+        }
+      }
+    },
+    {
+      "classification": "expected-local-404-correlated-script-abort",
+      "event": {
+        "method": "Network.loadingFailed",
+        "params": {
+          "requestId": "2907.8306",
+          "timestamp": 343.929688,
+          "type": "Script",
+          "errorText": "net::ERR_ABORTED",
+          "canceled": true
+        }
+      }
+    }
+  ],
+  "analyticsSourceRuntime": {
+    "layout": "site/src/layouts/Layout.astro imports @vercel/analytics/astro and renders Analytics",
+    "injectedScript": [
+      {
+        "src": "http://127.0.0.1:38883/_vercel/insights/script.js",
+        "dataset": {
+          "sdkn": "@vercel/analytics/astro",
+          "sdkv": "2.0.1",
+          "disableAutoTrack": "1"
+        }
+      }
+    ]
+  },
+  "elapsedSeconds": 283.722939103,
+  "errors": [
+    {
+      "method": "Network.loadingFailed",
+      "params": {
+        "requestId": "2907.6997",
+        "timestamp": 328.104509,
+        "type": "Script",
+        "errorText": "net::ERR_ABORTED",
+        "canceled": true
+      }
+    },
+    {
+      "method": "Network.loadingFailed",
+      "params": {
+        "requestId": "2907.7434",
+        "timestamp": 333.768536,
+        "type": "Script",
+        "errorText": "net::ERR_ABORTED",
+        "canceled": true
+      }
+    },
+    {
+      "method": "Network.loadingFailed",
+      "params": {
+        "requestId": "2907.7870",
+        "timestamp": 338.946405,
+        "type": "Script",
+        "errorText": "net::ERR_ABORTED",
+        "canceled": true
+      }
+    }
+  ],
+  "hashesAfter": {
+    "core.js.gz": "f9c8de4915bcf11b6f390bc5c733931d69f782a685101008cf3fed5aa3616bc0",
+    "plate.json.gz": "6c2e765940d59daa43a3e13788423b01eaedb0995c9eb9cee53d89d7fc55ed69",
+    "pz-sys.js.gz": "7374b695c9e581aa9ad857b9ffb0cbd166b2b2e7acb7e9008e61c463cdf51ba9",
+    "explore-catalog.json": "d0c5aa68eeb4cb8ee6aa970ed4a4767f6495e6ddc17a48e531de13c34eeec237",
+    "route-render.js": "f5c6e8b90bed36e260480facf63de7bf1da2c48d5d522c0c3f39f112034ba7e4",
+    "info-inspector.js": "a0544c6b79c2031c3348d0caa412374371913506b7265705fa72fafe024a0dcb",
+    "proto.js": "ea99874f97f5cb0a4ebd497348a6f01fdfc3d074f49b2c27dbff7c8f262c73c9",
+    "atlas-bridge.css": "4ef2b4a9f9abba84f8cf0cd0ee2eda3368470413bb6dbc1115a9a5bdd948fca8",
+    "atlas-bridge.js": "3e9b476aaac3445cb6161f6a60984afe7d64b0afacd424bbf2544ec112b351e9",
+    "index.html": "ad1aea05743e7eb1795ff7068e1da52619bd8482c0e1b3f09faa8616f1de0bbb"
+  },
+  "protectedUnchanged": true
+}

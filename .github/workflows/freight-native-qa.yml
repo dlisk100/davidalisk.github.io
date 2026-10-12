@@ -1,18 +1,12 @@
 name: Freight native browser QA
 on:
   workflow_dispatch:
-  push:
-    branches: [fix/freight-mobile-toolbar]
-    paths: ['mobile-polish-tests/**', '.github/workflows/freight-native-qa.yml', 'site/public/projects/freight-atlas/**', 'site/src/content/projects/freight-atlas.mdx']
-  pull_request:
-    branches: [main]
-    paths: ['mobile-polish-tests/**', '.github/workflows/freight-native-qa.yml', 'site/public/projects/freight-atlas/**', 'site/src/content/projects/freight-atlas.mdx']
 permissions:
   contents: read
 jobs:
-  native:
+  motion-recovery:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 12
     steps:
       - uses: actions/checkout@v6
         with:
@@ -21,8 +15,10 @@ jobs:
       - uses: actions/setup-python@v6
         with:
           python-version: '3.11'
-      - name: Isolated hosted Python transport
+      - name: Media-only accepted runtime identity and offline contracts
         run: |
+          git diff --exit-code 5d772b48024a62f2d08aa4fed8b0b0505de5a125 HEAD -- site/public/projects/freight-atlas site/src/content/projects/freight-atlas.mdx
+          python -m unittest discover -s mobile-polish-tests -p 'test_*.py' -v
           python -m venv "$RUNNER_TEMP/freight-qa-venv"
           "$RUNNER_TEMP/freight-qa-venv/bin/python" -m pip install websockets==15.0.1
           google-chrome --version
@@ -32,54 +28,68 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Build actual Astro article on hosted runner
+      - name: Build unchanged accepted Astro runtime (no full QA rerun)
         working-directory: site
         run: pnpm install --frozen-lockfile && pnpm build
-      - name: Focused production seams
-        run: |
-          node --max-old-space-size=128 --test --test-concurrency=1 mobile-polish-tests/*.test.cjs
-          python -m unittest discover -s mobile-polish-tests -p 'test_*.py' -v
-      - name: Read actual analytics integration and live deployment endpoint
-        run: python mobile-polish-tests/analytics-evidence.py
-      - name: Native built-public-root Chromium acceptance
-        run: '"$RUNNER_TEMP/freight-qa-venv/bin/python" mobile-polish-tests/native-qa.py --root site/dist --out qa-artifacts'
-      # Runs only AFTER all native gates pass. Protected renderer is visually
-      # reviewed in VISUAL-MEDIA-GATE.md; helper rechecks exact built QA hashes.
-      - name: Approved native share media from the same verified build
-        if: success()
+      - name: ONE native media recovery capture
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y ffmpeg
           "$RUNNER_TEMP/freight-qa-venv/bin/python" mobile-polish-tests/share-media.py
-      - name: Retain downloadable bounded share media
+      - name: Preserve every actual raw JPEG on success OR failure
         if: always()
-        uses: actions/upload-artifact@v4
+        run: python mobile-polish-tests/raw_chunks.py
+      - uses: actions/upload-artifact@v4
+        if: always()
         with:
-          name: freight-share-${{ github.sha }}
+          name: freight-motion-${{ github.sha }}
           path: |
-            share-artifacts/freight-atlas-tour.mp4
-            share-artifacts/national-*.png
-            share-artifacts/midwest-threads.png
-            share-artifacts/gulf-energy.png
-            share-artifacts/movement.json
-            share-artifacts/capture-errors.json
-            share-artifacts/contact-sheet.jpg
-            share-artifacts/probe-*.jpg
-            share-artifacts/*-frames.json
-            share-artifacts/media-report.json
-            share-artifacts/actions.json
+            share-artifacts/*.mp4
+            share-artifacts/*.png
+            share-artifacts/*.jpg
+            share-artifacts/*.json
+            share-artifacts/*.concat
+            raw-chunks/raw-hashes.json
+          retention-days: 14
+          compression-level: 0
           if-no-files-found: warn
-          retention-days: 14
-          compression-level: 6
-      - name: Retain bounded UI evidence (never browser profile or environment)
+      - uses: actions/upload-artifact@v4
         if: always()
-        uses: actions/upload-artifact@v4
         with:
-          name: freight-native-${{ github.sha }}
-          path: |
-            qa-artifacts/receipt-*.json
-            qa-artifacts/analytics-evidence.json
-            qa-artifacts/receipt-*.png
-          if-no-files-found: error
+          name: freight-raw-00-${{ github.sha }}
+          path: raw-chunks/part-00.tar
+          compression-level: 0
           retention-days: 14
-          compression-level: 6
+          if-no-files-found: ignore
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: freight-raw-01-${{ github.sha }}
+          path: raw-chunks/part-01.tar
+          compression-level: 0
+          retention-days: 14
+          if-no-files-found: ignore
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: freight-raw-02-${{ github.sha }}
+          path: raw-chunks/part-02.tar
+          compression-level: 0
+          retention-days: 14
+          if-no-files-found: ignore
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: freight-raw-03-${{ github.sha }}
+          path: raw-chunks/part-03.tar
+          compression-level: 0
+          retention-days: 14
+          if-no-files-found: ignore
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: freight-raw-04-${{ github.sha }}
+          path: raw-chunks/part-04.tar
+          compression-level: 0
+          retention-days: 14
+          if-no-files-found: ignore
