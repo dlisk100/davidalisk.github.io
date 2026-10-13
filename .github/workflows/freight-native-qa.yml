@@ -1,6 +1,11 @@
 name: Freight native browser QA
 on:
   workflow_dispatch:
+    inputs:
+      capture_share_media:
+        description: Capture share media only when explicitly requested
+        type: boolean
+        default: false
   push:
     branches: [fix/freight-mobile-toolbar]
     paths: ['mobile-polish-tests/**', '.github/workflows/freight-native-qa.yml', 'site/public/projects/freight-atlas/**', 'site/src/content/projects/freight-atlas.mdx']
@@ -46,13 +51,13 @@ jobs:
       # Runs only AFTER all native gates pass. Protected renderer is visually
       # reviewed in VISUAL-MEDIA-GATE.md; helper rechecks exact built QA hashes.
       - name: Approved native share media from the same verified build
-        if: success()
+        if: success() && inputs.capture_share_media == true
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y ffmpeg
           "$RUNNER_TEMP/freight-qa-venv/bin/python" mobile-polish-tests/share-media.py
       - name: Retain downloadable bounded share media
-        if: always()
+        if: always() && inputs.capture_share_media == true
         uses: actions/upload-artifact@v4
         with:
           name: freight-share-${{ github.sha }}

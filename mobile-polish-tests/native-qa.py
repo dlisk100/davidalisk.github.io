@@ -129,8 +129,16 @@ def main():
             wait("document.getElementById('startup-loading').hidden")
             summaries(label+' collapsed')
             if w<=600:
-                check(label+' one compact row and 44px controls',b.ev("(()=>{const es=[...document.querySelectorAll('#unit button,#atlas-controls>details>summary')],rs=es.map(e=>e.getBoundingClientRect()),t=document.querySelector('#title').getBoundingClientRect();return rs.every(r=>r.height>=44&&r.width>=44&&Math.abs(r.top-rs[0].top)<2&&r.bottom<innerHeight)&&rs[0].top>=t.bottom&&rs[0].top-t.bottom<=8})()"))
-            if index==0: shot('country-390x844')
+                check(label+' one compact row and 44px controls without heading gap',b.ev("(()=>{const es=[...document.querySelectorAll('#unit button,#atlas-controls>details>summary')],rs=es.map(e=>e.getBoundingClientRect()),d=document.querySelector('#atlas-controls').getBoundingClientRect();return rs.every(r=>r.height>=44&&r.width>=44&&Math.abs(r.top-rs[0].top)<2&&r.bottom<innerHeight)&&d.top===16&&rs[0].top>=16&&rs[0].top<=18})()"))
+            check(label+' masthead hidden zero layout and no picking exclusion',b.ev("(()=>{const e=document.querySelector('#title'),r=e.getBoundingClientRect();return e.hidden&&getComputedStyle(e).display==='none'&&r.width===0&&r.height===0&&!AtlasBridge.chromeBounds(document).some(b=>b[0]===r.left-6&&b[1]===r.top-6&&b[2]===r.right+6&&b[3]===r.bottom+6)})()"))
+            dom=b.call('DOM.getDocument')['root']['nodeId']
+            title_node=b.call('DOM.querySelector',nodeId=dom,selector='#title')['nodeId']
+            ax=b.call('Accessibility.getPartialAXTree',nodeId=title_node,fetchRelatives=False)['nodes']
+            check(label+' masthead excluded from accessibility tree',bool(ax) and all(n['ignored'] for n in ax),ax)
+            if index==1: shot('country-393x852')
+            if w>1000:
+                check(label+' legend reclaims header footprint',b.ev("(()=>{const r=document.querySelector('#legend').getBoundingClientRect();return r.top===22&&r.height>0&&document.elementFromPoint(r.left+10,r.top+10)?.closest('#legend')!==null})()"))
+                shot('country-desktop')
             quiet();before=b.ev('APP.camera()');pan_started=time.monotonic()
             if mobile:
                 b.call('Input.dispatchTouchEvent',type='touchStart',touchPoints=[{'x':100,'y':h*.70,'id':0}])
@@ -147,7 +155,7 @@ def main():
             tap('#layers-panel>summary');wait("document.querySelector('#layers-panel').open")
             summaries(label+' layers expanded')
             if w<=600:check(label+' Layers panel below row bounded',b.ev("(()=>{const p=document.querySelector('#layer-controls').getBoundingClientRect(),d=document.querySelector('#atlas-controls').getBoundingClientRect();return p.top>=d.bottom&&p.bottom<=innerHeight&&p.width<=innerWidth-32})()"))
-            if index==0:shot('layers-expanded-390x844')
+            if h==360:shot('layers-expanded-393x360')
             before=b.ev('APP.layers()')
             for layer_index in range(b.ev("document.querySelectorAll('#layer-controls input').length")):
                 selector=f'#layer-controls input:nth-of-type({layer_index+1})'
@@ -163,7 +171,7 @@ def main():
             tap('#atlas-menu>summary');wait("document.querySelector('#atlas-menu').open&&!document.querySelector('#layers-panel').open")
             summaries(label+' explore expanded')
             if w<=600:check(label+' Explore below row bounded',b.ev("(()=>{const p=document.querySelector('.atlas-menu-body').getBoundingClientRect(),d=document.querySelector('#atlas-controls').getBoundingClientRect();return p.top>=d.bottom&&p.bottom<=innerHeight&&!document.querySelector('#layers-panel').open})()"))
-            if index==1:shot('explore-expanded-393x852')
+            # No share media; screenshots are bounded internal layout evidence only.
             query('Anchorage');check(label+' Anchorage rejected',b.ev("document.querySelectorAll('.ae-results button').length===0"))
             query('Honolulu');check(label+' Honolulu rejected',b.ev("document.querySelectorAll('.ae-results button').length===0"))
             query('Albany');wait("!!document.querySelector('.ae-results button')")
@@ -173,6 +181,8 @@ def main():
             wait("APP.selectedPlace()?.name?.includes('Albany')&&!document.querySelector('#atlas-menu').open")
             check(label+' native first result Albany',b.ev('APP.selectedPlace()'))
             summaries(label+' card')
+            if w<=600:
+                check(label+' card flows immediately below compact row',b.ev("(()=>{const c=document.querySelector('#card').getBoundingClientRect(),d=document.querySelector('#atlas-controls').getBoundingClientRect();return c.top===Math.ceil(d.bottom+8)&&c.top<=72})()"))
             if h==360:
                 check('keyboard-height compact inspector actual allowance',layout()['card']['height']>100,layout())
             check(label+' card clearance',b.ev("(()=>{const c=document.querySelector('#card').getBoundingClientRect(),s=document.querySelector('#atlas-controls').getBoundingClientRect();return getComputedStyle(document.querySelector('#card')).visibility==='visible'&&c.height>50&&c.bottom<=innerHeight&&((innerWidth>600)||c.top>=s.bottom)})()"))
@@ -180,10 +190,14 @@ def main():
                 b.ev("document.querySelector('#card .source-note summary').scrollIntoView({block:'center'})")
                 tap('#card .source-note summary');check('native source details',b.ev("document.querySelector('#card .source-note details').open"))
                 # Source disclosure remains native-tested; its first-cycle PNG is retained.
-            if index in [1,2]:shot('albany-card-'+label)
-            if h==393: shot('short-landscape-852x393')
-            if h==480: shot('short-portrait-393x480')
-            if h==360: shot('keyboard-shape-393x360')
+            if h==360:
+                shot('albany-card-393x360')
+                b.call('Emulation.setSafeAreaInsets',insets={'top':32,'left':20,'right':20,'bottom':24})
+                wait("document.querySelector('#atlas-controls').getBoundingClientRect().top===32&&document.querySelector('#card').getBoundingClientRect().top===86")
+                check('keyboard-height real emulated safe area and measured card flow',b.ev("(()=>{const d=document.querySelector('#atlas-controls').getBoundingClientRect(),c=document.querySelector('#card').getBoundingClientRect();return d.left===20&&d.right===innerWidth-20&&c.top===Math.ceil(d.bottom+8)&&c.bottom<=innerHeight-24})()"))
+                for selector in ['#unit button[data-u=t]','#unit button[data-u=usd]','#layers-panel>summary','#atlas-menu>summary']:target(selector)
+                b.call('Emulation.setSafeAreaInsets',insets={'top':0,'left':0,'right':0,'bottom':0})
+                wait("document.querySelector('#atlas-controls').getBoundingClientRect().top===16&&document.querySelector('#card').getBoundingClientRect().top===70")
             # Open/close with selected card; deliberate hiding is tested, never mistaken for accessibility.
             selection_before=b.ev('APP.getView()')
             tap('#layers-panel>summary');summaries(label+' selected layers')
@@ -261,7 +275,7 @@ def main():
             check(label+' native Chicago pan',b.ev('APP.camera()')!=before)
             tap('#unit button[data-u=usd]');check(label+' Chicago USD exact unit',b.ev('APP.getView().unit')=='usd')
             check(label+' Chicago USD source national',b.ev("document.querySelector('#national-headline').textContent.includes('25.0')&&document.querySelector('#national-headline').textContent.includes('2024')"))
-            if index==6:shot('desktop-chicago-1489x900')
+            # Desktop default is the layout evidence; no additional share stills.
             tap('#unit button[data-u=t]');check(label+' Chicago tons exact unit',b.ev('APP.getView().unit')=='t')
             if index==6:
                 for region in ['AK','HI']:
@@ -276,7 +290,7 @@ def main():
             b.call('Page.navigate',url=f'http://127.0.0.1:{server.server_port}/projects/freight-atlas/')
             wait("document.querySelector('h1')?.textContent.includes('Freight')",20)
             check('built article three editorial links rendered',b.ev("['methods','data','about'].every(n=>[...document.querySelectorAll('a')].some(a=>a.href.includes('/map/'+n+'.html')&&a.getBoundingClientRect().height>0))"))
-            shot('built-article-desktop')
+            # Article navigation remains native-tested without redoing its picture.
             check('built article actual Astro analytics injection',b.ev("!!document.querySelector('vercel-analytics')&&[...document.scripts].some(s=>new URL(s.src,location.href).pathname==='/_vercel/insights/script.js'&&s.dataset.sdkn==='@vercel/analytics/astro')"))
             r['analyticsSourceRuntime']={'layout':'site/src/layouts/Layout.astro imports @vercel/analytics/astro and renders Analytics','injectedScript':b.ev("[...document.scripts].filter(s=>s.src.includes('/_vercel/insights/script.js')).map(s=>({src:s.src,dataset:{...s.dataset}}))")};persist()
             for page in ['methods','data','about']:

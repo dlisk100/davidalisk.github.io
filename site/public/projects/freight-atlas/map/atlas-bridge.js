@@ -49,15 +49,15 @@ function controlsBottom(dock){let bottom=dock.getBoundingClientRect().bottom;for
 let chromeMounted=false;
 function compactChrome(){
  if(chromeMounted)return;
- const legend=document.getElementById('legend'),layers=document.getElementById('layers-panel'),title=document.getElementById('title');
- if(!legend||!layers||!title||typeof matchMedia!=='function')return;
+ const legend=document.getElementById('legend'),layers=document.getElementById('layers-panel');
+ if(!legend||!layers||typeof matchMedia!=='function')return;
  chromeMounted=true;const phone=matchMedia('(max-width:600px)');
  const dock=document.getElementById('atlas-controls'),menu=document.getElementById('atlas-menu');
- const measure=()=>{if(!dock)return;const top=title.getBoundingClientRect().bottom+6;document.documentElement.style.setProperty('--atlas-toolbar-top',Math.ceil(top)+'px');document.documentElement.style.setProperty('--atlas-controls-bottom',controlsBottom(dock)+'px');};
+ const measure=()=>{if(!dock)return;document.documentElement.style.setProperty('--atlas-controls-bottom',controlsBottom(dock)+'px');};
  for(const panel of [layers,menu]){if(!panel)continue;panel.addEventListener('toggle',()=>{if(panel.open){const other=panel===layers?menu:layers;if(other)other.open=false;}measure();});panel.addEventListener('keydown',e=>{if(e.key==='Escape'&&panel.open){e.preventDefault();panel.open=false;panel.querySelector('summary').focus();measure();}});}
- if(dock&&typeof ResizeObserver==='function'){const observer=new ResizeObserver(measure);for(const el of [dock,title,...dock.querySelectorAll('.atlas-menu-body,.atlas-layers-body')])observer.observe(el);}
+ if(dock&&typeof ResizeObserver==='function'){const observer=new ResizeObserver(measure);for(const el of [dock,...dock.querySelectorAll('.atlas-menu-body,.atlas-layers-body')])observer.observe(el);}
  window.addEventListener('resize',measure);measure();
- const layout=()=>{if(phone.matches)layers.querySelector('.atlas-layers-body').append(legend);else title.after(legend);};layout();phone.addEventListener('change',layout);
+ const layout=()=>{if(phone.matches)layers.querySelector('.atlas-layers-body').append(legend);else dock?.before(legend);};layout();phone.addEventListener('change',layout);
  const hint=document.getElementById('map-hint'),wrap=document.getElementById('wrap');
  if(!hint||!wrap)return;
  let shown=false,timer;

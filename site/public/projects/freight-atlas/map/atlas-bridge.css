@@ -1,4 +1,5 @@
 /* Map controls: small visual footprint, generous hit areas. */
+#title[hidden]{display:none!important}
 #title .k{letter-spacing:0;text-transform:none;font:600 12px InterA,sans-serif;margin-top:8px}
 #tools button{min-height:40px;min-width:40px;box-sizing:border-box}
 #atlas-menu{position:fixed;right:26px;top:76px;z-index:12;background:var(--paper);border:1px solid var(--ink);font:13px InterA,sans-serif;max-width:350px;box-sizing:border-box}
@@ -6,8 +7,8 @@
 .atlas-menu-body{width:310px;max-width:calc(100vw - 36px);max-height:calc(100dvh - 160px);overflow:auto;padding:6px;box-sizing:border-box;overscroll-behavior:contain}
 #atlas-docs{position:fixed;right:26px;top:120px;display:flex;gap:16px;z-index:8;font:12px InterA,sans-serif;background:rgba(245,239,221,.94);padding:0 8px}
 #atlas-docs a{color:var(--sepia);display:inline-flex;align-items:center;min-height:40px;text-underline-offset:3px}
-#legend{top:144px}
-#layers-panel{position:fixed;left:26px;right:auto;top:264px;z-index:10;background:var(--paper);border:1px solid var(--ink);font:12px InterA,sans-serif;width:210px;max-height:calc(100dvh - 290px);overflow:auto;box-sizing:border-box}
+#legend{top:22px}
+#layers-panel{position:fixed;left:26px;right:auto;top:144px;z-index:10;background:var(--paper);border:1px solid var(--ink);font:12px InterA,sans-serif;width:210px;max-height:calc(100dvh - 170px);overflow:auto;box-sizing:border-box}
 #layers-panel fieldset{max-height:none;margin:0;border:0;padding:4px 10px 10px}
 #layers-panel legend{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
 #layer-controls label{display:flex;align-items:center;gap:10px;min-height:40px;cursor:pointer}
@@ -33,23 +34,23 @@
  #card{left:250px;right:190px;top:170px;bottom:24px;width:auto;max-height:none}
  #atlas-menu[open]~#card{visibility:hidden}
 }
-/* One compact row below the measured masthead; only expanded bodies occupy map space. */
+/* One compact row at the safe top edge; only expanded bodies occupy map space. */
 #atlas-controls{display:contents}
 #atlas-controls>#tools{pointer-events:auto}
 @media(max-width:600px){
  #title{padding:6px 10px;top:max(16px,env(safe-area-inset-top));left:max(16px,env(safe-area-inset-left));right:max(16px,env(safe-area-inset-right))}
  #title .t{font-size:20px}#title .s{font-size:12px;margin-top:2px}#title .k{font-size:11px;margin-top:5px}
- #atlas-controls{display:flex;flex-direction:row;align-items:center;gap:8px;position:fixed;left:max(16px,env(safe-area-inset-left));right:max(16px,env(safe-area-inset-right));top:var(--atlas-toolbar-top,102px);z-index:10;pointer-events:none}
+ #atlas-controls{display:flex;flex-direction:row;align-items:center;gap:8px;position:fixed;left:max(16px,env(safe-area-inset-left));right:max(16px,env(safe-area-inset-right));top:max(16px,env(safe-area-inset-top));z-index:10;pointer-events:none}
  #atlas-controls>#tools{position:static;pointer-events:auto;gap:0;margin:0;flex:0 0 auto}
  #tools #unit{margin-right:0}#tools button{min-height:44px;min-width:44px;padding:4px 9px}
  #atlas-controls>#layers-panel,#atlas-controls>#atlas-menu{position:static;pointer-events:auto;margin:0;width:auto;max-width:none;max-height:none;overflow:visible;background:var(--paper);flex:0 0 auto}
  #atlas-controls summary{min-height:44px;line-height:44px;padding:0 10px;box-sizing:border-box;white-space:nowrap}
- #atlas-controls .atlas-menu-body,#layers-panel>.atlas-layers-body{position:absolute;left:0;right:0;top:100%;margin-top:6px;width:100%;max-width:none;max-height:calc(100dvh - var(--atlas-toolbar-top,102px) - 60px - env(safe-area-inset-bottom));overflow:auto;overscroll-behavior:contain;background:var(--paper);border:1px solid var(--ink);box-sizing:border-box}
+ #atlas-controls .atlas-menu-body,#layers-panel>.atlas-layers-body{position:absolute;left:0;right:0;top:100%;margin-top:6px;width:100%;max-width:none;max-height:calc(100dvh - max(16px,env(safe-area-inset-top)) - 60px - env(safe-area-inset-bottom));overflow:auto;overscroll-behavior:contain;background:var(--paper);border:1px solid var(--ink);box-sizing:border-box}
  #layers-panel>.atlas-layers-body{padding:4px 10px 10px}
- #layer-controls{max-height:calc(100dvh - var(--atlas-toolbar-top,102px) - 160px - env(safe-area-inset-bottom))!important;overflow:auto;overscroll-behavior:contain}
+ #layer-controls{max-height:calc(100dvh - max(16px,env(safe-area-inset-top)) - 160px - env(safe-area-inset-bottom))!important;overflow:auto;overscroll-behavior:contain}
  #layer-controls label{min-height:44px}
  #legend{display:none}#layers-panel #legend{display:block;position:static;font-size:11px;line-height:1.5;border:0;border-top:1px solid #b9aa8f;padding:8px 0;margin:0}
- #card{top:var(--atlas-controls-bottom,154px);bottom:auto!important;max-height:calc(100dvh - var(--atlas-controls-bottom,154px) - 76px - env(safe-area-inset-bottom));width:auto}
+ #card{top:var(--atlas-controls-bottom,calc(max(16px,env(safe-area-inset-top)) + 54px));bottom:auto!important;max-height:calc(100dvh - var(--atlas-controls-bottom,calc(max(16px,env(safe-area-inset-top)) + 54px)) - 76px - env(safe-area-inset-bottom));width:auto}
  #atlas-controls:has(#atlas-menu[open])~#card{visibility:hidden}
  #atlas-controls:has(#layers-panel[open])~#card{visibility:hidden}
  #atlas-link-status{left:16px;right:16px;top:auto;bottom:18px;max-width:none}
