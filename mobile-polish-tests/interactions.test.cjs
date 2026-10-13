@@ -5,18 +5,18 @@ class Element extends EventTarget{constructor(tag,doc){super();this.tagName=tag;
 const tick=()=>new Promise(r=>setImmediate(r));
 for(const width of [390,393,430,852])test(`production disclosure toggle/Escape/focus and clearance at ${width}px boundary`,()=>{
  const document={addEventListener(){},createElement(tag){return new Element(tag,this);},documentElement:{style:{setProperty(k,v){this[k]=v;}}}};
- const nodes=Object.fromEntries(['legend','layers-panel','title','atlas-controls','atlas-menu'].map(k=>[k,new Element('div',document)]));
- document.getElementById=id=>nodes[id];nodes.title.after=()=>{};nodes.title.getBoundingClientRect=()=>({bottom:96});
+ const nodes=Object.fromEntries(['legend','layers-panel','atlas-controls','atlas-menu'].map(k=>[k,new Element('div',document)]));
+ document.getElementById=id=>nodes[id];nodes['atlas-controls'].before=legend=>assert.equal(legend,nodes.legend);
  const field=new Element('fieldset',document);nodes['layers-panel'].querySelector=s=>s==='.atlas-layers-body'?field:nodes['layers-panel'].summary;
  for(const el of Object.values(nodes))el.querySelectorAll=()=>[];nodes['atlas-controls'].querySelectorAll=s=>s==='details'?[nodes['layers-panel'],nodes['atlas-menu']]:[field];
  field.getBoundingClientRect=()=>({bottom:300});nodes['layers-panel'].querySelectorAll=()=>[field];
  for(const id of ['layers-panel','atlas-menu'])nodes[id].summary=new Element('summary',document);
- let resized;nodes['atlas-controls'].getBoundingClientRect=()=>({bottom:width===852?180:250});
+ let resized;nodes['atlas-controls'].getBoundingClientRect=()=>({bottom:width===852?180:62});
  const bridge=moduleOf('atlas-bridge.js',{document,window:{addEventListener(){}},matchMedia:()=>({matches:width<=600,addEventListener(){}}),ResizeObserver:class{constructor(cb){resized=cb;}observe(){}}});
  bridge.compactChrome();const layers=nodes['layers-panel'],menu=nodes['atlas-menu'];
  layers.open=true;menu.open=true;layers.dispatchEvent(new Event('toggle'));assert.equal(menu.open,false);assert.equal(layers.open,true);assert.equal(document.documentElement.style['--atlas-controls-bottom'],'308px');
  const esc=new Event('keydown',{cancelable:true});esc.key='Escape';layers.dispatchEvent(esc);assert.equal(layers.open,false);assert.equal(document.activeElement,layers.summary);assert.equal(esc.defaultPrevented,true);
- menu.open=true;menu.dispatchEvent(new Event('toggle'));assert.equal(layers.open,false);menu.open=false;menu.dispatchEvent(new Event('toggle'));resized();assert.equal(document.documentElement.style['--atlas-controls-bottom'],width===852?'188px':'258px');
+ menu.open=true;menu.dispatchEvent(new Event('toggle'));assert.equal(layers.open,false);menu.open=false;menu.dispatchEvent(new Event('toggle'));resized();assert.equal(document.documentElement.style['--atlas-controls-bottom'],width===852?'188px':'70px');
 });
 test('production selection rejects retained AK/HI source IDs and keeps lower48 anchors',()=>{
  const zlib=require('node:zlib'),window={};vm.runInNewContext(zlib.gunzipSync(fs.readFileSync(path.join(base,'core.js.gz'))).toString(),{window});const PZ=JSON.parse(zlib.gunzipSync(fs.readFileSync(path.join(base,'plate.json.gz'))));
