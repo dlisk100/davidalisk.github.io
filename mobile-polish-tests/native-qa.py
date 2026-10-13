@@ -137,7 +137,7 @@ def main():
             check(label+' masthead excluded from accessibility tree',bool(ax) and all(n['ignored'] for n in ax),ax)
             if index==1: shot('country-393x852')
             if w>1000:
-                check(label+' legend reclaims header footprint',b.ev("(()=>{const r=document.querySelector('#legend').getBoundingClientRect();return r.top===22&&r.height>0&&document.elementFromPoint(r.left+10,r.top+10)?.closest('#legend')!==null})()"))
+                check(label+' legend reclaims header footprint',b.ev("(()=>{const r=document.querySelector('#legend').getBoundingClientRect();return r.top===22&&r.height>0&&!!document.elementFromPoint(r.left+10,r.top+10)?.closest('#legend')})()"))
                 shot('country-desktop')
             quiet();before=b.ev('APP.camera()');pan_started=time.monotonic()
             if mobile:
@@ -192,11 +192,11 @@ def main():
                 # Source disclosure remains native-tested; its first-cycle PNG is retained.
             if h==360:
                 shot('albany-card-393x360')
-                b.call('Emulation.setSafeAreaInsets',insets={'top':32,'left':20,'right':20,'bottom':24})
+                b.call('Emulation.setSafeAreaInsetsOverride',insets={'top':32,'left':20,'right':20,'bottom':24})
                 wait("document.querySelector('#atlas-controls').getBoundingClientRect().top===32&&document.querySelector('#card').getBoundingClientRect().top===86")
                 check('keyboard-height real emulated safe area and measured card flow',b.ev("(()=>{const d=document.querySelector('#atlas-controls').getBoundingClientRect(),c=document.querySelector('#card').getBoundingClientRect();return d.left===20&&d.right===innerWidth-20&&c.top===Math.ceil(d.bottom+8)&&c.bottom<=innerHeight-24})()"))
                 for selector in ['#unit button[data-u=t]','#unit button[data-u=usd]','#layers-panel>summary','#atlas-menu>summary']:target(selector)
-                b.call('Emulation.setSafeAreaInsets',insets={'top':0,'left':0,'right':0,'bottom':0})
+                b.call('Emulation.setSafeAreaInsetsOverride',insets={'top':0,'left':0,'right':0,'bottom':0})
                 wait("document.querySelector('#atlas-controls').getBoundingClientRect().top===16&&document.querySelector('#card').getBoundingClientRect().top===70")
             # Open/close with selected card; deliberate hiding is tested, never mistaken for accessibility.
             selection_before=b.ev('APP.getView()')
