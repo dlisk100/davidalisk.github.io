@@ -1,0 +1,194 @@
+{
+"title": "The water story of the West",
+"intro": "An eleven-stop guided tour: where the water comes from, how it’s captured and moved, who uses it, and where things stand. Inspired by Marc Reisner’s Cadillac Desert (1986); the text is our own and the numbers come from the atlas’s sources.",
+"stops": [
+{
+"id": "snow",
+"title": "It starts as snow",
+"camera": [
+-112.5,
+38.6,
+1.15
+],
+"layers": {
+"snowcover": true,
+"watersheds": false
+},
+"text": "Almost all of the West’s usable water falls as winter snow on a few mountain ranges: the Rockies for the Colorado and Rio Grande, and the Sierra Nevada for California. The white is the snow on April 1 in a typical year. It swings hard: NOAA’s snow model put the Upper Colorado’s April 1 snow water at about 261% of typical in the heavy year 2023 and 52% in the low year 2015. Spring melt fills the rivers."
+},
+{
+"id": "divide",
+"title": "Where each drop ends up",
+"camera": [
+-112.5,
+38.6,
+1.15
+],
+"layers": {
+"snowcover": false,
+"watersheds": true
+},
+"text": "The colours show where each river’s water ends up: the Pacific, the Gulf of California, the Gulf of Mexico, or nowhere at all, in the Great Basin, where rivers end in salt lakes and dry sinks. The dashed line is the Continental Divide."
+},
+{
+"id": "colorado",
+"title": "One river for seven states",
+"camera": [
+-111.2,
+37.2,
+1.6
+],
+"select": "colorado-river",
+"text": "The Colorado drains parts of seven states and Mexico. By law it is split between the Upper Basin (Colorado, Utah, Wyoming, New Mexico) and the Lower Basin (Arizona, California, Nevada). In 2025 Lower Basin users consumed 5,755,086 acre-feet of it."
+},
+{
+"id": "mead",
+"title": "Hoover Dam and the big reservoirs",
+"camera": [
+-114.4,
+36.2,
+4.5
+],
+"select": "lake-mead",
+"text": "Hoover Dam (1936) and Glen Canyon Dam (1966) turned the river into two giant storage tanks. On their latest readings Lake Mead was about 26% full (Oct 12, 2026) and Lake Powell about 22% full (Oct 12, 2026)."
+},
+{
+"id": "la",
+"title": "Los Angeles reaches north",
+"camera": [
+-118.3,
+35.6,
+2.6
+],
+"select": "los-angeles-aqueduct",
+"text": "In 1913 Los Angeles opened an aqueduct that carries the Owens River south across the Mojave by gravity. The Owens Valley dried out, and Owens Lake became a dust bed. That fight is the opening chapter of the West’s water wars."
+},
+{
+"id": "hetchy",
+"title": "San Francisco floods a valley",
+"camera": [
+-120.9,
+37.7,
+3.2
+],
+"select": "hetch-hetchy-reservoir",
+"text": "San Francisco dammed the Hetch Hetchy Valley inside Yosemite after a national fight that John Muir lost in 1913. The water runs through tunnels and pipelines across the Central Valley to the Bay Area. The reservoir holds 360,000 acre-feet and held 275,490 on Oct 14, 2026."
+},
+{
+"id": "valley",
+"title": "Moving the north to the south",
+"camera": [
+-120.4,
+37.0,
+1.9
+],
+"select": "california-aqueduct-swp",
+"text": "Most of California’s rain and snow falls in the north, but most of its farms and people are in the south. The federal Central Valley Project and the State Water Project pump water out of the Delta and send it hundreds of miles down the valley and over the Tehachapi Mountains."
+},
+{
+"id": "imperial",
+"title": "Desert farms take the biggest share",
+"camera": [
+-115.5,
+33.0,
+4
+],
+"select": "imperial-irrigation-district",
+"text": "The Imperial Irrigation District is the largest single user of Colorado River water: 2,187,165 acre-feet in 2025, delivered through the All-American Canal. Alfalfa is a major crop here. Farmers apply about 3.6 acre-feet of water per acre of alfalfa in California and 5.2 in Arizona (USDA, 2023)."
+},
+{
+"id": "cap",
+"title": "Lifting the river to Phoenix and Tucson",
+"camera": [
+-112.6,
+33.7,
+2.4
+],
+"select": "central-arizona-project",
+"text": "The Central Arizona Project pumps Colorado River water uphill from Lake Havasu, 336 miles to Phoenix and Tucson. Along the way 14 pumping plants lift it nearly 3,000 feet. Arizona agreed to junior rights to get it built, so it is the first to be cut in a shortage."
+},
+{
+"id": "vegas",
+"title": "Las Vegas drinks from the bottom of Mead",
+"camera": [
+-114.75,
+36.1,
+6
+],
+"select": "las-vegas",
+"text": "Nearly all of Las Vegas’s water comes from Lake Mead. As the lake dropped, the Southern Nevada Water Authority built a deeper intake (2015) and a low-lake-level pumping station (2020) so it can keep drawing water even at very low levels. It also returns treated wastewater to the lake for credit."
+},
+{
+"id": "now",
+"title": "Where things stand",
+"camera": [
+-116.5,
+35.6,
+1.25
+],
+"layers": {
+"groundwater": true,
+"tribal": true
+},
+"text": "The river is over-promised: it was divided up in 1922, after unusually wet years. Shortage cuts now fall first on Arizona. California has 21 groundwater basins the state lists as critically overdrafted, where wells are pulling the water table down. Tribes hold some of the oldest rights on the river, and settlements are still being negotiated."
+}
+],
+"numbers": [
+{
+"value": 2187165,
+"source": "lc-users.json users[Imperial Irrigation District].consumptiveUseAF (CY2025)"
+},
+{
+"value": 5755086,
+"source": "lc-users.json lowerBasinTotalAF (CY2025)"
+},
+{
+"value": 5.2,
+"source": "crops/economics.json water.byState.AZ.alfalfa (NASS IWMS 2023)"
+},
+{
+"value": 3.6,
+"source": "crops/economics.json water.byState.CA.alfalfa (NASS IWMS 2023)"
+},
+{
+"value": 336,
+"source": "cap-story.json facts[CAP aqueduct length] (CAP 2023 overview p.3)"
+},
+{
+"value": 14,
+"source": "cap-story.json facts[Main conveyance pumping plants]"
+},
+{
+"value": 3000,
+"source": "cap-story.json facts[CAP lift across the system] (\"nearly\")"
+},
+{
+"value": 360000,
+"source": "overview.json hetch-hetchy-reservoir.capacity (CDEC)"
+},
+{
+"value": 275490.0,
+"source": "history/hetch-hetchy-reservoir.json last row (CDEC HTH)"
+},
+{
+"value": 21,
+"source": "overview.json groundwater entities (DWR critically overdrafted basins)"
+},
+{
+"value": 26,
+"source": "overview.json lake-mead latest storage ÷ capacity (computed share, both values from the atlas)"
+},
+{
+"value": 22,
+"source": "overview.json lake-powell latest storage ÷ capacity (computed share)"
+},
+{
+"value": 261,
+"source": "snow.json Upper Colorado April 1 2023 ÷ 2004–2026 median (NOAA SNODAS model; computed by atlas)"
+},
+{
+"value": 52,
+"source": "snow.json Upper Colorado April 1 2015 ÷ 2004–2026 median (NOAA SNODAS model; computed by atlas)"
+}
+]
+}

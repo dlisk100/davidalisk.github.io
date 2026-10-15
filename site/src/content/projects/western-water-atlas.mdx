@@ -1,0 +1,37 @@
+---
+title: "The Western Water Atlas"
+summary: "An interactive map of where the American West's water comes from, how it is moved, and who uses it, built from public agency data."
+tags: ["Data Visualization", "Water", "Maps"]
+updated: "2026-10-15"
+image: "/projects/western-water-atlas/og.png"
+---
+
+<p class="not-prose"><a href="/projects/western-water-atlas/map/" class="inline-block border border-fg px-5 py-3 font-sans text-sm font-semibold no-underline hover:bg-fg hover:text-bg transition-colors">Open the map →</a></p>
+
+[Methods](/projects/western-water-atlas/map/methods.html) · [Data](/projects/western-water-atlas/map/data.html) · [About](/projects/western-water-atlas/map/about.html)
+
+<a href="/projects/western-water-atlas/map/"><img src="/projects/western-water-atlas/hero.png" alt="The Western Water Atlas: rivers, reservoirs and aqueducts of the Colorado River basin and California on a pastel relief map" width="1600" height="1000" /></a>
+
+The Western Water Atlas is one map of the West's water: the mountain snow it starts as, the rivers and reservoirs that catch it, the aqueducts and pumps that move it hundreds of miles, and the cities, farms and tribes that use it. Tap a city to see where its tap water comes from. Tap a reservoir to see how full it is today and how its storage has changed since 1990.
+
+## Why I built it
+
+I read *Cadillac Desert* and wanted to see it. Phoenix, Las Vegas, Los Angeles and the Central Valley all run on water from somewhere else, moved by a few dams, canals and pumping plants. That system is easy to describe and hard to picture. I wanted one map where the whole thing is visible at once and every piece explains itself when you tap it.
+
+## What's on the map
+
+- **Snow.** Typical, low and heavy snow years, with 71 measured snow gauges.
+- **Rivers, reservoirs and aqueducts.** Real river and shoreline geometry, the Colorado River Aqueduct, the Central Arizona Project, the California Aqueduct, Hetch Hetchy and more, each one connected to its source.
+- **Who uses it.** Colorado River users by state and tribe, California project deliveries, crops on irrigated land, and overdrafted groundwater basins.
+- **Cities.** Where about 100 western cities get their tap water, from each utility's own report.
+- **A guided tour.** Eleven stops from snow to tap.
+
+## Rules the map follows
+
+- Every number is copied from a named source and dated. Missing values stay missing.
+- Anything drawn as a short connector, rather than real geometry, is dotted and explained.
+- Model estimates, like the snow layer's basin totals, say so on the card.
+
+## How it was built
+
+I built this with AI coding agents. My role was product owner and reviewer: setting the rules, checking every milestone in a real browser on desktop and phone, and sending back versions that were accurate but hard to read. Sources, dates and coverage notes are on the [Data](/projects/western-water-atlas/map/data.html) page.

@@ -1,0 +1,14 @@
+// M7 CAP lift & tunnel story (lazy; loaded only when the Central Arizona Project card opens).
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const n=v=>Number(v).toLocaleString('en-US');
+export async function loadCapStory(){const r=await fetch('data/cap-story.json');if(!r.ok)throw Error('cap-story');return r.json()}
+const fact=(s,t)=>s.facts.find(f=>f.text===t);
+const src=(s,id,label='Source ↗')=>s.sources[id]?`<a href="${esc(s.sources[id].url)}" target="_blank" rel="noopener">${label}</a>`:'';
+export function capStory(s){const len=fact(s,'CAP aqueduct length'),lift=fact(s,'CAP lift across the system'),plants=fact(s,'Main conveyance pumping plants'),tun=fact(s,'System tunnels'),sip=fact(s,'System siphons'),bk=fact(s,'Buckskin Mountains Tunnel length'),bd=fact(s,'Buckskin Mountains Tunnel inside diameter'),bm=fact(s,'Burnt Mountain Tunnel length');
+const lifted=s.plants.filter(p=>p.liftFt!=null).sort((a,b)=>a.order-b.order);
+return `<section class="cap-story" data-cap-ready><p class="eyebrow">How the water climbs</p>
+<p>The Central Arizona Project takes Colorado River water out of Lake Havasu and carries it ${n(len.value)} miles to Phoenix and Tucson. The route runs uphill, so ${n(plants.value)} pumping plants lift the water nearly ${n(lift.value)} feet in total along the way. ${src(s,lift.sourceId)}</p>
+<p>The first lift is the biggest. Mark Wilmer Pumping Plant raises the water about 810 ft out of Lake Havasu ${src(s,'cap-storymap','(CAP Story Map ↗)')} into the ${bk.value} miles Buckskin Mountains Tunnel, ${bd.value} ft across, bored through the mountains to the desert side. ${src(s,bk.sourceId)}</p>
+<figure class="cap-profile"><a href="${esc(s.chart.png)}" target="_blank" rel="noopener" aria-label="Open full-size CAP elevation profile"><img src="${esc(s.chart.png)}" alt="CAP elevation profile from Lake Havasu at about 450 ft to Tucson above 2,000 ft, with pumping plants marked as steps" loading="lazy" width="${s.chart.width}" height="${s.chart.height}"></a><figcaption>${esc(s.chart.caption)} Schematic chart, not a surveyed water-surface profile. ${src(s,s.chart.sourceId,'CAP ↗')}</figcaption></figure>
+<p class="date">CAP counts ${tun.value} tunnels and ${sip.value} siphons on the aqueduct. On the map, dashed lines are underground reaches; Burnt Mountain Tunnel is ${bm.value} miles. ${src(s,tun.sourceId)}</p>
+<details><summary>Published lifts by plant</summary><ul class="cap-lifts">${lifted.map(p=>`<li><b>${esc(p.name)}</b> ${n(p.liftFt)} ft${/Black Mountain/.test(p.name)?' (maximum)':''} ${src(s,p.liftSource.sourceId,'↗')}</li>`).join('')}</ul><p class="date">Lifts come from different CAP and Reclamation publications and are not added together here. Plants not listed have no published lift in the retained sources. Plant markers use OpenStreetMap locations.</p></details></section>`}

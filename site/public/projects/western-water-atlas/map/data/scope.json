@@ -1,0 +1,495 @@
+{
+ "source": {
+  "places": "US Census Bureau 2025 Gazetteer places (internal points)",
+  "note": "“why” lines are short editorial context; numbers are in each city’s sourced card."
+ },
+ "default": "focus",
+ "modes": {
+  "focus": {
+   "label": "Focus",
+   "description": "Colorado River, California, Upper Basin & Utah",
+   "bounds": [
+    -122.5,
+    31.0,
+    -104.5,
+    42.5
+   ],
+   "towns": [
+    {
+     "name": "St. George",
+     "state": "UT",
+     "geoid": "4965330",
+     "anchor": [
+      -113.576534,
+      37.077006
+     ],
+     "population": 95342,
+     "populationYear": 2020,
+     "why": "One of the fastest-growing U.S. metros, on the Virgin River, a Colorado tributary."
+    },
+    {
+     "name": "Moab",
+     "state": "UT",
+     "geoid": "4950700",
+     "anchor": [
+      -109.547811,
+      38.570083
+     ],
+     "population": 5366,
+     "populationYear": 2020,
+     "why": "Gateway to Arches and Canyonlands, on the Colorado River."
+    },
+    {
+     "name": "Pahrump",
+     "state": "NV",
+     "geoid": "3253800",
+     "anchor": [
+      -115.996744,
+      36.224045
+     ],
+     "population": 44738,
+     "populationYear": 2020,
+     "why": "Las Vegas’s neighbour over the mountains, which runs on groundwater, not the Colorado."
+    },
+    {
+     "name": "Mesquite",
+     "state": "NV",
+     "geoid": "3246000",
+     "anchor": [
+      -114.125652,
+      36.81112
+     ],
+     "population": 20471,
+     "populationYear": 2020,
+     "why": "Virgin River farm town turned retirement and resort city."
+    },
+    {
+     "name": "Cedar City",
+     "state": "UT",
+     "geoid": "4911320",
+     "anchor": [
+      -113.095566,
+      37.683847
+     ],
+     "population": 35235,
+     "populationYear": 2020,
+     "why": "Fast-growing southern Utah city on a closed groundwater basin."
+    },
+    {
+     "name": "Page",
+     "state": "AZ",
+     "geoid": "0451810",
+     "anchor": [
+      -111.513283,
+      36.941815
+     ],
+     "population": 7440,
+     "populationYear": 2020,
+     "why": "Built in 1957 to house the workers building Glen Canyon Dam."
+    },
+    {
+     "name": "Grand Junction",
+     "state": "CO",
+     "geoid": "0831660",
+     "anchor": [
+      -108.567452,
+      39.089062
+     ],
+     "population": 65560,
+     "populationYear": 2020,
+     "why": "Where the Gunnison meets the Colorado, at the centre of the Grand Valley’s irrigated orchards."
+    },
+    {
+     "name": "Steamboat Springs",
+     "state": "CO",
+     "geoid": "0873825",
+     "anchor": [
+      -106.822919,
+      40.475578
+     ],
+     "population": 13224,
+     "populationYear": 2020,
+     "why": "Yampa River ski town, a Colorado River tributary in the Upper Basin."
+    },
+    {
+     "name": "Provo",
+     "state": "UT",
+     "geoid": "4962470",
+     "anchor": [
+      -111.645057,
+      40.245312
+     ],
+     "population": 115162,
+     "populationYear": 2020,
+     "why": "Utah Valley city fed partly by Colorado River water carried by the Central Utah Project."
+    },
+    {
+     "name": "Yuma",
+     "state": "AZ",
+     "geoid": "0485540",
+     "anchor": [
+      -114.521782,
+      32.516286
+     ],
+     "population": 95548,
+     "populationYear": 2020,
+     "why": "The heart of the U.S. winter-vegetable harvest, irrigated from the Colorado."
+    },
+    {
+     "name": "El Centro",
+     "state": "CA",
+     "geoid": "0621782",
+     "anchor": [
+      -115.560206,
+      32.786351
+     ],
+     "population": 44322,
+     "populationYear": 2020,
+     "why": "Imperial Valley’s county seat, fed by the All-American Canal."
+    }
+   ]
+  },
+  "wider": {
+   "label": "Wider West",
+   "description": "Adds San Francisco, Denver, Salt Lake City and other western cities",
+   "bounds": [
+    -124.8,
+    29.5,
+    -102.0,
+    45.5
+   ],
+   "towns": [
+    {
+     "name": "St. George",
+     "state": "UT",
+     "geoid": "4965330",
+     "anchor": [
+      -113.576534,
+      37.077006
+     ],
+     "population": 95342,
+     "populationYear": 2020,
+     "why": "One of the fastest-growing U.S. metros, on the Virgin River, a Colorado tributary."
+    },
+    {
+     "name": "Moab",
+     "state": "UT",
+     "geoid": "4950700",
+     "anchor": [
+      -109.547811,
+      38.570083
+     ],
+     "population": 5366,
+     "populationYear": 2020,
+     "why": "Gateway to Arches and Canyonlands, on the Colorado River."
+    },
+    {
+     "name": "Pahrump",
+     "state": "NV",
+     "geoid": "3253800",
+     "anchor": [
+      -115.996744,
+      36.224045
+     ],
+     "population": 44738,
+     "populationYear": 2020,
+     "why": "Las Vegas’s neighbour over the mountains, which runs on groundwater, not the Colorado."
+    },
+    {
+     "name": "Mesquite",
+     "state": "NV",
+     "geoid": "3246000",
+     "anchor": [
+      -114.125652,
+      36.81112
+     ],
+     "population": 20471,
+     "populationYear": 2020,
+     "why": "Virgin River farm town turned retirement and resort city."
+    },
+    {
+     "name": "Cedar City",
+     "state": "UT",
+     "geoid": "4911320",
+     "anchor": [
+      -113.095566,
+      37.683847
+     ],
+     "population": 35235,
+     "populationYear": 2020,
+     "why": "Fast-growing southern Utah city on a closed groundwater basin."
+    },
+    {
+     "name": "Page",
+     "state": "AZ",
+     "geoid": "0451810",
+     "anchor": [
+      -111.513283,
+      36.941815
+     ],
+     "population": 7440,
+     "populationYear": 2020,
+     "why": "Built in 1957 to house the workers building Glen Canyon Dam."
+    },
+    {
+     "name": "Grand Junction",
+     "state": "CO",
+     "geoid": "0831660",
+     "anchor": [
+      -108.567452,
+      39.089062
+     ],
+     "population": 65560,
+     "populationYear": 2020,
+     "why": "Where the Gunnison meets the Colorado, at the centre of the Grand Valley’s irrigated orchards."
+    },
+    {
+     "name": "Steamboat Springs",
+     "state": "CO",
+     "geoid": "0873825",
+     "anchor": [
+      -106.822919,
+      40.475578
+     ],
+     "population": 13224,
+     "populationYear": 2020,
+     "why": "Yampa River ski town, a Colorado River tributary in the Upper Basin."
+    },
+    {
+     "name": "Provo",
+     "state": "UT",
+     "geoid": "4962470",
+     "anchor": [
+      -111.645057,
+      40.245312
+     ],
+     "population": 115162,
+     "populationYear": 2020,
+     "why": "Utah Valley city fed partly by Colorado River water carried by the Central Utah Project."
+    },
+    {
+     "name": "Yuma",
+     "state": "AZ",
+     "geoid": "0485540",
+     "anchor": [
+      -114.521782,
+      32.516286
+     ],
+     "population": 95548,
+     "populationYear": 2020,
+     "why": "The heart of the U.S. winter-vegetable harvest, irrigated from the Colorado."
+    },
+    {
+     "name": "El Centro",
+     "state": "CA",
+     "geoid": "0621782",
+     "anchor": [
+      -115.560206,
+      32.786351
+     ],
+     "population": 44322,
+     "populationYear": 2020,
+     "why": "Imperial Valley’s county seat, fed by the All-American Canal."
+    },
+    {
+     "name": "San Francisco",
+     "state": "CA",
+     "geoid": "0667000",
+     "anchor": [
+      -122.40752,
+      37.78794
+     ],
+     "population": 873965,
+     "populationYear": 2020,
+     "why": "Gets most of its water from the Tuolumne River via Hetch Hetchy, not the Colorado.",
+     "labelAnchor": null,
+     "censusAnchor": [
+      -123.032229,
+      37.727239
+     ],
+     "anchorSource": "OpenStreetMap city node via Nominatim (Census internal point is offshore: the city boundary includes the Farallon Islands)"
+    },
+    {
+     "name": "Salt Lake City",
+     "state": "UT",
+     "geoid": "4967000",
+     "anchor": [
+      -111.930991,
+      40.776928
+     ],
+     "population": 199723,
+     "populationYear": 2020,
+     "why": "Wasatch Front capital, fed mainly by mountain streams and the Provo River system."
+    },
+    {
+     "name": "Denver",
+     "state": "CO",
+     "geoid": "0820000",
+     "anchor": [
+      -104.881105,
+      39.76185
+     ],
+     "population": 715522,
+     "populationYear": 2020,
+     "why": "East of the Continental Divide, but part of its water is tunnelled from the Colorado headwaters."
+    },
+    {
+     "name": "Sacramento",
+     "state": "CA",
+     "geoid": "0664000",
+     "anchor": [
+      -121.468161,
+      38.567694
+     ],
+     "population": 524943,
+     "populationYear": 2020,
+     "why": "At the confluence of the Sacramento and American rivers."
+    },
+    {
+     "name": "San Jose",
+     "state": "CA",
+     "geoid": "0668000",
+     "anchor": [
+      -121.814552,
+      37.296011
+     ],
+     "population": 1013240,
+     "populationYear": 2020,
+     "why": "Santa Clara Valley city mixing local reservoirs, groundwater and imported water."
+    },
+    {
+     "name": "Oakland",
+     "state": "CA",
+     "geoid": "0653000",
+     "anchor": [
+      -122.22569,
+      37.769846
+     ],
+     "population": 440646,
+     "populationYear": 2020,
+     "why": "East Bay city supplied from the Mokelumne River by EBMUD."
+    },
+    {
+     "name": "Fresno",
+     "state": "CA",
+     "geoid": "0627000",
+     "anchor": [
+      -119.793359,
+      36.782684
+     ],
+     "population": 542107,
+     "populationYear": 2020,
+     "why": "San Joaquin Valley city that shifted from groundwater toward river water."
+    },
+    {
+     "name": "Albuquerque",
+     "state": "NM",
+     "geoid": "3502000",
+     "anchor": [
+      -106.646809,
+      35.10478
+     ],
+     "population": 564559,
+     "populationYear": 2020,
+     "why": "Rio Grande city that also draws Colorado River water through the San Juan–Chama Project."
+    },
+    {
+     "name": "Santa Fe",
+     "state": "NM",
+     "geoid": "3570500",
+     "anchor": [
+      -105.981815,
+      35.661981
+     ],
+     "population": 87505,
+     "populationYear": 2020,
+     "why": "New Mexico’s capital, also a San Juan–Chama Project user."
+    },
+    {
+     "name": "El Paso",
+     "state": "TX",
+     "geoid": "4824000",
+     "anchor": [
+      -106.431106,
+      31.84778
+     ],
+     "population": 678815,
+     "populationYear": 2020,
+     "why": "Desert city on the Rio Grande known for desalinating brackish groundwater."
+    },
+    {
+     "name": "Colorado Springs",
+     "state": "CO",
+     "geoid": "0816000",
+     "anchor": [
+      -104.760749,
+      38.867255
+     ],
+     "population": 478961,
+     "populationYear": 2020,
+     "why": "Front Range city pumping Colorado headwaters water across the Divide."
+    },
+    {
+     "name": "Fort Collins",
+     "state": "CO",
+     "geoid": "0827425",
+     "anchor": [
+      -105.064833,
+      40.548216
+     ],
+     "population": 169810,
+     "populationYear": 2020,
+     "why": "On the Cache la Poudre, fed in part by the Colorado–Big Thompson Project."
+    },
+    {
+     "name": "Cheyenne",
+     "state": "WY",
+     "geoid": "5613900",
+     "anchor": [
+      -104.799155,
+      41.128275
+     ],
+     "population": 65132,
+     "populationYear": 2020,
+     "why": "Wyoming’s capital, which imports water across the Divide from the Little Snake basin."
+    },
+    {
+     "name": "Ogden",
+     "state": "UT",
+     "geoid": "4955980",
+     "anchor": [
+      -111.968147,
+      41.228391
+     ],
+     "population": 87321,
+     "populationYear": 2020,
+     "why": "Weber River city on the Wasatch Front."
+    },
+    {
+     "name": "Boise",
+     "state": "ID",
+     "geoid": "1608830",
+     "anchor": [
+      -116.231596,
+      43.59805
+     ],
+     "population": 235684,
+     "populationYear": 2020,
+     "why": "Snake River Plain city on the Boise River."
+    },
+    {
+     "name": "Reno",
+     "state": "NV",
+     "geoid": "3260600",
+     "anchor": [
+      -119.849907,
+      39.549097
+     ],
+     "population": 264165,
+     "populationYear": 2020,
+     "why": "On the Truckee River, which runs from Lake Tahoe to Pyramid Lake."
+    }
+   ]
+  }
+ }
+}

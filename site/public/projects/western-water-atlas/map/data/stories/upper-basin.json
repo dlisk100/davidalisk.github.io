@@ -1,0 +1,117 @@
+{
+ "source": {
+  "title": "Provisional Upper Colorado River System Consumptive Uses and Losses Report: 2021\u20132025",
+  "publisher": "U.S. Bureau of Reclamation, Upper Colorado Basin Region",
+  "date": "2025-12",
+  "url": "https://www.usbr.gov/uc/DocLibrary/Reports/ConsumptiveUsesLosses/uc-ucrb-provisionalconsumptiveusesandlosses-2021-2025-508-20251200.pdf",
+  "sha256": "efaee25014042202f5fc20b5f0702b0c781413cde2a11ced5cd1d8ce573be6fa"
+ },
+ "year": 2024,
+ "table": "UC-5",
+ "pdfPage": 29,
+ "unit": "thousand acre-feet",
+ "provisional": true,
+ "states": {
+  "Arizona": {
+   "reservoirEvap": 4.4,
+   "irrigation": 0.9,
+   "stockpond": 2.0,
+   "mi": 5.1,
+   "exportOutside": 0.0,
+   "exportWithin": 0.0,
+   "total": 12.4,
+   "tributaryRow": "San Juan - Colorado Rivers"
+  },
+  "Colorado": {
+   "reservoirEvap": 95.8,
+   "irrigation": 1235.4,
+   "stockpond": 15.9,
+   "mi": 60.0,
+   "exportOutside": 510.1,
+   "exportWithin": 0.0,
+   "total": 1917.3,
+   "tributaryRow": "TOTAL"
+  },
+  "New Mexico": {
+   "reservoirEvap": 26.4,
+   "irrigation": 220.0,
+   "stockpond": 2.0,
+   "mi": 28.9,
+   "exportOutside": 68.1,
+   "exportWithin": 0.0,
+   "total": 345.4,
+   "tributaryRow": "San Juan - Colorado Rivers"
+  },
+  "Utah": {
+   "reservoirEvap": 92.7,
+   "irrigation": 765.9,
+   "stockpond": 8.8,
+   "mi": 39.0,
+   "exportOutside": 247.7,
+   "exportWithin": 0.0,
+   "total": 1154.0,
+   "tributaryRow": "TOTAL"
+  },
+  "Wyoming": {
+   "reservoirEvap": 39.8,
+   "irrigation": 606.1,
+   "stockpond": 5.5,
+   "mi": 27.9,
+   "exportOutside": 7.4,
+   "exportWithin": 0.0,
+   "total": 686.8,
+   "tributaryRow": "Green River"
+  }
+ },
+ "undistributedEvaporationNote": "Evaporation from Flaming Gorge, Blue Mesa, Morrow Point and Lake Powell is not assigned to any state (Table UC-1).",
+ "definition": "Consumptive use: water diverted minus return flows, estimated (mostly calculated, not measured) for the Upper Basin tributaries. Export = water carried out of the Colorado basin (e.g. to Colorado\u2019s Front Range or Utah\u2019s Wasatch Front).",
+ "allYears": {
+  "2021": {
+   "Arizona": 10.9,
+   "Colorado": 1804.3,
+   "New Mexico": 354.6,
+   "Utah": 834.5,
+   "Wyoming": 590.3
+  },
+  "2022": {
+   "Arizona": 10.7,
+   "Colorado": 1847.0,
+   "New Mexico": 347.3,
+   "Utah": 912.4,
+   "Wyoming": 666.4
+  },
+  "2023": {
+   "Arizona": 12.3,
+   "Colorado": 2301.7,
+   "New Mexico": 424.3,
+   "Utah": 1049.1,
+   "Wyoming": 589.6
+  },
+  "2024": {
+   "Arizona": 12.4,
+   "Colorado": 1917.3,
+   "New Mexico": 345.4,
+   "Utah": 1154.0,
+   "Wyoming": 686.8
+  },
+  "2025": {
+   "Arizona": 0.0,
+   "Colorado": 0.0,
+   "New Mexico": 0.0,
+   "Utah": 0.0,
+   "Wyoming": 0.0
+  }
+ },
+ "upperBasinTotal": {
+  "reservoirEvap": 259.2,
+  "irrigation": 2828.3,
+  "exportOutside": 833.4,
+  "total": 4115.9
+ },
+ "undistributedEvaporation": {
+  "year": 2024,
+  "value": 356.6,
+  "table": "UC-1",
+  "pdfPage": 22
+ }
+}

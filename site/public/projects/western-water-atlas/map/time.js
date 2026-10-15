@@ -1,0 +1,6 @@
+export function latest(observations,entityId,metricId){return observations.filter(o=>o.entityId===entityId&&o.metricId===metricId&&Number.isFinite(o.value)&&o.observedAt).sort((a,b)=>b.observedAt.localeCompare(a.observedAt))[0]??null}
+export function atPeriod(observations,entityId,metricId,start,end){return observations.filter(o=>o.entityId===entityId&&o.metricId===metricId&&o.observedAt>=start&&o.observedAt<=end)}
+export function comparable(a,b){return !!a&&!!b&&!!a.definitionId&&!!a.boundaryId&&a.entityId===b.entityId&&a.metricId===b.metricId&&a.quantityType===b.quantityType&&a.unit===b.unit&&a.frequency===b.frequency&&a.definitionId===b.definitionId&&a.boundaryId===b.boundaryId}
+export const waterYear2026={start:'2025-10-01',end:'2026-09-30',calendar:'water-year'};
+export function monthlyObservation(entity,month){const o=entity?.monthly?.[month];return o&&Number.isFinite(o.value)&&o.observedAt?.startsWith(month+'-')?o:null}
+export function accountingDifference(a,b){const keys=['entityId','boundaryId','definitionId','quantityType','unit','frequency'];return a&&b&&Number.isFinite(a.value)&&Number.isFinite(b.value)&&keys.every(k=>a[k]&&a[k]===b[k])&&['start','end','calendar'].every(k=>a.period?.[k]&&a.period[k]===b.period?.[k])?a.value-b.value:null}

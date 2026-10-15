@@ -1,0 +1,25 @@
+{
+ "year": 2025,
+ "source": {
+  "title": "Colorado River Accounting and Water Use Report: Arizona, California, and Nevada, Calendar Year 2025",
+  "publisher": "U.S. Bureau of Reclamation",
+  "date": "2026-05-15",
+  "url": "https://www.usbr.gov/lc/region/g4000/4200Rpts/DecreeRpt/2025/2025.pdf"
+ },
+ "lasVegas": {
+  "diversionAF": 434422,
+  "returnCreditAF": 242838,
+  "consumptiveUseAF": 191584,
+  "returnShare": 56,
+  "locator": "Table 6, PDF p29: Robert B. Griffith Water Project diversion; Las Vegas Wash Return Flow returns",
+  "returnNote": "Reclamation footnote 4: estimated return based on the historical-use method adopted by the Task Force on Unmeasured Return Flows (Aug 28, 1984), as revised in 2007."
+ },
+ "cap": {
+  "diversionAF": 904678,
+  "nonProjectDiversionAF": 2033,
+  "returnCreditAF": 0,
+  "consumptiveUseAF": 906711,
+  "locator": "Table 4, PDF p19: Central Arizona Water Conservation District, pumped from Lake Havasu (project 904,678 + non-project 2,033 AF); measured and unmeasured returns 0"
+ },
+ "why": "Las Vegas treats its wastewater and sends it down Las Vegas Wash back into Lake Mead, where it is credited and can be pumped again. Water carried by the CAP canal to central and southern Arizona cannot flow back to the Colorado River, so none of it is credited as a return."
+}

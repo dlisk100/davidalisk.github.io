@@ -1,0 +1,197 @@
+{
+ "source": "Coordinates from each Wikipedia article (GeoData) or Wikidata P625; text is short editorial context.",
+ "features": [
+  {
+   "name": "Grand Canyon",
+   "kind": "canyon",
+   "why": "Carved by the Colorado River over millions of years; about a mile deep.",
+   "anchor": [
+    -112.75,
+    36.3
+   ],
+   "coordSource": "wikipedia-primary-coordinates",
+   "wikidata": "Q118841",
+   "wikipedia": "https://en.wikipedia.org/wiki/Grand_Canyon"
+  },
+  {
+   "name": "Glen Canyon",
+   "kind": "canyon",
+   "why": "Mostly drowned by Lake Powell when Glen Canyon Dam closed in 1963.",
+   "anchor": [
+    -110.8783,
+    37.2542
+   ],
+   "coordSource": "wikipedia-primary-coordinates",
+   "wikidata": "Q469014",
+   "wikipedia": "https://en.wikipedia.org/wiki/Glen_Canyon"
+  },
+  {
+   "name": "Black Canyon of the Gunnison",
+   "kind": "canyon",
+   "why": "Sheer, narrow gorge cut by the Gunnison River, a Colorado tributary.",
+   "anchor": [
+    -107.7275,
+    38.58
+   ],
+   "coordSource": "wikipedia-primary-coordinates",
+   "wikidata": "Q305880",
+   "wikipedia": "https://en.wikipedia.org/wiki/Black_Canyon_of_the_Gunnison_National_Park"
+  },
+  {
+   "name": "Death Valley",
+   "kind": "basin",
+   "why": "Lowest, hottest and driest place in North America; a closed basin.",
+   "anchor": [
+    -116.8169,
+    36.2469
+   ],
+   "coordSource": "wikipedia-primary-coordinates",
+   "wikidata": "Q118388",
+   "wikipedia": "https://en.wikipedia.org/wiki/Death_Valley"
+  },
+  {
+   "name": "Mojave Desert",
+   "kind": "desert",
+   "why": "Driest desert in North America; Las Vegas sits on its northeastern edge.",
+   "anchor": [
+    -116,
+    35
+   ],
+   "coordSource": "wikipedia-primary-coordinates",
+   "wikidata": "Q184355",
+   "wikipedia": "https://en.wikipedia.org/wiki/Mojave_Desert"
+  },
+  {
+   "name": "Sonoran Desert",
+   "kind": "desert",
+   "why": "Saguaro desert around Phoenix and Tucson, watered by the CAP and the Salt\u2013Verde system.",
+   "anchor": [
+    -112.9167,
+    32.25
+   ],
+   "coordSource": "wikipedia-primary-coordinates",
+   "wikidata": "Q189429",
+   "wikipedia": "https://en.wikipedia.org/wiki/Sonoran_Desert"
+  },
+  {
+   "name": "Great Basin Desert",
+   "kind": "desert",
+   "why": "Cold desert where every river ends in a lake or sink instead of the sea.",
+   "anchor": [
+    -114.2197,
+    39.0058
+   ],
+   "coordSource": "wikidata-P625",
+   "wikidata": "Q273446",
+   "wikipedia": "https://en.wikipedia.org/wiki/Great_Basin_Desert"
+  },
+  {
+   "name": "Sierra Nevada",
+   "kind": "range",
+   "why": "Its snowpack is California\u2019s biggest reservoir.",
+   "anchor": [
+    -119.5,
+    38
+   ],
+   "coordSource": "wikipedia-primary-coordinates",
+   "wikidata": "Q26777",
+   "wikipedia": "https://en.wikipedia.org/wiki/Sierra_Nevada"
+  },
+  {
+   "name": "Wasatch Range",
+   "kind": "range",
+   "why": "Snowmelt from here supplies the Wasatch Front, from Provo to Ogden.",
+   "anchor": [
+    -111.6961,
+    40.49
+   ],
+   "coordSource": "wikipedia-primary-coordinates",
+   "wikidata": "Q1544388",
+   "wikipedia": "https://en.wikipedia.org/wiki/Wasatch_Range"
+  },
+  {
+   "name": "Uinta Mountains",
+   "kind": "range",
+   "why": "Rare east\u2013west range; the Central Utah Project tunnels its water west.",
+   "anchor": [
+    -110.5833,
+    40.7667
+   ],
+   "coordSource": "wikipedia-primary-coordinates",
+   "wikidata": "Q738543",
+   "wikipedia": "https://en.wikipedia.org/wiki/Uinta_Mountains"
+  },
+  {
+   "name": "Mogollon Rim",
+   "kind": "escarpment",
+   "why": "Escarpment where the Salt and Verde rivers begin, feeding Phoenix.",
+   "anchor": [
+    -110.9372,
+    34.3367
+   ],
+   "coordSource": "wikipedia-primary-coordinates",
+   "wikidata": "Q186910",
+   "wikipedia": "https://en.wikipedia.org/wiki/Mogollon_Rim"
+  },
+  {
+   "name": "Imperial Valley",
+   "kind": "valley",
+   "why": "Former desert below sea level, irrigated entirely with Colorado River water.",
+   "anchor": [
+    -114.9633,
+    32.7475
+   ],
+   "coordSource": "wikipedia-primary-coordinates",
+   "wikidata": "Q1871046",
+   "wikipedia": "https://en.wikipedia.org/wiki/Imperial_Valley"
+  },
+  {
+   "name": "Central Valley",
+   "kind": "valley",
+   "why": "Among the world\u2019s most productive farm regions, fed by both state and federal canals.",
+   "anchor": [
+    -120.3,
+    37
+   ],
+   "coordSource": "wikipedia-primary-coordinates",
+   "wikidata": "Q27026",
+   "wikipedia": "https://en.wikipedia.org/wiki/Central_Valley_(California)"
+  },
+  {
+   "name": "Arches",
+   "kind": "park",
+   "why": "Sandstone arches near Moab, above the Colorado River.",
+   "anchor": [
+    -109.54,
+    38.7281
+   ],
+   "coordSource": "wikipedia-primary-coordinates",
+   "wikidata": "Q223969",
+   "wikipedia": "https://en.wikipedia.org/wiki/Arches_National_Park"
+  },
+  {
+   "name": "Canyonlands",
+   "kind": "park",
+   "why": "Where the Green River meets the Colorado.",
+   "anchor": [
+    -109.7597,
+    38.1669
+   ],
+   "coordSource": "wikipedia-primary-coordinates",
+   "wikidata": "Q541856",
+   "wikipedia": "https://en.wikipedia.org/wiki/Canyonlands_National_Park"
+  },
+  {
+   "name": "Zion",
+   "kind": "park",
+   "why": "Canyon cut by the Virgin River, upstream of St. George.",
+   "anchor": [
+    -113,
+    37.3
+   ],
+   "coordSource": "wikipedia-primary-coordinates",
+   "wikidata": "Q205325",
+   "wikipedia": "https://en.wikipedia.org/wiki/Zion_National_Park"
+  }
+ ]
+}
