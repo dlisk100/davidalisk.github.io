@@ -54,3 +54,4 @@ body.touring #snow-key{bottom:auto;top:84px;left:16px;right:auto}
 .snow-chart{border-top:1px solid #e3d8c3;margin-top:12px;padding-top:10px}
 .sparkline.long{margin-bottom:2px}
 .gauge-years{margin:6px 0 2px}.gauge-years button{font:12px Arial,sans-serif;margin:0 4px 4px 0;padding:4px 9px;border-radius:999px;border:1px solid #cbbd9f;background:#f4ecdc;cursor:pointer}.gauge-years button.on{background:#3d6f80;color:#fff;border-color:#3d6f80}
+@media (max-height:500px){body.selected #snow-key{display:none}}

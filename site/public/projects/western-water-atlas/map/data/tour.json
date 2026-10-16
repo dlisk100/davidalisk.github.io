@@ -39,6 +39,9 @@
 1.6
 ],
 "select": "colorado-river",
+"layers": {
+"watersheds": false
+},
 "text": "The Colorado drains parts of seven states and Mexico. By law it is split between the Upper Basin (Colorado, Utah, Wyoming, New Mexico) and the Lower Basin (Arizona, California, Nevada). In 2025 Lower Basin users consumed 5,755,086 acre-feet of it."
 },
 {
@@ -94,7 +97,10 @@
 4
 ],
 "select": "imperial-irrigation-district",
-"text": "The Imperial Irrigation District is the largest single user of Colorado River water: 2,187,165 acre-feet in 2025, delivered through the All-American Canal. Alfalfa is a major crop here. Farmers apply about 3.6 acre-feet of water per acre of alfalfa in California and 5.2 in Arizona (USDA, 2023)."
+"layers": {
+"crops": true
+},
+"text": "The Imperial Irrigation District is the largest single user of Colorado River water: 2,187,165 acre-feet in 2025, delivered through the All-American Canal. The green on the map is alfalfa, a hay crop for livestock. It covered 146,602 acres of Imperial County in 2025 (USDA satellite crop map), more than any other crop, and California farmers apply about 3.6 acre-feet of water per acre of it (USDA, 2023). For all that land and water it is not the county’s money crop. The county’s 2024 crop report valued alfalfa at $238,752,000. Broccoli alone brought $134,822,000 and leaf lettuce $131,410,000, though all vegetables and melons together covered only 94,359 acres. Cattle topped the list at $546,023,000."
 },
 {
 "id": "cap",
@@ -105,6 +111,9 @@
 2.4
 ],
 "select": "central-arizona-project",
+"layers": {
+"crops": false
+},
 "text": "The Central Arizona Project pumps Colorado River water uphill from Lake Havasu, 336 miles to Phoenix and Tucson. Along the way 14 pumping plants lift it nearly 3,000 feet. Arizona agreed to junior rights to get it built, so it is the first to be cut in a shortage."
 },
 {
@@ -149,6 +158,30 @@
 {
 "value": 3.6,
 "source": "crops/economics.json water.byState.CA.alfalfa (NASS IWMS 2023)"
+},
+{
+"value": "$238,752,000",
+"source": "crops/economics.json value.counties[Imperial].top[ALFALFA] (2024 Imperial County Agricultural Commissioner Crop Report, PDF page 5; printed page 3; Production Summary & Top 10 Commodities)"
+},
+{
+"value": "$546,023,000",
+"source": "crops/economics.json value.counties[Imperial].top[0] CATTLE (2024 Imperial County Agricultural Commissioner Crop Report)"
+},
+{
+"value": "$134,822,000",
+"source": "crops/economics.json value.counties[Imperial].top[BROCCOLI] (2024 Imperial County Agricultural Commissioner Crop Report)"
+},
+{
+"value": "$131,410,000",
+"source": "crops/economics.json value.counties[Imperial].top[LEAF LETTUCE] (2024 Imperial County Agricultural Commissioner Crop Report)"
+},
+{
+"value": 146602,
+"source": "crops/counties.json Imperial County cropAcres.alfalfa (USDA NASS Cropland Data Layer 2025)"
+},
+{
+"value": 94359,
+"source": "crops/counties.json Imperial County cropAcres.vegetables (USDA NASS Cropland Data Layer 2025)"
 },
 {
 "value": 336,
