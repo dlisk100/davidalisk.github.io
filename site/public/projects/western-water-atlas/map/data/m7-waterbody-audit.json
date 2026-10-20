@@ -1,1 +1,794 @@
-[{"id": "lake-tahoe", "name": "Lake Tahoe", "links": [{"river": "truckee-river", "distanceDegrees": 0.001686165306399957}], "exception": null, "structureGap": {"river": "truckee-river", "name": "Lake Tahoe Dam outlet, Tahoe City", "maxDegrees": 0.0025, "source": "https://en.wikipedia.org/wiki/Lake_Tahoe_Dam"}, "passed": true}, {"id": "bear-lake", "name": "Bear Lake", "links": [], "exception": "Bear Lake is connected to the Bear River through engineered inlet/outlet canals and pumping, not a reservoir across the main river. Small natural tributaries are outside this river-scale layer.", "structureGap": null, "passed": true}, {"id": "utah-lake", "name": "Utah Lake", "links": [{"river": "provo-river", "distanceDegrees": 0.0}, {"river": "jordan-river", "distanceDegrees": 0.015372614954829259}], "exception": null, "structureGap": null, "passed": true}, {"id": "lake-walcott", "name": "Lake Walcott", "links": [{"river": "snake-river", "distanceDegrees": 0.0}], "exception": null, "structureGap": null, "passed": true}, {"id": "rye-patch-reservoir", "name": "Rye Patch Reservoir", "links": [{"river": "humboldt-river", "distanceDegrees": 0.0}], "exception": null, "structureGap": null, "passed": true}, {"id": "caballo-reservoir", "name": "Caballo Reservoir", "links": [{"river": "rio-grande", "distanceDegrees": 0.0}], "exception": null, "structureGap": null, "passed": true}, {"id": "elephant-butte-reservoir", "name": "Elephant Butte Reservoir", "links": [{"river": "rio-grande", "distanceDegrees": 0.0}], "exception": null, "structureGap": null, "passed": true}, {"id": "brantley-lake", "name": "Brantley Lake", "links": [{"river": "pecos-river", "distanceDegrees": 0.0}], "exception": null, "structureGap": null, "passed": true}, {"id": "seminoe-reservoir", "name": "Seminoe Reservoir", "links": [{"river": "north-platte-river", "distanceDegrees": 0.0}], "exception": null, "structureGap": null, "passed": true}, {"id": "american-falls-reservoir", "name": "American Falls Reservoir", "links": [{"river": "snake-river", "distanceDegrees": 0.0}], "exception": null, "structureGap": null, "passed": true}, {"id": "palisades-reservoir", "name": "Palisades Reservoir", "links": [{"river": "snake-river", "distanceDegrees": 0.0}], "exception": null, "structureGap": null, "passed": true}, {"id": "glendo-reservoir", "name": "Glendo Reservoir", "links": [{"river": "north-platte-river", "distanceDegrees": 0.0}], "exception": null, "structureGap": null, "passed": true}, {"id": "pathfinder-reservoir", "name": "Pathfinder Reservoir", "links": [{"river": "north-platte-river", "distanceDegrees": 0.0}], "exception": null, "structureGap": null, "passed": true}, {"id": "boysen-reservoir", "name": "Boysen Reservoir", "links": [{"river": "wind-river", "distanceDegrees": 0.0}], "exception": null, "structureGap": null, "passed": true}, {"id": "great-salt-lake", "name": "Great Salt Lake", "links": [{"river": "bear-river", "distanceDegrees": 0.0}, {"river": "jordan-river", "distanceDegrees": 0.04372057097045251}], "exception": null, "structureGap": null, "passed": true}, {"id": "salton-sea", "name": "Salton Sea", "links": [{"river": "alamo-river", "distanceDegrees": 0.0}, {"river": "new-river", "distanceDegrees": 0.0}], "exception": null, "structureGap": null, "passed": true}, {"id": "pyramid-lake", "name": "Pyramid Lake", "links": [{"river": "truckee-river", "distanceDegrees": 1.2880104702428638e-05}], "exception": null, "structureGap": null, "passed": true}, {"id": "lake-havasu", "name": "Lake Havasu", "links": [{"river": "colorado-river", "distanceDegrees": 0.0}], "exception": null, "structureGap": null, "passed": true}, {"id": "lake-mohave", "name": "Lake Mohave", "links": [{"river": "colorado-river", "distanceDegrees": 0.0}], "exception": null, "structureGap": null, "passed": true}, {"id": "lake-mead", "name": "Lake Mead", "links": [{"river": "colorado-river", "distanceDegrees": 0.0}], "exception": null, "structureGap": null, "passed": true}, {"id": "lake-powell", "name": "Lake Powell", "links": [{"river": "colorado-river", "distanceDegrees": 0.0}], "exception": null, "structureGap": null, "passed": true}, {"id": "millerton-lake", "name": "Millerton Lake", "links": [{"river": "san-joaquin-river", "distanceDegrees": 0.0}], "exception": null, "structureGap": null, "passed": true}, {"id": "shasta-lake", "name": "Shasta Lake", "links": [{"river": "sacramento-river", "distanceDegrees": 0.0}], "exception": null, "structureGap": null, "passed": true}, {"id": "trinity-lake", "name": "Trinity Lake", "links": [{"river": "trinity-river", "distanceDegrees": 0.0}], "exception": null, "structureGap": null, "passed": true}, {"id": "flaming-gorge-reservoir", "name": "Flaming Gorge Reservoir", "links": [{"river": "green-river", "distanceDegrees": 0.0}], "exception": null, "structureGap": null, "passed": true}, {"id": "lake-oroville", "name": "Lake Oroville", "links": [{"river": "feather-river", "distanceDegrees": 0.0}], "exception": null, "structureGap": null, "passed": true}, {"id": "blue-mesa-reservoir", "name": "Blue Mesa Reservoir", "links": [{"river": "gunnison-river", "distanceDegrees": 0.0}], "exception": null, "structureGap": null, "passed": true}, {"id": "morrow-point-reservoir", "name": "Morrow Point Reservoir", "links": [{"river": "gunnison-river", "distanceDegrees": 0.0}], "exception": null, "structureGap": null, "passed": true}, {"id": "navajo-reservoir", "name": "Navajo Reservoir", "links": [{"river": "san-juan-river", "distanceDegrees": 0.0}], "exception": null, "structureGap": null, "passed": true}, {"id": "folsom-lake", "name": "Folsom Lake", "links": [{"river": "american-river", "distanceDegrees": 0.0}], "exception": null, "structureGap": null, "passed": true}, {"id": "san-luis-reservoir", "name": "San Luis Reservoir", "links": [], "exception": "Offstream pumped-storage reservoir supplied via O\u2019Neill Forebay and the SWP/CVP canals, not an impoundment across a natural river. Reclamation San Luis Unit project description.", "structureGap": null, "passed": true}, {"id": "new-melones-lake", "name": "New Melones Lake", "links": [{"river": "stanislaus-river", "distanceDegrees": 0.0}], "exception": null, "structureGap": null, "passed": true}, {"id": "don-pedro-reservoir", "name": "Don Pedro Reservoir", "links": [{"river": "tuolumne-river", "distanceDegrees": 0.0}], "exception": null, "structureGap": null, "passed": true}, {"id": "humboldt-sink", "name": "Humboldt Sink", "links": [{"river": "humboldt-river", "distanceDegrees": 0.0}], "exception": null, "structureGap": null, "passed": true}, {"id": "carson-sink", "name": "Carson Sink", "links": [{"river": "carson-river", "distanceDegrees": 0.0}], "exception": null, "structureGap": null, "passed": true}, {"id": "hetch-hetchy-reservoir", "name": "Hetch Hetchy Reservoir", "links": [{"river": "tuolumne-river", "distanceDegrees": 0.0}], "exception": null, "structureGap": null, "passed": true}, {"id": "crystal-springs-reservoir", "name": "Crystal Springs Reservoir", "links": [], "exception": "Offstream storage on the Hetch Hetchy Aqueduct (SFPUC): fed by the Bay Division and Crystal Springs pipelines and local creeks, not an impoundment on a river in this layer. Aqueduct contact distance 0.00000\u00b0.", "structureGap": null, "passed": true}, {"id": "san-andreas-lake", "name": "San Andreas Lake", "links": [], "exception": "Offstream storage on the Hetch Hetchy Aqueduct (SFPUC): fed by the Bay Division and Crystal Springs pipelines and local creeks, not an impoundment on a river in this layer. Aqueduct contact distance 0.00249\u00b0.", "structureGap": null, "passed": true}, {"id": "heron-lake", "name": "Heron Lake", "exception": "Fed by the San Juan\u2013Chama tunnels and Willow Creek (drawn as part of the project); released down the Rio Chama.", "structureGap": null, "links": [], "passed": true}, {"id": "el-vado-lake", "name": "El Vado Reservoir", "exception": null, "structureGap": null, "links": [{"river": "rio-chama", "distanceDegrees": 0.0}], "passed": true}, {"id": "abiquiu-lake", "name": "Abiquiu Reservoir", "exception": null, "structureGap": null, "links": [{"river": "rio-chama", "distanceDegrees": 0.0}], "passed": true}, {"id": "lake-granby", "name": "Lake Granby", "exception": null, "structureGap": null, "links": [{"river": "colorado-river", "distanceDegrees": 0.0}], "passed": true}, {"id": "shadow-mountain-lake", "name": "Shadow Mountain Lake", "exception": null, "structureGap": null, "links": [{"river": "colorado-river", "distanceDegrees": 0.0}], "passed": true}, {"id": "grand-lake", "name": "Grand Lake", "exception": "Natural lake at the Adams Tunnel west portal; Colorado\u2013Big Thompson water is pumped up from Lake Granby through Shadow Mountain Lake and leaves through the tunnel.", "structureGap": null, "links": [], "passed": true}, {"id": "horsetooth-reservoir", "name": "Horsetooth Reservoir", "exception": "Offstream storage filled by the Horsetooth Supply Canal (Colorado\u2013Big Thompson Project); no natural river feeds it.", "structureGap": null, "links": [], "passed": true}, {"id": "carter-lake", "name": "Carter Lake Dam", "exception": "Offstream storage filled from Flatiron Reservoir (Colorado\u2013Big Thompson Project); no natural river feeds it.", "structureGap": null, "links": [], "passed": true}, {"id": "dillon-reservoir", "name": "Dillon Reservoir", "exception": "On the Blue River (a Colorado River tributary not drawn on this map); the Roberts Tunnel starts here.", "structureGap": null, "links": [], "passed": true}, {"id": "gross-reservoir", "name": "Gross Reservoir", "exception": "On South Boulder Creek (not drawn); stores Fraser River water brought through the Moffat Tunnel.", "structureGap": null, "links": [], "passed": true}, {"id": "strawberry-reservoir", "name": "Strawberry Reservoir", "exception": "On the Strawberry River (Colorado River basin, not drawn); collected Uinta Mountain water is sent west through tunnels to the Wasatch Front.", "structureGap": null, "links": [], "passed": true}, {"id": "jordanelle-reservoir", "name": "Jordanelle Reservoir", "exception": null, "structureGap": null, "links": [{"river": "provo-river", "distanceDegrees": 0.0}], "passed": true}, {"id": "deer-creek-reservoir", "name": "Deer Creek Dam and Reservoir", "exception": null, "structureGap": null, "links": [{"river": "provo-river", "distanceDegrees": 0.0}], "passed": true}, {"id": "theodore-roosevelt-lake", "name": "Theodore Roosevelt Lake", "exception": null, "structureGap": null, "links": [{"river": "salt-river", "distanceDegrees": 0.0}], "passed": true}, {"id": "apache-lake", "name": "Apache Lake", "exception": null, "structureGap": null, "links": [{"river": "salt-river", "distanceDegrees": 0.0}], "passed": true}, {"id": "canyon-lake-az", "name": "Canyon Lake", "exception": null, "structureGap": null, "links": [{"river": "salt-river", "distanceDegrees": 0.0}], "passed": true}, {"id": "saguaro-lake", "name": "Saguaro Lake", "exception": null, "structureGap": null, "links": [{"river": "salt-river", "distanceDegrees": 0.0}], "passed": true}, {"id": "horseshoe-reservoir", "name": "Horseshoe Lake", "exception": null, "structureGap": null, "links": [{"river": "verde-river", "distanceDegrees": 0.0}], "passed": true}, {"id": "bartlett-lake", "name": "Bartlett Lake", "exception": null, "structureGap": null, "links": [{"river": "verde-river", "distanceDegrees": 0.0}], "passed": true}, {"id": "lahontan-reservoir", "name": "Lake Lahontan", "exception": null, "structureGap": null, "links": [{"river": "carson-river", "distanceDegrees": 0.0}], "passed": true}, {"id": "pardee-reservoir", "name": "Pardee Dam", "exception": "On the Mokelumne River (not drawn on this map); the Mokelumne Aqueduct starts here.", "structureGap": null, "links": [], "passed": true}, {"id": "camanche-reservoir", "name": "Camanche Reservoir", "exception": "On the Mokelumne River below Pardee (river not drawn); releases water for fish, downstream rights and flood control.", "structureGap": null, "links": [], "passed": true}, {"id": "san-pablo-reservoir", "name": "San Pablo Reservoir", "exception": "EBMUD terminal storage in the East Bay hills, filled with Mokelumne water and local runoff.", "structureGap": null, "links": [], "passed": true}, {"id": "briones-reservoir", "name": "Briones Reservoir", "exception": "EBMUD terminal storage in the East Bay hills, filled with Mokelumne water and local runoff.", "structureGap": null, "links": [], "passed": true}, {"id": "upper-san-leandro-reservoir", "name": "Upper San Leandro Reservoir", "exception": "EBMUD terminal storage in the East Bay hills, filled with Mokelumne water and local runoff.", "structureGap": null, "links": [], "passed": true}]
+[
+ {
+  "id": "lake-tahoe",
+  "name": "Lake Tahoe",
+  "links": [
+   {
+    "river": "truckee-river",
+    "distanceDegrees": 0.001686165306399957
+   }
+  ],
+  "exception": null,
+  "structureGap": {
+   "river": "truckee-river",
+   "name": "Lake Tahoe Dam outlet, Tahoe City",
+   "maxDegrees": 0.0025,
+   "source": "https://en.wikipedia.org/wiki/Lake_Tahoe_Dam"
+  },
+  "passed": true
+ },
+ {
+  "id": "bear-lake",
+  "name": "Bear Lake",
+  "links": [],
+  "exception": "Bear Lake is connected to the Bear River through engineered inlet/outlet canals and pumping, not a reservoir across the main river. Small natural tributaries are outside this river-scale layer.",
+  "structureGap": null,
+  "passed": true
+ },
+ {
+  "id": "utah-lake",
+  "name": "Utah Lake",
+  "links": [
+   {
+    "river": "provo-river",
+    "distanceDegrees": 0.0
+   },
+   {
+    "river": "jordan-river",
+    "distanceDegrees": 0.015372614954829259
+   }
+  ],
+  "exception": null,
+  "structureGap": null,
+  "passed": true
+ },
+ {
+  "id": "lake-walcott",
+  "name": "Lake Walcott",
+  "links": [
+   {
+    "river": "snake-river",
+    "distanceDegrees": 0.0
+   }
+  ],
+  "exception": null,
+  "structureGap": null,
+  "passed": true
+ },
+ {
+  "id": "rye-patch-reservoir",
+  "name": "Rye Patch Reservoir",
+  "links": [
+   {
+    "river": "humboldt-river",
+    "distanceDegrees": 0.0
+   }
+  ],
+  "exception": null,
+  "structureGap": null,
+  "passed": true
+ },
+ {
+  "id": "caballo-reservoir",
+  "name": "Caballo Reservoir",
+  "links": [
+   {
+    "river": "rio-grande",
+    "distanceDegrees": 0.0
+   }
+  ],
+  "exception": null,
+  "structureGap": null,
+  "passed": true
+ },
+ {
+  "id": "elephant-butte-reservoir",
+  "name": "Elephant Butte Reservoir",
+  "links": [
+   {
+    "river": "rio-grande",
+    "distanceDegrees": 0.0
+   }
+  ],
+  "exception": null,
+  "structureGap": null,
+  "passed": true
+ },
+ {
+  "id": "brantley-lake",
+  "name": "Brantley Lake",
+  "links": [
+   {
+    "river": "pecos-river",
+    "distanceDegrees": 0.0
+   }
+  ],
+  "exception": null,
+  "structureGap": null,
+  "passed": true
+ },
+ {
+  "id": "seminoe-reservoir",
+  "name": "Seminoe Reservoir",
+  "links": [
+   {
+    "river": "north-platte-river",
+    "distanceDegrees": 0.0
+   }
+  ],
+  "exception": null,
+  "structureGap": null,
+  "passed": true
+ },
+ {
+  "id": "american-falls-reservoir",
+  "name": "American Falls Reservoir",
+  "links": [
+   {
+    "river": "snake-river",
+    "distanceDegrees": 0.0
+   }
+  ],
+  "exception": null,
+  "structureGap": null,
+  "passed": true
+ },
+ {
+  "id": "palisades-reservoir",
+  "name": "Palisades Reservoir",
+  "links": [
+   {
+    "river": "snake-river",
+    "distanceDegrees": 0.0
+   }
+  ],
+  "exception": null,
+  "structureGap": null,
+  "passed": true
+ },
+ {
+  "id": "glendo-reservoir",
+  "name": "Glendo Reservoir",
+  "links": [
+   {
+    "river": "north-platte-river",
+    "distanceDegrees": 0.0
+   }
+  ],
+  "exception": null,
+  "structureGap": null,
+  "passed": true
+ },
+ {
+  "id": "pathfinder-reservoir",
+  "name": "Pathfinder Reservoir",
+  "links": [
+   {
+    "river": "north-platte-river",
+    "distanceDegrees": 0.0
+   }
+  ],
+  "exception": null,
+  "structureGap": null,
+  "passed": true
+ },
+ {
+  "id": "boysen-reservoir",
+  "name": "Boysen Reservoir",
+  "links": [
+   {
+    "river": "wind-river",
+    "distanceDegrees": 0.0
+   }
+  ],
+  "exception": null,
+  "structureGap": null,
+  "passed": true
+ },
+ {
+  "id": "great-salt-lake",
+  "name": "Great Salt Lake",
+  "links": [
+   {
+    "river": "bear-river",
+    "distanceDegrees": 0.0
+   },
+   {
+    "river": "jordan-river",
+    "distanceDegrees": 0.04372057097045251
+   }
+  ],
+  "exception": null,
+  "structureGap": null,
+  "passed": true
+ },
+ {
+  "id": "salton-sea",
+  "name": "Salton Sea",
+  "links": [
+   {
+    "river": "alamo-river",
+    "distanceDegrees": 0.0
+   },
+   {
+    "river": "new-river",
+    "distanceDegrees": 0.0
+   }
+  ],
+  "exception": null,
+  "structureGap": null,
+  "passed": true
+ },
+ {
+  "id": "pyramid-lake",
+  "name": "Pyramid Lake",
+  "links": [
+   {
+    "river": "truckee-river",
+    "distanceDegrees": 1.2880104702428638e-05
+   }
+  ],
+  "exception": null,
+  "structureGap": null,
+  "passed": true
+ },
+ {
+  "id": "lake-havasu",
+  "name": "Lake Havasu",
+  "links": [
+   {
+    "river": "colorado-river",
+    "distanceDegrees": 0.0
+   }
+  ],
+  "exception": null,
+  "structureGap": null,
+  "passed": true
+ },
+ {
+  "id": "lake-mohave",
+  "name": "Lake Mohave",
+  "links": [
+   {
+    "river": "colorado-river",
+    "distanceDegrees": 0.0
+   }
+  ],
+  "exception": null,
+  "structureGap": null,
+  "passed": true
+ },
+ {
+  "id": "lake-mead",
+  "name": "Lake Mead",
+  "links": [
+   {
+    "river": "colorado-river",
+    "distanceDegrees": 0.0
+   }
+  ],
+  "exception": null,
+  "structureGap": null,
+  "passed": true
+ },
+ {
+  "id": "lake-powell",
+  "name": "Lake Powell",
+  "links": [
+   {
+    "river": "colorado-river",
+    "distanceDegrees": 0.0
+   }
+  ],
+  "exception": null,
+  "structureGap": null,
+  "passed": true
+ },
+ {
+  "id": "millerton-lake",
+  "name": "Millerton Lake",
+  "links": [
+   {
+    "river": "san-joaquin-river",
+    "distanceDegrees": 0.0
+   }
+  ],
+  "exception": null,
+  "structureGap": null,
+  "passed": true
+ },
+ {
+  "id": "shasta-lake",
+  "name": "Shasta Lake",
+  "links": [
+   {
+    "river": "sacramento-river",
+    "distanceDegrees": 0.0
+   }
+  ],
+  "exception": null,
+  "structureGap": null,
+  "passed": true
+ },
+ {
+  "id": "trinity-lake",
+  "name": "Trinity Lake",
+  "links": [
+   {
+    "river": "trinity-river",
+    "distanceDegrees": 0.0
+   }
+  ],
+  "exception": null,
+  "structureGap": null,
+  "passed": true
+ },
+ {
+  "id": "flaming-gorge-reservoir",
+  "name": "Flaming Gorge Reservoir",
+  "links": [
+   {
+    "river": "green-river",
+    "distanceDegrees": 0.0
+   }
+  ],
+  "exception": null,
+  "structureGap": null,
+  "passed": true
+ },
+ {
+  "id": "lake-oroville",
+  "name": "Lake Oroville",
+  "links": [
+   {
+    "river": "feather-river",
+    "distanceDegrees": 0.0
+   }
+  ],
+  "exception": null,
+  "structureGap": null,
+  "passed": true
+ },
+ {
+  "id": "blue-mesa-reservoir",
+  "name": "Blue Mesa Reservoir",
+  "links": [
+   {
+    "river": "gunnison-river",
+    "distanceDegrees": 0.0
+   }
+  ],
+  "exception": null,
+  "structureGap": null,
+  "passed": true
+ },
+ {
+  "id": "morrow-point-reservoir",
+  "name": "Morrow Point Reservoir",
+  "links": [
+   {
+    "river": "gunnison-river",
+    "distanceDegrees": 0.0
+   }
+  ],
+  "exception": null,
+  "structureGap": null,
+  "passed": true
+ },
+ {
+  "id": "navajo-reservoir",
+  "name": "Navajo Reservoir",
+  "links": [
+   {
+    "river": "san-juan-river",
+    "distanceDegrees": 0.0
+   }
+  ],
+  "exception": null,
+  "structureGap": null,
+  "passed": true
+ },
+ {
+  "id": "folsom-lake",
+  "name": "Folsom Lake",
+  "links": [
+   {
+    "river": "american-river",
+    "distanceDegrees": 0.0
+   }
+  ],
+  "exception": null,
+  "structureGap": null,
+  "passed": true
+ },
+ {
+  "id": "san-luis-reservoir",
+  "name": "San Luis Reservoir",
+  "links": [],
+  "exception": "Offstream pumped-storage reservoir supplied via O\u2019Neill Forebay and the SWP/CVP canals, not an impoundment across a natural river. Reclamation San Luis Unit project description.",
+  "structureGap": null,
+  "passed": true
+ },
+ {
+  "id": "new-melones-lake",
+  "name": "New Melones Lake",
+  "links": [
+   {
+    "river": "stanislaus-river",
+    "distanceDegrees": 0.0
+   }
+  ],
+  "exception": null,
+  "structureGap": null,
+  "passed": true
+ },
+ {
+  "id": "don-pedro-reservoir",
+  "name": "Don Pedro Reservoir",
+  "links": [
+   {
+    "river": "tuolumne-river",
+    "distanceDegrees": 0.0
+   }
+  ],
+  "exception": null,
+  "structureGap": null,
+  "passed": true
+ },
+ {
+  "id": "humboldt-sink",
+  "name": "Humboldt Sink",
+  "links": [
+   {
+    "river": "humboldt-river",
+    "distanceDegrees": 0.0
+   }
+  ],
+  "exception": null,
+  "structureGap": null,
+  "passed": true
+ },
+ {
+  "id": "carson-sink",
+  "name": "Carson Sink",
+  "links": [
+   {
+    "river": "carson-river",
+    "distanceDegrees": 0.0
+   }
+  ],
+  "exception": null,
+  "structureGap": null,
+  "passed": true
+ },
+ {
+  "id": "hetch-hetchy-reservoir",
+  "name": "Hetch Hetchy Reservoir",
+  "links": [
+   {
+    "river": "tuolumne-river",
+    "distanceDegrees": 0.0
+   }
+  ],
+  "exception": null,
+  "structureGap": null,
+  "passed": true
+ },
+ {
+  "id": "crystal-springs-reservoir",
+  "name": "Crystal Springs Reservoir",
+  "links": [],
+  "exception": "Offstream storage on the Hetch Hetchy Aqueduct (SFPUC): fed by the Bay Division and Crystal Springs pipelines and local creeks, not an impoundment on a river in this layer. Aqueduct contact distance 0.00000\u00b0.",
+  "structureGap": null,
+  "passed": true
+ },
+ {
+  "id": "san-andreas-lake",
+  "name": "San Andreas Lake",
+  "links": [],
+  "exception": "Offstream storage on the Hetch Hetchy Aqueduct (SFPUC): fed by the Bay Division and Crystal Springs pipelines and local creeks, not an impoundment on a river in this layer. Aqueduct contact distance 0.00249\u00b0.",
+  "structureGap": null,
+  "passed": true
+ },
+ {
+  "id": "heron-lake",
+  "name": "Heron Lake",
+  "exception": "Fed by the San Juan\u2013Chama tunnels and Willow Creek (drawn as part of the project); released down the Rio Chama.",
+  "structureGap": null,
+  "links": [],
+  "passed": true
+ },
+ {
+  "id": "el-vado-lake",
+  "name": "El Vado Reservoir",
+  "exception": null,
+  "structureGap": null,
+  "links": [
+   {
+    "river": "rio-chama",
+    "distanceDegrees": 0.0
+   }
+  ],
+  "passed": true
+ },
+ {
+  "id": "abiquiu-lake",
+  "name": "Abiquiu Reservoir",
+  "exception": null,
+  "structureGap": null,
+  "links": [
+   {
+    "river": "rio-chama",
+    "distanceDegrees": 0.0
+   }
+  ],
+  "passed": true
+ },
+ {
+  "id": "lake-granby",
+  "name": "Lake Granby",
+  "exception": null,
+  "structureGap": null,
+  "links": [
+   {
+    "river": "colorado-river",
+    "distanceDegrees": 0.0
+   }
+  ],
+  "passed": true
+ },
+ {
+  "id": "shadow-mountain-lake",
+  "name": "Shadow Mountain Lake",
+  "exception": null,
+  "structureGap": null,
+  "links": [
+   {
+    "river": "colorado-river",
+    "distanceDegrees": 0.0
+   }
+  ],
+  "passed": true
+ },
+ {
+  "id": "grand-lake",
+  "name": "Grand Lake",
+  "exception": "Natural lake at the Adams Tunnel west portal; Colorado\u2013Big Thompson water is pumped up from Lake Granby through Shadow Mountain Lake and leaves through the tunnel.",
+  "structureGap": null,
+  "links": [],
+  "passed": true
+ },
+ {
+  "id": "horsetooth-reservoir",
+  "name": "Horsetooth Reservoir",
+  "exception": "Offstream storage filled by the Horsetooth Supply Canal (Colorado\u2013Big Thompson Project); no natural river feeds it.",
+  "structureGap": null,
+  "links": [],
+  "passed": true
+ },
+ {
+  "id": "carter-lake",
+  "name": "Carter Lake Dam",
+  "exception": "Offstream storage filled from Flatiron Reservoir (Colorado\u2013Big Thompson Project); no natural river feeds it.",
+  "structureGap": null,
+  "links": [],
+  "passed": true
+ },
+ {
+  "id": "dillon-reservoir",
+  "name": "Dillon Reservoir",
+  "exception": null,
+  "structureGap": null,
+  "links": [
+   {
+    "river": "blue-river-co",
+    "distanceDegrees": 0.0
+   }
+  ],
+  "passed": true
+ },
+ {
+  "id": "gross-reservoir",
+  "name": "Gross Reservoir",
+  "exception": null,
+  "structureGap": null,
+  "links": [
+   {
+    "river": "south-boulder-creek",
+    "distanceDegrees": 0.0
+   }
+  ],
+  "passed": true
+ },
+ {
+  "id": "strawberry-reservoir",
+  "name": "Strawberry Reservoir",
+  "exception": "On the Strawberry River (Colorado River basin, not drawn); collected Uinta Mountain water is sent west through tunnels to the Wasatch Front.",
+  "structureGap": null,
+  "links": [],
+  "passed": true
+ },
+ {
+  "id": "jordanelle-reservoir",
+  "name": "Jordanelle Reservoir",
+  "exception": null,
+  "structureGap": null,
+  "links": [
+   {
+    "river": "provo-river",
+    "distanceDegrees": 0.0
+   }
+  ],
+  "passed": true
+ },
+ {
+  "id": "deer-creek-reservoir",
+  "name": "Deer Creek Dam and Reservoir",
+  "exception": null,
+  "structureGap": null,
+  "links": [
+   {
+    "river": "provo-river",
+    "distanceDegrees": 0.0
+   }
+  ],
+  "passed": true
+ },
+ {
+  "id": "theodore-roosevelt-lake",
+  "name": "Theodore Roosevelt Lake",
+  "exception": null,
+  "structureGap": null,
+  "links": [
+   {
+    "river": "salt-river",
+    "distanceDegrees": 0.0
+   }
+  ],
+  "passed": true
+ },
+ {
+  "id": "apache-lake",
+  "name": "Apache Lake",
+  "exception": null,
+  "structureGap": null,
+  "links": [
+   {
+    "river": "salt-river",
+    "distanceDegrees": 0.0
+   }
+  ],
+  "passed": true
+ },
+ {
+  "id": "canyon-lake-az",
+  "name": "Canyon Lake",
+  "exception": null,
+  "structureGap": null,
+  "links": [
+   {
+    "river": "salt-river",
+    "distanceDegrees": 0.0
+   }
+  ],
+  "passed": true
+ },
+ {
+  "id": "saguaro-lake",
+  "name": "Saguaro Lake",
+  "exception": null,
+  "structureGap": null,
+  "links": [
+   {
+    "river": "salt-river",
+    "distanceDegrees": 0.0
+   }
+  ],
+  "passed": true
+ },
+ {
+  "id": "horseshoe-reservoir",
+  "name": "Horseshoe Lake",
+  "exception": null,
+  "structureGap": null,
+  "links": [
+   {
+    "river": "verde-river",
+    "distanceDegrees": 0.0
+   }
+  ],
+  "passed": true
+ },
+ {
+  "id": "bartlett-lake",
+  "name": "Bartlett Lake",
+  "exception": null,
+  "structureGap": null,
+  "links": [
+   {
+    "river": "verde-river",
+    "distanceDegrees": 0.0
+   }
+  ],
+  "passed": true
+ },
+ {
+  "id": "lahontan-reservoir",
+  "name": "Lake Lahontan",
+  "exception": null,
+  "structureGap": null,
+  "links": [
+   {
+    "river": "carson-river",
+    "distanceDegrees": 0.0
+   }
+  ],
+  "passed": true
+ },
+ {
+  "id": "pardee-reservoir",
+  "name": "Pardee Dam",
+  "exception": "On the Mokelumne River (not drawn on this map); the Mokelumne Aqueduct starts here.",
+  "structureGap": null,
+  "links": [],
+  "passed": true
+ },
+ {
+  "id": "camanche-reservoir",
+  "name": "Camanche Reservoir",
+  "exception": "On the Mokelumne River below Pardee (river not drawn); releases water for fish, downstream rights and flood control.",
+  "structureGap": null,
+  "links": [],
+  "passed": true
+ },
+ {
+  "id": "san-pablo-reservoir",
+  "name": "San Pablo Reservoir",
+  "exception": "EBMUD terminal storage in the East Bay hills, filled with Mokelumne water and local runoff.",
+  "structureGap": null,
+  "links": [],
+  "passed": true
+ },
+ {
+  "id": "briones-reservoir",
+  "name": "Briones Reservoir",
+  "exception": "EBMUD terminal storage in the East Bay hills, filled with Mokelumne water and local runoff.",
+  "structureGap": null,
+  "links": [],
+  "passed": true
+ },
+ {
+  "id": "upper-san-leandro-reservoir",
+  "name": "Upper San Leandro Reservoir",
+  "exception": "EBMUD terminal storage in the East Bay hills, filled with Mokelumne water and local runoff.",
+  "structureGap": null,
+  "links": [],
+  "passed": true
+ },
+ {
+  "id": "green-mountain-reservoir",
+  "name": "Green Mountain Reservoir",
+  "links": [
+   {
+    "river": "blue-river-co",
+    "distanceDegrees": 0.0
+   }
+  ],
+  "exception": null,
+  "structureGap": null,
+  "passed": true
+ },
+ {
+  "id": "lake-estes",
+  "name": "Lake Estes",
+  "links": [
+   {
+    "river": "big-thompson-river",
+    "distanceDegrees": 0.0
+   }
+  ],
+  "exception": null,
+  "structureGap": null,
+  "passed": true
+ }
+]
