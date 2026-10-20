@@ -55,3 +55,13 @@ body.touring #snow-key{bottom:auto;top:84px;left:16px;right:auto}
 .sparkline.long{margin-bottom:2px}
 .gauge-years{margin:6px 0 2px}.gauge-years button{font:12px Arial,sans-serif;margin:0 4px 4px 0;padding:4px 9px;border-radius:999px;border:1px solid #cbbd9f;background:#f4ecdc;cursor:pointer}.gauge-years button.on{background:#3d6f80;color:#fff;border-color:#3d6f80}
 @media (max-height:500px){body.selected #snow-key{display:none}}
+
+/* M17: clickable affordances */
+#hover-layer{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
+#hover-tip{position:fixed;z-index:40;pointer-events:none;background:#fffaf0f2;border:1px solid #d9cdb6;border-radius:7px;padding:3px 8px;font:13px Georgia,serif;color:#2f3d3c;box-shadow:0 2px 8px #4b3e2a22;white-space:nowrap}
+#hover-tip::after{content:' · click for details';color:#7a837d;font:12px Arial,sans-serif}
+#tap-hint{position:fixed;left:50%;transform:translateX(-50%);bottom:58px;z-index:25;display:flex;align-items:center;gap:6px;max-width:min(560px,calc(100vw - 24px));background:#fffaf0f2;border:1px solid #d9cdb6;border-radius:999px;box-shadow:0 6px 20px #4b3e2a26;padding:4px 4px 4px 16px;font:14px Georgia,serif;color:#2f3d3c}
+#tap-hint button{min-height:36px;padding:0 12px;font-size:18px;color:#6f7e77}
+#tap-hint[hidden]{display:none}
+body.selected #tap-hint{display:none}
+@media (max-width:600px){#tap-hint{left:12px;right:12px;transform:none;max-width:none;bottom:96px;font-size:13.5px;border-radius:14px;padding:6px 4px 6px 12px}}
