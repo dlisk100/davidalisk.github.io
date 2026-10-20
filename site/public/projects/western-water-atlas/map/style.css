@@ -62,3 +62,5 @@ body.touring #snow-key{bottom:auto;top:84px;left:16px;right:auto}
 #tap-hint{pointer-events:none;transition:opacity .4s}#tap-hint.fade{opacity:0}
 body.selected #tap-hint{display:none}
 @media (max-width:600px){#tap-hint{left:12px;right:12px;transform:none;max-width:none;bottom:96px;font-size:13.5px;border-radius:14px;padding:6px 4px 6px 12px}}
+/* M18: on laptop/desktop the card is the main reading surface, so give it room */
+@media (min-width:900px) and (min-height:451px){#card{width:clamp(380px,34vw,560px);top:76px;bottom:68px;max-height:none;padding:24px 26px}#card h2{font-size:30px}#card .what-is{font-size:14px}#card .secondary{font-size:14px}.portfolio{font-size:14px}.lake-facts{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}.lake-facts dd{font-size:14px}.sparkline{height:110px}#surface-key{right:20px}}
